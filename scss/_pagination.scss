@@ -1,0 +1,38 @@
+.pagination {
+	margin-top: 24px;
+
+	.list {
+		@include clearfix;
+	}
+
+	.item {
+		float: left;
+		margin-right: 4px;
+
+		a,
+		.a {
+			background-color: $color-one-600;
+			color: $white;
+			display: block;
+			min-width: 32px;
+			padding: 4px 8px;
+			position: relative;
+			text-align: center;
+		}
+
+		a {
+			background-color: $color-one-500;
+			text-decoration: none;
+
+			&:hover,
+			&:focus {
+				background-color: $color-one-400;
+				color: $white;
+			}
+		}
+
+		i {
+			display: inline-block;
+		}
+	}
+}

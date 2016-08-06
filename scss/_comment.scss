@@ -1,0 +1,143 @@
+.comments {
+	border-top: 1px solid $shade-10;
+	margin-top: 32px;
+	padding-top: 32px;
+}
+
+.comment-list {
+	list-style: none;
+	margin: 0 0 32px;
+	padding: 0;
+
+	.comment {
+		background-color: $shade-10;
+		margin-top: 1px;
+		padding: 16px;
+
+		&:first-child {
+			margin-top: 0;
+		}
+
+		&.bypostauthor {
+			background-color: $shade-60;
+			color: $white;
+		}
+	}
+
+	.children {
+		list-style: none;
+		margin: 16px 0 0;
+		padding: 0;
+	}
+
+	.depth-2 {
+		background-color: $shade-10;
+	}
+
+	.depth-3 {
+		background-color: $shade-10;
+	}
+
+	.depth-4 {
+		background-color: $shade-10;
+	}
+}
+
+.comment-body {
+	position: relative;
+
+	.reply {
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+
+	.comment-reply-link {
+		@include font-size-400;
+		background-color: $shade-50;
+		color: $white;
+		display: block;
+		padding: 4px 16px;
+		transition: all 0.2s $ease;
+
+		&:hover,
+		&:focus {
+			background-color: $shade-60;
+			text-decoration: none;
+		}
+	}
+}
+
+.comment-author {
+	margin-bottom: 8px;
+
+	> * {
+		vertical-align: middle;
+	}
+
+	.avatar {
+		height: 24px;
+		margin-right: 4px;
+		width: 24px;
+
+		@include breakpoint(crawler) {
+			height: 48px;
+			width: 48px;
+		}
+	}
+}
+
+.comment-respond {
+	border-top: 1px solid $white;
+	margin-top: 16px;
+	padding-top: 16px;
+
+	.comment-reply-title {
+		margin-bottom: 4px;
+	}
+
+	.comment-notes {
+		@include font-size-400;
+		margin-bottom: 24px;
+	}
+
+	p {
+		margin-bottom: 16px;
+		overflow: hidden;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+
+		label {
+			display: block;
+			font-weight: 700;
+			padding: 5px 0;
+			width: 100%;
+
+			@include breakpoint(crawler) {
+				float: left;
+				width: 25%;
+				width: calc(128px);
+			}
+		}
+	}
+
+	input[type="text"],
+	input[type="email"],
+	textarea {
+		width: 100%;
+
+		@include breakpoint(crawler) {
+			float: left;
+			width: 75%;
+			width: calc(100% - 128px);
+		}
+	}
+}
+
+.comment-respond {
+	border-top: 0;
+	margin-top: 0;
+	padding-top: 0;
+}

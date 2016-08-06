@@ -1,0 +1,15 @@
+.main {
+	@include grail-main;
+}
+
+.main-section {
+	margin-bottom: 32px;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+.main-sidebar {
+	@include grail-aside;
+}

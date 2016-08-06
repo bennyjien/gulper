@@ -1,0 +1,69 @@
+// .only-* and .is-*
+
+.only-mobile {
+
+	@include breakpoint(walker) {
+		display: none;
+	}
+}
+
+.only-sr,
+.is-hidden {
+	border: 0;
+	clip: rect(0, 0, 0, 0);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+}
+
+.is-loading {
+	position: relative;
+
+	&:after {
+		content: "";
+		animation: walker-spin 1.5s infinite linear;
+		border-left: 4px solid $shade-20;
+		border-bottom: 4px solid $shade-20;
+		border-right: 4px solid $shade-20;
+		border-top: 4px solid $color-one-500;
+		border-radius: 100%;
+		display: block;
+		height: 32px;
+		left: 50%;
+		margin: -16px 0 0 -16px;
+		outline: 1px solid transparent;
+		position: absolute;
+		top: 50%;
+		width: 32px;
+		z-index: 2;
+	}
+
+	&.is-loading-overlay {
+
+		&:before {
+			content: "";
+			display: block;
+			background-color: $white;
+			bottom: 0;
+			left: 0;
+			opacity: $opacity-60;
+			position: absolute;
+			right: 0;
+			top: 0;
+			z-index: 8;
+		}
+	}
+
+	&.is-loading-small {
+
+		&:after {
+			border-width: 3px;
+			height: 16px;
+			margin: -8px 0 0 -8px;
+			width: 16px;
+		}
+	}
+}

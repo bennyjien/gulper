@@ -1,0 +1,199 @@
+/*!
+Theme Name: Hunter Documentation
+Author: Benny Jien
+Author URI: http://bennyjien.com/
+*/
+
+@import "../scss/variables";
+@import "../scss/mixins";
+
+.doc-main {
+	order: 2;
+}
+
+.doc-main-sidebar {
+	order: 1;
+
+	@include breakpoint(walker) {
+		order: 3;
+	}
+
+	.content {
+		position: sticky;
+		top: 32px;
+	}
+}
+
+.doc-logo {
+	padding: 32px 0;
+}
+
+.doc-copyright {
+	@include font-size-200;
+}
+
+.doc-section {
+	margin-bottom: 64px;
+
+	&:target {
+
+		> .header {
+
+			.title {
+				animation: 1.2s title-highlight;
+			}
+		}
+	}
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+
+	> .header {
+		border-bottom: 1px solid $shade-20;
+		margin-bottom: 24px;
+		padding-bottom: 12px;
+
+		.title {
+			display: inline-block;
+		}
+	}
+
+	.subsection {
+		margin-bottom: 32px;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+
+		.title {
+			@include font-size-h6;
+			color: $color-text-light;
+			margin-bottom: 4px;
+			text-transform: uppercase;
+		}
+	}
+
+	.example {
+		background-color: $shade-10;
+		margin: 24px 0;
+		padding: 48px 24px 24px;
+		position: relative;
+
+		&:before {
+			content: "Example";
+			color: $color-text-light;
+			font-size: $font-size-300;
+			line-height: 1;
+			position: absolute;
+			text-transform: uppercase;
+			top: 20px;
+		}
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+}
+
+.doc-list {
+	font-size: 0;
+	margin-bottom: -8px;
+
+	.item {
+		@include font-size-500;
+		margin-bottom: 8px;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	&.doc-list-inline {
+
+		.item {
+			display: inline-block;
+			margin-right: 8px;
+		}
+	}
+}
+
+.doc-colors {
+
+	.colors {
+		list-style: none;
+		padding: 0;
+
+		li {
+			background-color: $white;
+			height: 48px;
+			position: relative;
+			text-align: center;
+
+			.hex {
+				bottom: 0;
+				color: $white;
+				font-size: $font-size-400;
+				left: 0;
+				line-height: $line-height-400;
+				padding: 2px 6px;
+				position: absolute;
+			}
+		}
+
+		&.colors-alt {
+
+			@include breakpoint(runner) {
+				display: flex;
+
+				li {
+					flex: 1 1 auto;
+				}
+			}
+		}
+	}
+}
+
+.doc-typography {
+
+	.glyphs {
+		@include font-size-900;
+		@include hyphenate;
+		border: 1px solid $shade-10;
+		margin-bottom: 24px;
+		padding: 16px;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+
+		.title {
+			text-transform: none;
+		}
+	}
+}
+
+.doc-switch {
+
+	.is-switched {
+		font-weight: 700;
+	}
+}
+
+.doc-toggle-test {
+	display: none;
+
+	&.is-toggled {
+		display: block;
+	}
+}
+
+@keyframes title-highlight {
+	0% {
+		background-color: $color-warning-500;
+	}
+
+	100% {
+		background-color: transparent;
+	}
+}

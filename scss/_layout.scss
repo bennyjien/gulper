@@ -1,0 +1,142 @@
+// layout globals
+
+.clearfix {
+
+	&:before,
+	&:after {
+		content: "";
+		display: table;
+	}
+
+	&:after {
+		clear: both;
+	}
+}
+
+.list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.grid {
+
+	.columns {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+
+		.column {
+			flex: 1 1 0;
+			padding-left: 4px;
+			padding-right: 4px;
+
+			&:first-child {
+				margin-left: -4px;
+			}
+
+			&:last-child {
+				margin-right: -4px;
+			}
+
+			@include breakpoint(crawler) {
+				padding-left: 8px;
+				padding-right: 8px;
+
+				&:first-child {
+					margin-left: -8px;
+				}
+
+				&:last-child {
+					margin-right: -8px;
+				}
+			}
+
+			@include breakpoint(jumper) {
+				padding-left: 12px;
+				padding-right: 12px;
+
+				&:first-child {
+					margin-left: -12px;
+				}
+
+				&:last-child {
+					margin-right: -12px;
+				}
+			}
+		}
+	}
+
+	.rows {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+
+		.row {
+			flex: 1 1 0;
+			padding-bottom: 4px;
+			padding-top: 4px;
+
+			&:first-child {
+				margin-top: -4px;
+			}
+
+			&:last-child {
+				margin-bottom: -4px;
+			}
+
+			@include breakpoint(crawler) {
+				padding-bottom: 8px;
+				padding-top: 8px;
+
+				&:first-child {
+					margin-top: -8px;
+				}
+
+				&:last-child {
+					margin-bottom: -8px;
+				}
+			}
+
+			@include breakpoint(jumper) {
+				padding-bottom: 12px;
+				padding-top: 12px;
+
+				&:first-child {
+					margin-top: -12px;
+				}
+
+				&:last-child {
+					margin-bottom: -12px;
+				}
+			}
+		}
+	}
+
+	.boxes {
+		@include clearfix;
+		margin: -12px;
+
+		.box {
+			float: left;
+			padding: 12px;
+			width: 25%;
+
+			&:nth-child(4n+1) {
+				clear: both;
+			}
+		}
+	}
+}
+
+// required by sticky polyfill
+.sticky {
+	position: sticky;
+	top: 0;
+
+	&:before,
+	&:after {
+		content: "";
+		display: table;
+	}
+}

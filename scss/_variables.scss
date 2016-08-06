@@ -1,0 +1,180 @@
+$white: 				#FFFFFF;
+$black: 				#000000;
+
+// OPACITY
+
+$opacity-0: 			0;
+$opacity-10: 			0.08;
+$opacity-20: 			0.16;
+$opacity-30: 			0.24;
+$opacity-40: 			0.32;
+$opacity-50: 			0.48;
+$opacity-60: 			0.64;
+$opacity-70: 			0.72;
+$opacity-80: 			0.80;
+$opacity-90: 			0.92;
+$opacity-100: 			1;
+
+$opacity-0-percent: 	$opacity-0*100%;
+$opacity-10-percent: 	$opacity-10*100%;
+$opacity-20-percent: 	$opacity-20*100%;
+$opacity-30-percent: 	$opacity-30*100%;
+$opacity-40-percent: 	$opacity-40*100%;
+$opacity-50-percent: 	$opacity-50*100%;
+$opacity-60-percent: 	$opacity-60*100%;
+$opacity-70-percent: 	$opacity-70*100%;
+$opacity-80-percent: 	$opacity-80*100%;
+$opacity-90-percent: 	$opacity-90*100%;
+$opacity-100-percent: 	$opacity-100*100%;
+
+$tint-0: 				rgba($white, $opacity-0);
+$tint-10: 				rgba($white, $opacity-10);
+$tint-20: 				rgba($white, $opacity-20);
+$tint-30: 				rgba($white, $opacity-30);
+$tint-40: 				rgba($white, $opacity-40);
+$tint-50: 				rgba($white, $opacity-50);
+$tint-70: 				rgba($white, $opacity-70);
+$tint-60: 				rgba($white, $opacity-60);
+$tint-80: 				rgba($white, $opacity-80);
+$tint-90: 				rgba($white, $opacity-90);
+$tint-100: 				rgba($white, $opacity-100);
+
+$shade-0: 				rgba($black, $opacity-0);
+$shade-10: 				rgba($black, $opacity-10);
+$shade-20: 				rgba($black, $opacity-20);
+$shade-30: 				rgba($black, $opacity-30);
+$shade-40: 				rgba($black, $opacity-40);
+$shade-50: 				rgba($black, $opacity-50);
+$shade-60: 				rgba($black, $opacity-60);
+$shade-70: 				rgba($black, $opacity-70);
+$shade-80: 				rgba($black, $opacity-80);
+$shade-90: 				rgba($black, $opacity-90);
+$shade-100: 			rgba($black, $opacity-100);
+
+// COLORS
+
+$white-smoke: 			#f5f5f5;
+$gainsboro: 			#e0e0e0;
+$iron: 					#cccccc;
+$dark-grey: 			#a3a3a3;
+$boulder: 				#7a7a7a;
+$mako: 					#525252;
+$eclipse: 				#3d3d3d;
+$bokara-gray: 			#292929;
+
+$lime-green: 			#2bad29;
+$forest-green: 			#259b24;
+$green: 				#056f00;
+
+$crimson: 				#f20e3c;
+$torch-red: 			#e00032;
+$free-speech-red: 		#c00010;
+
+$denim: 				#116aad;
+$kelly-green: 			#27aa0b;
+$amber: 				#ffc000;
+
+$color-0: 				$white;
+$color-100: 			$white-smoke;
+$color-200: 			$gainsboro;
+$color-300: 			$iron;
+$color-400: 			$dark-grey;
+$color-500: 			$boulder;
+$color-600: 			$mako;
+$color-700: 			$eclipse;
+$color-800: 			$bokara-gray;
+$color-900: 			$black;
+
+$color-one-400: 		$lime-green;
+$color-one-500: 		$forest-green;
+$color-one-600: 		$green;
+
+$color-two-400: 		$crimson;
+$color-two-500: 		$torch-red;
+$color-two-600: 		$free-speech-red;
+
+$color-info-500: 		$denim;
+$color-success-500: 	$kelly-green;
+$color-warning-500: 	$amber;
+$color-alert-500: 		$crimson;
+
+$color-viewport: 		$color-700;
+$color-background: 		$white;
+
+$color-text-dark: 		$color-900;
+$color-text: 			$color-800;
+$color-text-light: 		$color-400;
+$color-text-lighter: 	$color-200;
+$color-text-tint: 		$tint-50;
+$color-text-shade: 		$shade-50;
+
+$color-border-dark: 	$color-400;
+$color-border: 			$color-300;
+$color-border-light: 	$color-200;
+$color-border-tint: 	$tint-10;
+$color-border-shade: 	$shade-10;
+
+$color-dribbble: 		#ea4c89;
+$color-facebook: 		#3b5998;
+$color-google: 			#cc3732;
+$color-instagram: 		#3f729b;
+$color-linkedin: 		#0077b5;
+$color-pinterest: 		#cc2127;
+$color-twitter: 		#00aced;
+$color-youtube: 		#cd201f;
+
+// TYPOGRAPHY
+
+$sans-serif: 			"Helvetica Neue", sans-serif;
+$serif: 				Georgia, serif;
+$monospace: 			Menlo, Monaco, Consolas, "Courier New", monospace;
+
+$font-size-100: 		11px;
+$line-height-100: 		1.454545455;
+
+$font-size-200: 		12px;
+$line-height-200: 		1.333333333;
+
+$font-size-300: 		13px;
+$line-height-300: 		1.384615385;
+
+$font-size-400: 		14px;
+$line-height-400: 		1.428571429;
+
+$font-size-500: 		16px;
+$line-height-500: 		1.5;
+
+$font-size-600: 		18px;
+$line-height-600: 		1.333333333;
+
+$font-size-700: 		20px;
+$line-height-700: 		1.2;
+
+$font-size-800: 		24px;
+$line-height-800: 		1.166666667;
+
+$font-size-900: 		48px;
+$line-height-900: 		1.166666667;
+
+$font-size-h1: 			36px;
+$line-height-h1: 		1.111111111;
+
+$font-size-h2: 			30px;
+$line-height-h2: 		1.2;
+
+$font-size-h3: 			24px;
+$line-height-h3: 		1.166666667;
+
+$font-size-h4: 			20px;
+$line-height-h4: 		1.2;
+
+$font-size-h5: 			18px;
+$line-height-h5: 		1.333333333;
+
+$font-size-h6: 			16px;
+$line-height-h6: 		1.25;
+
+// TRANSITION
+
+$ease: 		ease-in-out;
+$bounce: 	cubic-bezier(0.5, 0.15, 0.25, 1.25);
