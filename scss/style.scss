@@ -4,7 +4,7 @@ Theme URI: http://bennyjien.com/
 Author: Benny Jien
 Author URI: http://bennyjien.com/
 Description: This site is infected with Haunter. Switching to another theme is not recommended since this theme is definitely more awesome.
-Version: 1.00
+Version: 1.01
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: responsive-layout, mobile-first
@@ -18,36 +18,37 @@ Tags: responsive-layout, mobile-first
 @import "normalize";
 @import "flickity";
 @import "magnific-popup";
-// @import "font-awesome";
-// @import "woocommerce";
+@import "stickyfill";
+@import "walker-tabs";
+@import "font-awesome";
+@import "woocommerce";
 
-// global
-@import "global";
-@import "layout";
+// containers
 @import "site";
 @import "main";
+@import "wrapper";
+
+// globals
+@import "global";
 @import "modifier";
 @import "keyframes";
 
-// form
-@import "form";
-@import "input";
+// elements
 @import "button";
-
-// modules
-@import "archive";
-@import "comment";
-@import "entry";
-@import "home";
 @import "icon";
-@import "image";
-@import "pagination";
-@import "search";
-@import "slider";
-@import "tab";
+@import "input";
+@import "list";
+@import "thumbnail";
 @import "tooltip";
 @import "widget";
 
-// other media
+// modules
+@import "entry";
+@import "form";
+@import "pagination";
+@import "search";
+@import "slider";
+
+// others
 @import "mobile";
 @media print { @import "print"; }

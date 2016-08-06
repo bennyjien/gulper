@@ -1,15 +1,26 @@
 .main {
-	@include grail-main;
+	flex: 1 1 auto;
+	min-width: 0;
+	width: 100%;
 }
 
-.main-section {
-	margin-bottom: 32px;
+.main-header {}
 
-	&:last-child {
-		margin-bottom: 0;
-	}
-}
+.main-content {}
+
+.main-footer {}
 
 .main-sidebar {
-	@include grail-aside;
+	flex: 1 1 auto;
+	width: 100%;
+
+	@include breakpoint(walker) {
+		flex: 0 0 auto;
+		margin-left: 48px;
+		width: 200px;
+	}
+
+	@include breakpoint(runner) {
+		width: 256px;
+	}
 }

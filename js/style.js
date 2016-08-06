@@ -200,60 +200,10 @@ jQuery(document).ready(function($) {
 		});
 	};
 
-	// site-nav priority navigation
-	var $siteNav = $('#site-nav');
-	var $siteNavToggle = $('#site-nav-toggle');
-	var $siteNavMenu = $siteNav.find('.menu-primary');
-	var $siteNavMenuSecondary = $siteNav.find('.menu-secondary');
-	var breaks = [];
-
-	function updateNav() {
-		var availableSpace = $siteNavToggle.hasClass('is-hidden') ? $siteNav.width() : $siteNav.width() - $siteNavToggle.width();
-
-		if ($siteNavMenu.width() > availableSpace) {
-			breaks.push($siteNavMenu.width());
-			$siteNavMenu.css('padding-right', $siteNavToggle.width()).children().last().prependTo($siteNavMenuSecondary);
-			$siteNav.addClass('is-collapsed');
-
-			if ($siteNavToggle.hasClass('is-hidden')) {
-				$siteNavToggle.removeClass('is-hidden');
-			}
-		} else {
-			if (availableSpace > breaks[breaks.length-1]) {
-				$siteNavMenuSecondary.children().first().appendTo($siteNavMenu);
-				breaks.pop();
-			}
-
-			if (breaks.length < 1) {
-				$siteNav.removeClass('is-collapsed');
-				$siteNavToggle.addClass('is-hidden');
-				$siteNavMenuSecondary.addClass('is-hidden');
-				$siteNavMenu.css('padding-right', '0');
-			}
-		}
-
-		$siteNavToggle.attr('count', breaks.length);
-
-		if ($siteNavMenu.width() > availableSpace) {
-			updateNav();
-		}
-	}
-
-	$siteNavToggle.on('click', function() {
-		$(this).toggleClass('is-active');
-		$siteNavMenuSecondary.toggleClass('is-hidden');
-	});
-
-	// window listeners
-	$win.resize(function() {
-		updateNav();
-	});
-
 	// run functions
 	scrollFunction();
 	switchFunction();
 	toggleFunction();
 	moverFunction();
-	updateNav();
 
 });

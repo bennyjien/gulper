@@ -19,6 +19,13 @@ Have fun! :)
 
 ## CHANGELOG
 
+- look at form.scss
+
+1.0.1 (Aug 6, 2016)
++ /scss: rearranged
++ style.js: remove unnecessary scripts
++ gulpfile.js: fix bugs
+
 1.0.0 (Jul 14, 2016)
 + Fresh start!
 + Inspired from Walker 2.50

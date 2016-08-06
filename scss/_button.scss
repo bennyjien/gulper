@@ -1,4 +1,3 @@
-button,
 .button {
 	background-color: $color-one-500;
 	border: 1px solid transparent;
@@ -79,41 +78,41 @@ button,
 	}
 
 	&.button-success {
-		background-color: $color-success-500;
+		background-color: $color-success;
 
 		&:hover,
 		&:focus {
-			background-color: lighten($color-success-500, $opacity-10-percent);
+			background-color: lighten($color-success, $opacity-10-percent);
 		}
 
 		&:active {
-			background-color: darken($color-success-500, $opacity-10-percent);
+			background-color: darken($color-success, $opacity-10-percent);
 		}
 	}
 
 	&.button-warning {
-		background-color: $color-warning-500;
+		background-color: $color-warning;
 
 		&:hover,
 		&:focus {
-			background-color: lighten($color-warning-500, $opacity-10-percent);
+			background-color: lighten($color-warning, $opacity-10-percent);
 		}
 
 		&:active {
-			background-color: darken($color-warning-500, $opacity-10-percent);
+			background-color: darken($color-warning, $opacity-10-percent);
 		}
 	}
 
 	&.button-alert {
-		background-color: $color-alert-500;
+		background-color: $color-alert;
 
 		&:hover,
 		&:focus {
-			background-color: lighten($color-alert-500, $opacity-10-percent);
+			background-color: lighten($color-alert, $opacity-10-percent);
 		}
 
 		&:active {
-			background-color: darken($color-alert-500, $opacity-10-percent);
+			background-color: darken($color-alert, $opacity-10-percent);
 		}
 	}
 

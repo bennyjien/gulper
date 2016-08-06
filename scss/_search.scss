@@ -4,20 +4,20 @@
 		&:hover,
 		&:focus {
 
-			input[type="submit"] {
+			.button {
 				opacity: 0.4;
 			}
 		}
 
-	label {
+	.label {
 		display: none;
 	}
 
-	input[type="text"] {
+	.input {
 		width: 100%;
 	}
 
-	input[type="submit"] {
+	.button {
 		background: transparent url('library/images/icon-search.png') no-repeat center center;
 		background-size: 16px 16px;
 		border: 0;

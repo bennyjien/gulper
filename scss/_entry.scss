@@ -4,31 +4,9 @@
 	.title {
 		margin-bottom: 4px;
 	}
-
-	.meta {
-		@include font-size-400;
-		color: $shade-50;
-		margin: 0;
-	}
-
 }
 
 .entry-content {
-
-	> * {
-
-		&:last-child {
-			margin-bottom: 0;
-		}
-	}
-
-	p {
-
-		&.lead {
-			@include font-size-h5;
-			font-weight: 700;
-		}
-	}
 
 	.aligncenter {
 		display: block;
@@ -169,16 +147,5 @@
 		left: 1px;
 		position: absolute;
 		right: 1px;
-	}
-}
-
-.entry-footer {
-
-	p {
-		margin-top: 24px;
-
-		&:empty {
-			margin-top: 0;
-		}
 	}
 }

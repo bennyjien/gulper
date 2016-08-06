@@ -1,4 +1,4 @@
-.image-thumbnail {
+.thumbnail {
 	background-color: $white;
 	display: block;
 	overflow: hidden;
@@ -43,7 +43,7 @@
 		z-index: 2;
 	}
 
-	&.image-thumbnail-square {
+	&.thumbnail-square {
 		padding-bottom: 100%;
 
 		img {

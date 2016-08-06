@@ -111,11 +111,11 @@
 	}
 
 	.woocommerce-message {
-		border-top: 2px solid $color-success-500;
+		border-top: 2px solid $color-success;
 
 		&:before {
 			content: "\2713";
-			background-color: $color-success-500;
+			background-color: $color-success;
 		}
 	}
 
@@ -131,11 +131,11 @@
 	}
 
 	.woocommerce-error {
-		border-top: 2px solid $color-alert-500;
+		border-top: 2px solid $color-alert;
 
 		&:before {
 			content: "\00d7";
-			background-color: $color-alert-500;
+			background-color: $color-alert;
 			font-weight: 700;
 		}
 	}
@@ -185,11 +185,11 @@
 
 		.stock {
 			@include font-size-200;
-			color: $color-success-500;
+			color: $color-success;
 		}
 
 		.out-of-stock {
-			color: $color-alert-500;
+			color: $color-alert;
 		}
 
 		.images {
@@ -1128,7 +1128,7 @@
 
 		.remove {
 			border-radius: 100%;
-			color: $color-alert-500;
+			color: $color-alert;
 			display: block;
 			font-family: Arial;
 			font-size: 18px;
@@ -1139,7 +1139,7 @@
 			width: 16px;
 
 			&:hover {
-				background-color: $color-alert-500;
+				background-color: $color-alert;
 				color: $white;
 			}
 		}
@@ -1346,7 +1346,7 @@
 			.discount {
 
 				td {
-					color: $color-success-500;
+					color: $color-success;
 				}
 			}
 		}
@@ -1383,7 +1383,7 @@
 				.chosen-single,
 				.input-text,
 				select {
-					border-color: $color-alert-500;
+					border-color: $color-alert;
 				}
 			}
 
@@ -1405,7 +1405,7 @@
 
 			.required {
 				border: 0;
-				color: $color-alert-500;
+				color: $color-alert;
 				font-weight: 700;
 			}
 
@@ -1682,7 +1682,7 @@
 				&.chosen {
 
 					a {
-						background: $color-success-500;
+						background: $color-success;
 						border: 1px solid $shade-20;
 						color: $white;
 						padding: 0 8px;
@@ -1731,7 +1731,7 @@
 				padding: 0 1px 1px 0;
 
 				a {
-					background: $color-success-500;
+					background: $color-success;
 					border: 1px solid $shade-20;
 					color: $white;
 					float: left;
@@ -1778,7 +1778,7 @@
 			width: calc(100% - 12px);
 
 			.ui-slider-handle {
-				background: $color-success-500;
+				background: $color-success;
 				border: 1px solid $shade-20;
 				border-radius: 16px;
 				cursor: pointer;

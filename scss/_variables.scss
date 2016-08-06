@@ -1,3 +1,5 @@
+// BASE
+
 $white: 				#FFFFFF;
 $black: 				#000000;
 
@@ -53,58 +55,44 @@ $shade-100: 			rgba($black, $opacity-100);
 
 // COLORS
 
-$white-smoke: 			#f5f5f5;
-$gainsboro: 			#e0e0e0;
-$iron: 					#cccccc;
-$dark-grey: 			#a3a3a3;
-$boulder: 				#7a7a7a;
-$mako: 					#525252;
-$eclipse: 				#3d3d3d;
-$bokara-gray: 			#292929;
-
-$lime-green: 			#2bad29;
-$forest-green: 			#259b24;
-$green: 				#056f00;
-
-$crimson: 				#f20e3c;
-$torch-red: 			#e00032;
-$free-speech-red: 		#c00010;
-
-$denim: 				#116aad;
-$kelly-green: 			#27aa0b;
-$amber: 				#ffc000;
-
 $color-0: 				$white;
-$color-100: 			$white-smoke;
-$color-200: 			$gainsboro;
-$color-300: 			$iron;
-$color-400: 			$dark-grey;
-$color-500: 			$boulder;
-$color-600: 			$mako;
-$color-700: 			$eclipse;
-$color-800: 			$bokara-gray;
+$color-100: 			#f5f5f5;
+$color-200: 			#e0e0e0;
+$color-300: 			#cccccc;
+$color-400: 			#a3a3a3;
+$color-500: 			#7a7a7a;
+$color-600: 			#525252;
+$color-700: 			#3d3d3d;
+$color-800: 			#292929;
 $color-900: 			$black;
 
-$color-one-400: 		$lime-green;
-$color-one-500: 		$forest-green;
-$color-one-600: 		$green;
+$color-one-400: 		#2bad29;
+$color-one-500: 		#259b24;
+$color-one-600: 		#056f00;
 
-$color-two-400: 		$crimson;
-$color-two-500: 		$torch-red;
-$color-two-600: 		$free-speech-red;
+$color-two-400: 		#f20e3c;
+$color-two-500: 		#e00032;
+$color-two-600: 		#c00010;
 
-$color-info-500: 		$denim;
-$color-success-500: 	$kelly-green;
-$color-warning-500: 	$amber;
-$color-alert-500: 		$crimson;
+$color-info: 			#5CB4EE;
+$color-info-light: 		#CEE5F5;
 
-$color-viewport: 		$color-700;
+$color-success: 		#269921;
+$color-success-light: 	#C6EBC5;
+
+$color-warning: 		#FCAD2A;
+$color-warning-light: 	#FFEBCC;
+
+$color-alert: 			#F60F26;
+$color-alert-light: 	#FABEC4;
+
+$color-viewport: 		$color-800;
 $color-background: 		$white;
 
-$color-text-dark: 		$color-900;
-$color-text: 			$color-800;
-$color-text-light: 		$color-400;
-$color-text-lighter: 	$color-200;
+$color-text-dark: 		$color-800;
+$color-text: 			$color-600;
+$color-text-light: 		$color-500;
+$color-text-lighter: 	$color-400;
 $color-text-tint: 		$tint-50;
 $color-text-shade: 		$shade-50;
 
