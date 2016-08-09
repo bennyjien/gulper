@@ -1,6 +1,6 @@
 # Haunter: Gulpy Website Generator
 
-Haunter is Gulp-based static webpage generator.
+**Haunter is Gulp-based static webpage generator.** It includes HTML boilerplate, not-so-minimal CSS, and some JS scripts for kickstarting web projects.
 
 Haunter does:
 + Live reloading browser
@@ -25,11 +25,15 @@ Have fun! :)
 
 ## KNOWN ISSUES
 
-+ svg source without <xml> will fail silently, close and re-run gulp if this happens
++ svg source without <xml> will fail silently, close and re-run `gulp` if this happens
 + always useref external script, unbundled script will not included in _dist/_
 + to review _doc/_, run `gulp build` since _doc/_ needs bundle.js
 
 ## CHANGELOG
+
+1.0.2 (Aug 9, 2016)
++ Update readme.md
++ Kaizen
 
 1.0.1 (Aug 6, 2016)
 + /scss: rearranged
