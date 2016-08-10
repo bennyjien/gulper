@@ -11,7 +11,7 @@ jQuery(document).ready(function($) {
 	svg4everybody();
 
 	// sticky polyfill
-	$('.sticky').Stickyfill();
+	$('.js-sticky').Stickyfill();
 
 	// input[type="file"] custom
 	 /* <div class="input-file">
@@ -19,7 +19,7 @@ jQuery(document).ready(function($) {
 			<label for="file"><span class="button">Browse files</span> <span class="caption">No file selected&hellip;</span></label>
 		</div>
 	 */
-	$('.input-file').each(function() {
+	$('.js-input-file').each(function() {
 		var $input  = $(this).find('input'),
 			$label = $input.next('label'),
 			labelVal = $label.html();
@@ -47,7 +47,7 @@ jQuery(document).ready(function($) {
 	/* data-scroll-offset="[selector]"
 	*/
 	var scrollFunction = function() {
-		$('.scroll').on('click', function(e) {
+		$('.js-scroll').on('click', function(e) {
 			var $this = $(this);
 			var $scrollID = $($this.attr('href'));
 			var $offset = $($this.data('scroll-offset'));
@@ -62,7 +62,7 @@ jQuery(document).ready(function($) {
 	 	data-switch-scroll="[selector]" -> toggle scroll to
 	 */
 	var switchFunction = function() {
-		$('.switch').on('click', function(e) {
+		$('.js-switch').on('click', function(e) {
 			var $this = $(this),
 				$switchTarget = $($this.attr('href')),
 				$switchGroup = $('[data-switch-group="'+$switchTarget.data('switch-group')+'"]'),
@@ -87,7 +87,7 @@ jQuery(document).ready(function($) {
 		data-untoggle-duration="[duration]" -> how long toggling off in ms, used for closing animation
 	 */
 	var toggleFunction = function() {
-		$('.toggle').not('.toggle-hover').on('click', function(e) {
+		$('.js-toggle').not('.js-toggle-hover').on('click', function(e) {
 			var $this = $(this),
 				toggleTarget = $this.data('toggle-target') ? $this.data('toggle-target') : $this.attr('href'),
 				$toggleTarget = $(toggleTarget),
@@ -137,7 +137,7 @@ jQuery(document).ready(function($) {
 			}
 		});
 
-		$('.toggle-hover').on('mouseenter touchstart', function() {
+		$('.js-toggle-hover').on('mouseenter touchstart', function() {
 			var $this = $(this),
 				toggleTarget = $this.data('toggle-target') ? $this.data('toggle-target') : $this.attr('href'),
 				$toggleTarget = $(toggleTarget),
@@ -171,9 +171,9 @@ jQuery(document).ready(function($) {
 		data-mover-target="[selector]" -> mover will append selected element to this selector
 	 */
 	var moverFunction = function() {
-		$('.mover').each(function() {
+		$('.js-mover').each(function() {
 			var $this = $(this);
-			$this.before("<div class='mover-source'></div>");
+			$this.before("<div class='js-mover-source'></div>");
 
 			var $moverSource = $this.prev(),
 				$moverTarget = $($this.data('mover-target')),

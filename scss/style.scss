@@ -1,10 +1,10 @@
 /*!
 Theme Name: Haunter
-Theme URI: http://bennyjien.com/
+Theme URI: https://github.com/bennyjien/haunter
 Author: Benny Jien
 Author URI: http://bennyjien.com/
 Description: This site is infected with Haunter. Switching to another theme is not recommended since this theme is definitely more awesome.
-Version: 1.0.2
+Version: 1.0.3
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: responsive-layout, mobile-first
@@ -15,13 +15,13 @@ Tags: responsive-layout, mobile-first
 @import "mixins";
 
 // plugins
-@import "normalize";
-@import "flickity";
-@import "magnific-popup";
-@import "stickyfill";
-@import "walker-tabs";
-@import "font-awesome";
-@import "woocommerce";
+@import "plugins/normalize";
+@import "plugins/flickity";
+@import "plugins/magnific-popup";
+@import "plugins/stickyfill";
+@import "plugins/walker-tabs";
+@import "plugins/font-awesome";
+@import "plugins/woocommerce";
 
 // containers
 @import "site";
@@ -31,24 +31,23 @@ Tags: responsive-layout, mobile-first
 // globals
 @import "global";
 @import "modifier";
+@import "js";
 @import "keyframes";
 
-// elements
+// modules
 @import "button";
+@import "entry";
+@import "form";
 @import "icon";
 @import "input";
 @import "list";
+@import "pagination";
+@import "search";
+@import "slider";
 @import "thumbnail";
 @import "tooltip";
 @import "widget";
 
-// modules
-@import "entry";
-@import "form";
-@import "pagination";
-@import "search";
-@import "slider";
-
-// others
+// media
 @import "mobile";
 @media print { @import "print"; }

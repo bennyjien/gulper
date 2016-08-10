@@ -9,10 +9,10 @@ jQuery(document).ready(function($) {
 	FastClick.attach(document.body);
 
 	// initialize Tabs
-	$('.tabs').walkerTabs();
+	$('.js-tabs').walkerTabs();
 
 	// initialize Flickity
-	var $slider = $('.slider').find('.slides').flickity({
+	var $slider = $('.js-slider').find('.slides').flickity({
 		imagesLoaded: true,
 		pageDots: false
 	});
@@ -33,7 +33,7 @@ jQuery(document).ready(function($) {
 	});
 
 	// initialize magnificPopup
-	$('.mfp-link').magnificPopup({
+	$('.js-mfp-link').magnificPopup({
 		type: 'inline',
 		mainClass: 'mfp-animation',
 		removalDelay: 200

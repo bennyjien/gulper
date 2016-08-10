@@ -1,0 +1,57 @@
+.js-input-file {
+
+	.js & {
+
+		input[type="file"] {
+			@include hidden;
+		}
+	}
+
+	.no-js & {
+
+		.label {
+			display: none;
+		}
+	}
+
+	.label {
+		cursor: pointer;
+		display: inline-block;
+		overflow: hidden;
+		text-overflow: ellipsis;
+
+		&:hover {
+
+			.button {
+				background-color: $color-500;
+			}
+		}
+
+		> * {
+			pointer-events: none;
+		}
+	}
+
+	.button {
+		@include font-size-400;
+		background-color: $color-400;
+		color: $white;
+		margin-right: 4px;
+		padding: 6px 12px;
+
+		&:hover {
+			background-color: $color-500;
+		}
+	}
+
+	.caption {
+		@include font-size-400;
+		color: $color-text-light;
+		display: inline-block;
+		vertical-align: middle;
+
+		&.has-caption {
+			color: $color-text;
+		}
+	}
+}
