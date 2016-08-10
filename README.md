@@ -35,6 +35,7 @@ Have fun! :)
 + /scss/plugins/: *NEW*
 + js.scss: *NEW*
 + script.js & style.js: add `js-` prefix to js selector
++ Kaizen
 
 1.0.2 (Aug 9, 2016)
 + Update readme.md

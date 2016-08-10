@@ -27,7 +27,7 @@
 	width: 100%;
 	z-index: 8;
 
-	> .wrapper {
+	> .inner {
 		align-items: center;
 		display: flex;
 	}
@@ -105,7 +105,7 @@
 	position: relative;
 	z-index: 3;
 
-	> .wrapper {
+	> .inner {
 		display: flex;
 		flex: 1 1 auto;
 		flex-direction: column;
@@ -115,11 +115,6 @@
 			flex-direction: row;
 			justify-content: space-between;
 		}
-	}
-
-	&:not(.site-content-fullscreen) {
-		padding-bottom: 32px;
-		padding-top: 32px;
 	}
 }
 
@@ -132,7 +127,7 @@
 	width: 100%;
 	z-index: 4;
 
-	> .wrapper {
+	> .inner {
 		padding-bottom: 24px;
 		padding-top: 24px;
 	}

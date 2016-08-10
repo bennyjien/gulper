@@ -1,14 +1,10 @@
-.form-group-container,
-.form-group {
+.form-groups {
 	margin-bottom: 16px;
 	position: relative;
 
 	&:last-child {
 		margin-bottom: 0;
 	}
-}
-
-.form-group-container {
 
 	@include breakpoint(crawler) {
 		display: flex;
@@ -30,6 +26,12 @@
 }
 
 .form-group {
+	margin-bottom: 16px;
+	position: relative;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
 
 	.label {
 		display: inline-block;
