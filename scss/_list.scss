@@ -3,3 +3,34 @@
 	margin: 0;
 	padding: 0;
 }
+
+.list-ordered,
+.list-unordered {
+	list-style: none;
+	padding-left: 24px;
+	text-indent: -24px;
+
+	li {
+
+		&:before {
+			content: "\2022";
+			display: inline-block;
+			text-indent: 2px;
+			padding-right: 6px;
+			width: 24px;
+		}
+	}
+}
+
+.list-ordered {
+
+	li {
+		counter-increment: list-ordered;
+
+		&:before {
+			content: counter(list-ordered) ". ";
+			text-align: right;
+			text-indent: 0;
+		}
+	}
+}

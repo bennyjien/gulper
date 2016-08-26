@@ -8,9 +8,6 @@ jQuery(document).ready(function($) {
 	// initialize FastClick (use .needsclick if click is required)
 	FastClick.attach(document.body);
 
-	// initialize Tabs
-	$('.js-tabs').walkerTabs();
-
 	// initialize Flickity
 	var $slider = $('.js-slider').find('.slides').flickity({
 		imagesLoaded: true,

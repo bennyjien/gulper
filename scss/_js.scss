@@ -55,3 +55,19 @@
 		}
 	}
 }
+
+.js-toggle-target {
+	display: none;
+
+	&.is-toggled {
+		display: block;
+	}
+}
+
+.js-switch-target {
+	display: none;
+
+	&.is-switched {
+		display: block;
+	}
+}

@@ -109,6 +109,8 @@
 		display: flex;
 		flex: 1 1 auto;
 		flex-direction: column;
+		padding-bottom: 48px;
+		padding-top: 48px;
 		width: 100%;
 
 		@include breakpoint(walker) {

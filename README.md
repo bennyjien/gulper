@@ -31,6 +31,11 @@ Have fun! :)
 
 ## CHANGELOG
 
+1.0.4 (Aug 26, 2016)
++ Add Greensock TweenMax, remove VelocityJS
++ Remove jquery.walker-tabs.js
++ style.js: convert VelocityJS-dependant script to TweenMax, rewrite switch and toggle scripts
+
 1.0.3 (Aug 10, 2016)
 + /scss/plugins/: *NEW*
 + js.scss: *NEW*
