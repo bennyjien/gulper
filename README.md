@@ -33,6 +33,8 @@ Have fun! :)
 
 1.0.5 (Aug 27, 2016)
 + Add ScrollMagic.min.js and its plugins
++ Remove Font Awesome
++ Fix Documentation
 
 1.0.4 (Aug 26, 2016)
 + Add Greensock TweenMax, remove VelocityJS
