@@ -31,6 +31,9 @@ Have fun! :)
 
 ## CHANGELOG
 
+1.0.5 (Aug 27, 2016)
++ Add ScrollMagic.min.js and its plugins
+
 1.0.4 (Aug 26, 2016)
 + Add Greensock TweenMax, remove VelocityJS
 + Remove jquery.walker-tabs.js

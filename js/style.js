@@ -43,6 +43,16 @@ jQuery(document).ready(function($) {
 		});
 	});
 
+	// init ScrollMagic
+	var sceneController = new ScrollMagic.Controller();
+
+	$('.js-scene').each(function() {
+	    var scene = new ScrollMagic.Scene({ triggerElement: this, reverse: false })
+	        .setClassToggle(this, 'in-viewport')
+			.addIndicators()
+	        .addTo(sceneController);
+	});
+
 	// scroll to function (link will scroll to href)
 	/* data-scroll-offset="[selector]" -> offset of selector height
 	*/
