@@ -4,7 +4,7 @@ Theme URI: https://github.com/bennyjien/haunter
 Author: Benny Jien
 Author URI: http://bennyjien.com/
 Description: This site is infected with Haunter. Switching to another theme is not recommended since this theme is definitely more awesome.
-Version: 1.0.5
+Version: 1.0.6
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: responsive-layout, mobile-first
@@ -19,12 +19,12 @@ Tags: responsive-layout, mobile-first
 @import "plugins/flickity";
 @import "plugins/magnific-popup";
 @import "plugins/stickyfill";
+// @import "plugins/wordpress";
 // @import "plugins/woocommerce";
 
 // containers
 @import "site";
 @import "main";
-@import "wrapper";
 
 // globals
 @import "global";
@@ -34,13 +34,13 @@ Tags: responsive-layout, mobile-first
 
 // modules
 @import "button";
-@import "entry";
 @import "form";
 @import "icon";
 @import "list";
 @import "pagination";
 @import "search";
 @import "slider";
+@import "table";
 @import "thumbnail";
 @import "tooltip";
 @import "widget";

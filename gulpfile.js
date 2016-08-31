@@ -56,7 +56,6 @@ gulp.task('kit', function() {
 	return gulp.src('kit/**/*.kit')
 		.pipe(kit().on('error', handleErrors))
 		.pipe(gulp.dest('dist/'));
-		// .pipe(browserSync.stream());
 });
 
 gulp.task('kit-reload', ['kit'], function() {
@@ -83,7 +82,6 @@ gulp.task('js', function() {
 
 	return gulp.src('js/**/*')
 		.pipe(gulp.dest('dist/js/'));
-		// .pipe(browserSync.stream());
 });
 
 gulp.task('js-reload', ['js'], function() {
@@ -94,7 +92,6 @@ gulp.task('doc-kit', function() {
 	return gulp.src('_doc/*.kit')
 		.pipe(kit())
 		.pipe(gulp.dest('dist/_doc/'));
-		// .pipe(browserSync.stream());
 });
 
 gulp.task('doc-kit-reload', ['doc-kit'], function() {
@@ -155,7 +152,7 @@ gulp.task('uploads', function() {
 // Watching for changes
 gulp.task('watch', function() {
 	gulp.watch('kit/**/*.kit', ['kit-reload']);
-	gulp.watch('scss/*.scss', ['sass']);
+	gulp.watch('scss/*.scss', ['sass' , 'doc-sass']);
 	gulp.watch('js/**/*.js', ['js-reload']);
 	gulp.watch('_doc/*.kit', ['doc-kit-reload']);
 	gulp.watch('_doc/*.scss', ['doc-sass']);

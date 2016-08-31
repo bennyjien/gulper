@@ -153,7 +153,7 @@ dd {
 
 blockquote {
 	@include font-size-600;
-	border-left: 4px solid $shade-10;
+	border-left: 4px solid rgba($black, 0.1);
 	margin-left: 0;
 	padding: 12px 24px;
 
@@ -191,7 +191,7 @@ samp {
 
 code {
 	@include font-size-400;
-	background-color: $shade-10;
+	background-color: rgba($black, 0.1);
 	padding: 2px 4px;
 }
 
@@ -211,8 +211,8 @@ kbd {
 
 pre {
 	@include font-size-400;
-	background-color: $shade-10;
-	border: 1px solid $shade-10;
+	background-color: rgba($black, 0.1);
+	border: 1px solid rgba($black, 0.1);
 	border-radius: 3px;
 	display: block;
 	padding: 12px;
@@ -234,7 +234,7 @@ small {
 }
 
 hr {
-	background-color: $shade-10;
+	background-color: rgba($black, 0.1);
 	border: 0;
 	height: 2px;
 	margin: 24px 0;
@@ -298,9 +298,9 @@ select,
 textarea {
 	-moz-appearance: none;
 	-webkit-appearance: none;
-	border: 1px solid $shade-20;
+	border: 1px solid rgba($black, 0.2);
 	border-radius: 0;
-	box-shadow: inset 0 0 4px $shade-10;
+	box-shadow: inset 0 0 4px rgba($black, 0.1);
 	line-height: inherit;
 	max-width: 100%;
 	padding: 3px 8px;
@@ -308,7 +308,7 @@ textarea {
 	vertical-align: middle;
 
 	&:focus {
-		border-color: $shade-20;
+		border-color: rgba($black, 0.2);
 		box-shadow: none;
 		outline: 0;
 	}
@@ -336,7 +336,7 @@ select {
 	}
 
 	&:hover {
-		border-color: $shade-20;
+		border-color: rgba($black, 0.2);
 		outline: 0;
 	}
 
@@ -355,14 +355,7 @@ select {
 table {
 	background-color: $white;
 	border: 1px solid $color-border;
-	display: block;
-	max-width: 100%;
-	overflow-x: auto;
 	width: 100%;
-
-	@include breakpoint(crawler) {
-		display: table;
-	}
 
 	caption {
 		color: $color-text-light;
@@ -375,14 +368,6 @@ table {
 		}
 	}
 
-	thead {
-
-		th {
-			vertical-align: top;
-			border-bottom: 1px solid $color-border;
-		}
-	}
-
 	th,
 	td {
 		border-bottom: 1px solid $color-border;
@@ -392,7 +377,27 @@ table {
 		vertical-align: top;
 	}
 
-	tbody + tbody {
-		border-top: 2px solid $color-border;
+	thead {
+
+		th {
+			vertical-align: top;
+			border-bottom: 1px solid $color-border;
+			border-top: 0;
+		}
+	}
+
+	tbody {
+
+		+ tbody {
+			border-top: 2px solid $color-border;
+		}
+
+		&:last-child {
+
+			th,
+			td {
+				border-bottom: 0;
+			}
+		}
 	}
 }

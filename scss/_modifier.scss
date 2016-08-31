@@ -9,14 +9,7 @@
 
 .only-sr,
 .is-hidden {
-	border: 0;
-	clip: rect(0, 0, 0, 0);
-	height: 1px;
-	margin: -1px;
-	overflow: hidden;
-	padding: 0;
-	position: absolute;
-	width: 1px;
+	@include hidden;
 }
 
 .is-loading {
@@ -25,9 +18,9 @@
 	&:after {
 		content: "";
 		animation: walker-spin 1.5s infinite linear;
-		border-left: 4px solid $shade-20;
-		border-bottom: 4px solid $shade-20;
-		border-right: 4px solid $shade-20;
+		border-left: 4px solid rgba($black, 0.2);
+		border-bottom: 4px solid rgba($black, 0.2);
+		border-right: 4px solid rgba($black, 0.2);
 		border-top: 4px solid $color-one-500;
 		border-radius: 100%;
 		display: block;
@@ -49,7 +42,7 @@
 			background-color: $white;
 			bottom: 0;
 			left: 0;
-			opacity: $opacity-60;
+			opacity: 0.6;
 			position: absolute;
 			right: 0;
 			top: 0;

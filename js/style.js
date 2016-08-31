@@ -69,7 +69,9 @@ jQuery(document).ready(function($) {
 
 	// switch function (link will switch href and unswitch others from same data-switch-group, think tabs)
 	 /* data-switch-group="[name]" -> switch grouping
-	 	data-switch-scroll="[selector]" -> toggle scroll to
+	 	data-switch-method="auto|manual" -> how switch is handled
+	 	data-switch-duration="[second]" -> how long is switch animation if switch method is auto
+	 	data-switch-scroll="[selector]" -> switch scroll to
 	 */
 	var switchFunction = function() {
 		$('.js-switch').on('click', function(e) {
@@ -104,8 +106,8 @@ jQuery(document).ready(function($) {
 	// modifier: .toggle-hover
 	 /* data-toggle-target="[selector]" -> toggle target
 		data-toggle-area="[selector]" -> toggle will end if mouse click outside this area or leave this area
-		data-toggle-method="auto|manual" -> how toggle is handled
-		data-toggle-duration="[duration]" -> how long toggling off in ms, used for closing animation
+		data-toggle-method="auto|manual" -> how toggle is handled, default is auto
+		data-toggle-duration="[second]" -> how long is toggle animation if toggle method is auto
 		data-toggle-scroll="[selector]" -> toggle scroll to
 		data-toggle-focus="[selector]" -> toggle will focus on targeted form
 	 */
@@ -162,6 +164,8 @@ jQuery(document).ready(function($) {
 				toggleTarget = $this.data('toggle-target') ? $this.data('toggle-target') : $this.attr('href'),
 				$toggleTarget = $(toggleTarget),
 				$toggleArea = $this.data('toggle-area') ? $($this.data('toggle-area')) : $this,
+				toggleMethod = $this.data('toggle-method') ? $this.data('toggle-method') : 'auto',
+				toggleDuration = $this.data('toggle-duration') ? $this.data('toggle-duration') : 0.4,
 				bodyClass = toggleTarget.substring(1);
 
 			$toggleArea.find('.is-toggled').removeClass('is-toggled');
@@ -169,11 +173,18 @@ jQuery(document).ready(function($) {
 			$this.addClass('is-toggled');
 			$toggleTarget.addClass('is-toggled');
 			$body.addClass(bodyClass+'-is-toggled');
+			if (toggleMethod === 'auto') {
+				TweenMax.set($toggleTarget, { display: 'block', overflow: 'visible', autoAlpha: 1, height: 'auto' });
+				TweenMax.from($toggleTarget, toggleDuration, { overflow: 'hidden', autoAlpha: 0, height: 0 });
+			}
 
 			$toggleArea.on('mouseleave', function() {
 				$this.removeClass('is-toggled');
 				$toggleTarget.removeClass('is-toggled');
 				$body.removeClass(bodyClass+'-is-toggled');
+				if (toggleMethod === 'auto') {
+					TweenMax.to($toggleTarget, toggleDuration, { display: 'none', overflow: 'hidden', autoAlpha: 0, height: 0 });
+				}
 			});
 
 			$body.on('click touchend', function(e) {
@@ -181,6 +192,9 @@ jQuery(document).ready(function($) {
 					$this.removeClass('is-toggled');
 					$toggleTarget.removeClass('is-toggled');
 					$body.removeClass(bodyClass+'-is-toggled');
+					if (toggleMethod === 'auto') {
+						TweenMax.to($toggleTarget, toggleDuration, { display: 'none', overflow: 'hidden', autoAlpha: 0, height: 0 });
+					}
 				}
 			});
 		});

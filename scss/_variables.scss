@@ -1,64 +1,12 @@
-// BASE
+// COLORS
 
 $white: 				#FFFFFF;
 $black: 				#000000;
 
-// OPACITY
-
-$opacity-0: 			0;
-$opacity-10: 			0.08;
-$opacity-20: 			0.16;
-$opacity-30: 			0.24;
-$opacity-40: 			0.32;
-$opacity-50: 			0.48;
-$opacity-60: 			0.64;
-$opacity-70: 			0.72;
-$opacity-80: 			0.80;
-$opacity-90: 			0.92;
-$opacity-100: 			1;
-
-$opacity-0-percent: 	$opacity-0*100%;
-$opacity-10-percent: 	$opacity-10*100%;
-$opacity-20-percent: 	$opacity-20*100%;
-$opacity-30-percent: 	$opacity-30*100%;
-$opacity-40-percent: 	$opacity-40*100%;
-$opacity-50-percent: 	$opacity-50*100%;
-$opacity-60-percent: 	$opacity-60*100%;
-$opacity-70-percent: 	$opacity-70*100%;
-$opacity-80-percent: 	$opacity-80*100%;
-$opacity-90-percent: 	$opacity-90*100%;
-$opacity-100-percent: 	$opacity-100*100%;
-
-$tint-0: 				rgba($white, $opacity-0);
-$tint-10: 				rgba($white, $opacity-10);
-$tint-20: 				rgba($white, $opacity-20);
-$tint-30: 				rgba($white, $opacity-30);
-$tint-40: 				rgba($white, $opacity-40);
-$tint-50: 				rgba($white, $opacity-50);
-$tint-70: 				rgba($white, $opacity-70);
-$tint-60: 				rgba($white, $opacity-60);
-$tint-80: 				rgba($white, $opacity-80);
-$tint-90: 				rgba($white, $opacity-90);
-$tint-100: 				rgba($white, $opacity-100);
-
-$shade-0: 				rgba($black, $opacity-0);
-$shade-10: 				rgba($black, $opacity-10);
-$shade-20: 				rgba($black, $opacity-20);
-$shade-30: 				rgba($black, $opacity-30);
-$shade-40: 				rgba($black, $opacity-40);
-$shade-50: 				rgba($black, $opacity-50);
-$shade-60: 				rgba($black, $opacity-60);
-$shade-70: 				rgba($black, $opacity-70);
-$shade-80: 				rgba($black, $opacity-80);
-$shade-90: 				rgba($black, $opacity-90);
-$shade-100: 			rgba($black, $opacity-100);
-
-// COLORS
-
 $color-0: 				$white;
 $color-100: 			#f5f5f5;
-$color-200: 			#e0e0e0;
-$color-300: 			#cccccc;
+$color-200: 			#e3e3e3;
+$color-300: 			#c8c8c8;
 $color-400: 			#a3a3a3;
 $color-500: 			#7a7a7a;
 $color-600: 			#525252;
@@ -93,14 +41,10 @@ $color-text-dark: 		$color-800;
 $color-text: 			$color-600;
 $color-text-light: 		$color-500;
 $color-text-lighter: 	$color-400;
-$color-text-tint: 		$tint-50;
-$color-text-shade: 		$shade-50;
 
 $color-border-dark: 	$color-400;
 $color-border: 			$color-300;
 $color-border-light: 	$color-200;
-$color-border-tint: 	$tint-10;
-$color-border-shade: 	$shade-10;
 
 $color-dribbble: 		#ea4c89;
 $color-facebook: 		#3b5998;

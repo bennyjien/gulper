@@ -6,7 +6,7 @@
 
 	&:before {
 		content: "";
-		border: 1px solid $shade-10;
+		border: 1px solid rgba($black, 0.1);
 		bottom: 0;
 		left: 0;
 		position: absolute;
@@ -19,9 +19,9 @@
 	&:after {
 		content: "";
 		animation: walker-spin 1.5s infinite linear;
-		border-left: 3px solid $shade-20;
-		border-bottom: 3px solid $shade-20;
-		border-right: 3px solid $shade-20;
+		border-left: 3px solid rgba($black, 0.2);
+		border-bottom: 3px solid rgba($black, 0.2);
+		border-right: 3px solid rgba($black, 0.2);
 		border-top: 3px solid $color-one-500;
 		border-radius: 100%;
 		display: block;

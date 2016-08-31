@@ -59,42 +59,18 @@
 	}
 }
 
-// HELPER
+// BOX SHADOW
 
-@mixin clearfix {
-
-	&:before,
-	&:after {
-		content: "";
-		display: table;
-	}
-
-	&:after {
-		clear: both;
-	}
+@mixin box-shadow-400 {
+	box-shadow: 0 0 2px rgba($black, 0.1), 0 0 8px rgba($black, 0.1);
 }
 
-@mixin hidden {
-	border: 0;
-	clip: rect(0, 0, 0, 0);
-	height: 1px;
-	margin: -1px;
-	overflow: hidden;
-	padding: 0;
-	position: absolute;
-	width: 1px;
+@mixin box-shadow-500 {
+	box-shadow: 0 0 4px rgba($black, 0.1), 0 0 12px rgba($black, 0.1);
 }
 
-@mixin ellipsis {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
-
-@mixin hyphenate {
-	overflow-wrap: break-word;
-	word-wrap: break-word;
-	//hyphens: auto;
+@mixin box-shadow-600 {
+	box-shadow: 0 0 4px rgba($black, 0.1), 0 0 12px rgba($black, 0.2);
 }
 
 // TYPOGRAPHY
@@ -202,4 +178,42 @@
 @mixin font-size-h6 {
 	font-size: $font-size-h6;
 	line-height: $line-height-h6;
+}
+
+@mixin ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+@mixin hyphenate {
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	//hyphens: auto;
+}
+
+// HELPER
+
+@mixin clearfix {
+
+	&:before,
+	&:after {
+		content: "";
+		display: table;
+	}
+
+	&:after {
+		clear: both;
+	}
+}
+
+@mixin hidden {
+	border: 0;
+	clip: rect(0, 0, 0, 0);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
 }

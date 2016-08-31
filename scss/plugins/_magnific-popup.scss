@@ -2,7 +2,7 @@
 	background: $black;
 	height: 100%;
 	left: 0;
-	opacity: $opacity-60;
+	opacity: 0.6;
 	overflow: hidden;
 	position: fixed;
 	top: 0;
@@ -14,7 +14,7 @@
 		transition: all 0.2s $ease;
 
 		&.mfp-ready {
-			opacity: $opacity-60;
+			opacity: 0.6;
 		}
 
 		&.mfp-removing {
@@ -235,7 +235,7 @@ button::-moz-focus-inner {
 	font-size: 36px;
 	height: 1em;
 	line-height: 1em;
-	opacity: $opacity-60;
+	opacity: 0.5;
 	padding: 0;
 	position: absolute;
 	right: 0;
@@ -263,7 +263,7 @@ button::-moz-focus-inner {
 
 .mfp-counter {
 	@include font-size-200;
-	color: $tint-50;
+	color: rgba($white, 0.5);
 	position: absolute;
 	right: 0;
 	top: 0;
@@ -275,7 +275,7 @@ button::-moz-focus-inner {
 	height: 100px;
 	margin: 0;
 	margin-top: -50px;
-	opacity: $opacity-60;
+	opacity: 0.6;
 	padding: 0;
 	position: absolute;
 	top: 50%;
@@ -346,7 +346,7 @@ button::-moz-focus-inner {
 
 	iframe {
 		background: $black;
-		box-shadow: 0 0 8px $shade-50;
+		box-shadow: 0 0 8px rgba($black, 0.5);
 		display: block;
 		height: 100%;
 		left: 0;
@@ -373,7 +373,7 @@ button::-moz-focus-inner {
 		content: "";
 		background: $color-700;
 		bottom: 40px;
-		box-shadow: 0 0 8px $shade-50;
+		box-shadow: 0 0 8px rgba($black, 0.5);
 		display: block;
 		height: auto;
 		left: 0;

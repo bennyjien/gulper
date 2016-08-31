@@ -1,12 +1,15 @@
-.entry-header {
-	margin-bottom: 24px;
+.wordpress-post-container {
 
-	.title {
-		margin-bottom: 4px;
+	.header {
+		margin-bottom: 24px;
+
+		.title {
+			margin-bottom: 4px;
+		}
 	}
 }
 
-.entry-content {
+.wordpress-post {
 	@include clearfix;
 
 	.aligncenter {
@@ -143,7 +146,7 @@
 	}
 
 	.gallery-caption {
-		background-color: $shade-10;
+		background-color: rgba($black, 0.1);
 		bottom: 1px;
 		left: 1px;
 		position: absolute;

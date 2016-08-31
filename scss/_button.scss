@@ -82,11 +82,11 @@
 
 		&:hover,
 		&:focus {
-			background-color: lighten($color-success, $opacity-10-percent);
+			background-color: lighten($color-success, 10%);
 		}
 
 		&:active {
-			background-color: darken($color-success, $opacity-10-percent);
+			background-color: darken($color-success, 10%);
 		}
 	}
 
@@ -95,11 +95,11 @@
 
 		&:hover,
 		&:focus {
-			background-color: lighten($color-warning, $opacity-10-percent);
+			background-color: lighten($color-warning, 10%);
 		}
 
 		&:active {
-			background-color: darken($color-warning, $opacity-10-percent);
+			background-color: darken($color-warning, 10%);
 		}
 	}
 
@@ -108,11 +108,11 @@
 
 		&:hover,
 		&:focus {
-			background-color: lighten($color-alert, $opacity-10-percent);
+			background-color: lighten($color-alert, 10%);
 		}
 
 		&:active {
-			background-color: darken($color-alert, $opacity-10-percent);
+			background-color: darken($color-alert, 10%);
 		}
 	}
 

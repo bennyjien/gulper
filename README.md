@@ -31,6 +31,15 @@ Have fun! :)
 
 ## CHANGELOG
 
+1.0.6 (Aug 31, 2016)
++ Rewrite Documentation
++ Rename entry.scss to wordpress.scss
++ variables.scss: remove opacity, tint, and shade variables (rather than using fixed variable, try to adjust opacity visually)
++ mixins.scss: add box-shadow mixins
++ table.scss: *NEW*
++ wrapper.scss: *REMOVED*
++ style.js: add GSAP to js-toggle-hover
+
 1.0.5 (Aug 27, 2016)
 + Add ScrollMagic.min.js and its plugins
 + Remove Font Awesome

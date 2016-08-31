@@ -78,8 +78,8 @@
 	.woocommerce-message {
 		@include clearfix;
 		background: $white;
-		box-shadow: 0 1px 2px $shade-20;
-		color: $shade-50;
+		box-shadow: 0 1px 2px rgba($black, 0.2);
+		color: rgba($black, 0.5);
 		list-style: none;
 		margin: 0 0 24px;
 		padding: 16px 16px 16px 64px;
@@ -142,7 +142,7 @@
 
 	.note {
 		@include font-size-200;
-		color: $shade-50;
+		color: rgba($black, 0.5);
 		display: block;
 		margin-top: 24px;
 	}
@@ -150,11 +150,11 @@
 	.woocommerce-breadcrumb {
 		@include clearfix;
 		@include font-size-200;
-		color: $shade-50;
+		color: rgba($black, 0.5);
 		margin: 0 0 3px;
 
 		a {
-			color: $shade-60;
+			color: rgba($black, 0.6);
 		}
 	}
 
@@ -179,7 +179,7 @@
 
 			del {
 				@include font-size-200;
-				color: $shade-20;
+				color: rgba($black, 0.2);
 			}
 		}
 
@@ -196,7 +196,7 @@
 			margin-bottom: 48px;
 
 			img {
-				box-shadow: inset 0 0 0 1px $shade-10;
+				box-shadow: inset 0 0 0 1px rgba($black, 0.1);
 				display: block;
 				padding: 1px;
 				transition: all 0.2s $ease;
@@ -245,7 +245,7 @@
 
 				&:before {
 					content: "";
-					border-bottom: 1px solid $shade-10;
+					border-bottom: 1px solid rgba($black, 0.1);
 					bottom: 0;
 					left: 0;
 					position: absolute;
@@ -254,8 +254,8 @@
 				}
 
 				li {
-					background-color: $shade-10;
-					border: 1px solid $shade-10;
+					background-color: rgba($black, 0.1);
+					border: 1px solid rgba($black, 0.1);
 					border-bottom: 0;
 					border-top-left-radius: 4px;
 					border-top-right-radius: 4px;
@@ -269,17 +269,17 @@
 						z-index: 2;
 
 						a {
-							color: $shade-60;
+							color: rgba($black, 0.6);
 
 							&:hover {
-								color: $shade-60;
+								color: rgba($black, 0.6);
 							}
 						}
 					}
 
 					a {
 						@include font-size-200;
-						color: $shade-60;
+						color: rgba($black, 0.6);
 						display: inline-block;
 						font-weight: 700;
 						outline: none;
@@ -288,7 +288,7 @@
 						transition: all 0.2s $ease;
 
 						&:hover {
-							color: $shade-50;
+							color: rgba($black, 0.5);
 						}
 					}
 				}
@@ -398,12 +398,12 @@
 
 		> span {
 			@include font-size-200;
-			color: $shade-50;
+			color: rgba($black, 0.5);
 			display: block;
 
 			a,
 			span {
-				color: $shade-60;
+				color: rgba($black, 0.6);
 				font-weight: 700;
 			}
 		}
@@ -448,7 +448,7 @@
 
 				.count {
 					background-color: transparent;
-					color: $shade-50;
+					color: rgba($black, 0.5);
 				}
 			}
 
@@ -459,12 +459,12 @@
 					text-decoration: none;
 
 					img {
-						box-shadow: inset 0 0 0 1px $shade-10, 0 2px 4px $shade-10;
+						box-shadow: inset 0 0 0 1px rgba($black, 0.1), 0 2px 4px rgba($black, 0.1);
 					}
 				}
 
 				img {
-					box-shadow: inset 0 0 0 1px $shade-10;
+					box-shadow: inset 0 0 0 1px rgba($black, 0.1);
 					display: block;
 					margin: 0 0 12px;
 					padding: 1px;
@@ -493,7 +493,7 @@
 				.from {
 					@include font-size-200;
 					text-transform: uppercase;
-					color: $shade-50;
+					color: rgba($black, 0.5);
 				}
 			}
 		}
@@ -562,7 +562,7 @@
 			&:before {
 				content: "";
 				bottom: 0;
-				background: url("../../plugins/woocommerce/assets/images/ajax-loader.gif") center no-repeat $tint-60;
+				background: url("../../plugins/woocommerce/assets/images/ajax-loader.gif") center no-repeat rgba($white, 0.6);
 				left: 0;
 				position: absolute;
 				right: 0;
@@ -574,7 +574,7 @@
 
 			&:before {
 				content: "\e017";
-				color: $shade-50;
+				color: rgba($black, 0.5);
 				font-family: WooCommerce;
 				position: absolute;
 				right: -24px;
@@ -614,10 +614,10 @@
 
 		.qty {
 			-moz-appearance: textfield;
-			border: 1px solid $shade-10;
+			border: 1px solid rgba($black, 0.1);
 			border-right: 0;
 			border-radius: 2px 0 0 2px;
-			box-shadow: inset 0 0 2px $shade-10;
+			box-shadow: inset 0 0 2px rgba($black, 0.1);
 			float: left;
 			font-weight: 700;
 			height: 32px;
@@ -629,9 +629,9 @@
 		.minus,
 		.plus {
 			background-color: $color-300;
-			border: 1px solid $shade-10;
+			border: 1px solid rgba($black, 0.1);
 			border-radius: 0 2px 2px 0;
-			color: $shade-50;
+			color: rgba($black, 0.5);
 			cursor: pointer;
 			display: block;
 			font-size: 12px;
@@ -672,12 +672,12 @@
 
 			small {
 				@include font-size-200;
-				color: $shade-50;
+				color: rgba($black, 0.5);
 				float: right;
 				margin: 8px 0 0;
 
 				a {
-					color: $shade-60;
+					color: rgba($black, 0.6);
 					text-decoration: none;
 				}
 			}
@@ -717,12 +717,12 @@
 
 					.meta {
 						@include font-size-200;
-						color: $shade-50;
+						color: rgba($black, 0.5);
 					}
 
 					.avatar {
 						background-color: $color-300;
-						border: 1px solid $shade-50;
+						border: 1px solid rgba($black, 0.5);
 						height: auto;
 						float: left;
 						left: 0;
@@ -733,7 +733,7 @@
 
 					.comment-text {
 						@include clearfix;
-						border: 1px solid $shade-10;
+						border: 1px solid rgba($black, 0.1);
 						margin: 0 0 0 48px;
 						padding: 16px;
 
@@ -753,7 +753,7 @@
 				}
 
 				#respond {
-					border: 1px solid $shade-10;
+					border: 1px solid rgba($black, 0.1);
 					margin: 16px 0 0 48px;
 					padding: 16px;
 				}
@@ -762,7 +762,7 @@
 	}
 
 	#review_form_wrapper {
-		border-top: 1px solid $shade-10;
+		border-top: 1px solid rgba($black, 0.1);
 		margin-top: 24px;
 		padding-top: 24px;
 	}
@@ -778,7 +778,7 @@
 
 		&:before {
 			content: "\73\73\73\73\73";
-			color: $shade-20;
+			color: rgba($black, 0.2);
 			float: left;
 			left: 0;
 			position: absolute;
@@ -875,7 +875,7 @@
 			&.star-3,
 			&.star-4,
 			&.star-5 {
-				border-right: 1px solid $shade-10;
+				border-right: 1px solid rgba($black, 0.1);
 
 				&:after {
 					font-family: WooCommerce;
@@ -971,13 +971,13 @@
 
 	.shop_attributes {
 		border: 0;
-		border-top: 1px dotted $shade-10;
+		border-top: 1px dotted rgba($black, 0.1);
 		margin-bottom: 24px;
 		width: 100%;
 
 		th {
 			border-top: 0;
-			border-bottom: 1px dotted $shade-10;
+			border-bottom: 1px dotted rgba($black, 0.1);
 			font-weight: 700;
 			margin: 0;
 			padding: 8px;
@@ -986,7 +986,7 @@
 
 		td {
 			border-top: 0;
-			border-bottom: 1px dotted $shade-10;
+			border-bottom: 1px dotted rgba($black, 0.1);
 			font-style: italic;
 			margin: 0;
 			padding: 0;
@@ -1001,13 +1001,13 @@
 
 			td,
 			th {
-				background-color: $shade-20;
+				background-color: rgba($black, 0.2);
 			}
 		}
 	}
 
 	.shop_table {
-		border: 1px solid $shade-10;
+		border: 1px solid rgba($black, 0.1);
 		border-collapse: separate;
 		margin: 0 0 24px 0;
 		text-align: left;
@@ -1022,7 +1022,7 @@
 		}
 
 		td {
-			border-top: 1px solid $shade-10;
+			border-top: 1px solid rgba($black, 0.1);
 			padding: 8px;
 			vertical-align: middle;
 
@@ -1035,7 +1035,7 @@
 
 			td,
 			th {
-				border-top: 1px solid $shade-10;
+				border-top: 1px solid rgba($black, 0.1);
 				font-weight: 700;
 			}
 		}
@@ -1166,7 +1166,7 @@
 		li {
 
 			+ li {
-				border-top: 1px solid $shade-10;
+				border-top: 1px solid rgba($black, 0.1);
 				margin-top: 12px;
 				padding-top: 12px;
 			}
@@ -1177,7 +1177,7 @@
 			}
 
 			img {
-				box-shadow: inset 0 0 0 1px $shade-10;
+				box-shadow: inset 0 0 0 1px rgba($black, 0.1);
 				display: none;
 				float: right;
 				margin-left: 8px;
@@ -1191,7 +1191,7 @@
 
 			dl {
 				@include clearfix;
-				border-left: 2px solid $shade-10;
+				border-left: 2px solid rgba($black, 0.1);
 				margin: 0;
 				padding-left: 16px;
 
@@ -1224,7 +1224,7 @@
 	&.widget_shopping_cart {
 
 		.total {
-			border-top: 3px double $shade-20;
+			border-top: 3px double rgba($black, 0.2);
 			margin-top: 12px;
 			padding-top: 12px;
 
@@ -1291,7 +1291,7 @@
 
 				small {
 					@include font-size-200;
-					color: $shade-50;
+					color: rgba($black, 0.5);
 				}
 			}
 
@@ -1319,7 +1319,7 @@
 				}
 
 				small {
-					color: $shade-50;
+					color: rgba($black, 0.5);
 					display: block;
 				}
 
@@ -1332,7 +1332,7 @@
 
 				td,
 				th {
-					border-top: 1px solid $shade-10;
+					border-top: 1px solid rgba($black, 0.1);
 				}
 			}
 
@@ -1367,7 +1367,7 @@
 		&.checkout_coupon,
 		&.login,
 		&.register {
-			border: 1px solid $shade-10;
+			border: 1px solid rgba($black, 0.1);
 			margin: 0 0 24px;
 			padding: 24px;
 			text-align: left;
@@ -1473,7 +1473,7 @@
 
 			small {
 				@include font-size-200;
-				color: $shade-50;
+				color: rgba($black, 0.5);
 				font-weight: 400;
 			}
 		}
@@ -1486,11 +1486,11 @@
 	}
 
 	#payment {
-		background: $shade-10;
+		background: rgba($black, 0.1);
 
 		.payment_methods {
 			@include clearfix;
-			border-bottom: 1px solid $shade-10;
+			border-bottom: 1px solid rgba($black, 0.1);
 			list-style: none;
 			margin: 0;
 			padding: 16px;
@@ -1517,8 +1517,8 @@
 
 		.payment_box {
 			@include font-size-200;
-			background-color: $tint-60;
-			color: $shade-50;
+			background-color: rgba($white, 0.6);
+			color: rgba($black, 0.5);
 			margin: 16px 0;
 			padding: 24px;
 			position: relative;
@@ -1526,7 +1526,7 @@
 
 			&:after {
 				content: "";
-				border: 8px solid $tint-60;
+				border: 8px solid rgba($white, 0.6);
 				border-right-color: transparent;
 				border-left-color: transparent;
 				border-top-color: transparent;
@@ -1578,7 +1578,7 @@
 
 			.help {
 				@include font-size-200;
-				color: $shade-50;
+				color: rgba($black, 0.5);
 			}
 
 			.form-row {
@@ -1595,7 +1595,7 @@
 
 		li {
 			@include font-size-200;
-			border-right: 1px dashed $shade-10;
+			border-right: 1px dashed rgba($black, 0.1);
 			float: left;
 			margin-right: 24px;
 			text-transform: uppercase;
@@ -1683,7 +1683,7 @@
 
 					a {
 						background: $color-success;
-						border: 1px solid $shade-20;
+						border: 1px solid rgba($black, 0.2);
 						color: $white;
 						padding: 0 8px;
 						text-decoration: none;
@@ -1709,7 +1709,7 @@
 
 			.count {
 				@include font-size-500;
-				color: $shade-50;
+				color: rgba($black, 0.5);
 				float: right;
 				margin-left: 8px;
 				padding: 1px 0;
@@ -1732,7 +1732,7 @@
 
 				a {
 					background: $color-success;
-					border: 1px solid $shade-20;
+					border: 1px solid rgba($black, 0.2);
 					color: $white;
 					float: left;
 					padding: 0 6px;
@@ -1768,8 +1768,8 @@
 		}
 
 		.ui-slider {
-			background-color: $shade-10;
-			box-shadow: 12px 0 0 $shade-10;
+			background-color: rgba($black, 0.1);
+			box-shadow: 12px 0 0 rgba($black, 0.1);
 			height: 8px;
 			margin: 3px 0 19px;
 			position: relative;
@@ -1779,7 +1779,7 @@
 
 			.ui-slider-handle {
 				background: $color-success;
-				border: 1px solid $shade-20;
+				border: 1px solid rgba($black, 0.2);
 				border-radius: 16px;
 				cursor: pointer;
 				height: 12px;
@@ -1901,7 +1901,7 @@
 
 	.related,
 	.upsells.products {
-		border-top: 1px solid $shade-10;
+		border-top: 1px solid rgba($black, 0.1);
 		margin-top: 48px;
 		padding-top: 48px;
 	}
