@@ -1,7 +1,8 @@
-.thumbnail {
+.thumbnail-square {
 	background-color: $white;
 	display: block;
 	overflow: hidden;
+	padding-bottom: 100%;
 	position: relative;
 
 	&:before {
@@ -37,17 +38,9 @@
 
 	img {
 		left: 0;
-		position: relative;
+		position: absolute;
 		top: 0;
 		width: 100%;
 		z-index: 2;
-	}
-
-	&.thumbnail-square {
-		padding-bottom: 100%;
-
-		img {
-			position: absolute;
-		}
 	}
 }

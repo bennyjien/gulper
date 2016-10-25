@@ -1,4 +1,4 @@
-.tooltip {
+.tooltip-inline {
 	border-bottom: 1px dotted $color-500;
 	position: relative;
 
@@ -64,7 +64,7 @@
 		}
 	}
 
-	&.tooltip-right {
+	&.tooltip-inline-right {
 
 		&:hover {
 

@@ -12,6 +12,11 @@
 	@include hidden;
 }
 
+.is-disabled {
+	opacity: $opacity-50;
+	pointer-events: none;
+}
+
 .is-loading {
 	position: relative;
 

@@ -130,6 +130,10 @@ a {
 	color: $color-one-500;
 	text-decoration: none;
 
+	&:visited {
+		color: $color-one-500;
+	}
+
 	&:hover,
 	&:focus {
 		color: $color-one-400;

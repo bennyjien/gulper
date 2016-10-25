@@ -1,4 +1,4 @@
-.form-groups {
+.form-elements {
 	margin-bottom: 16px;
 	position: relative;
 
@@ -11,7 +11,7 @@
 		flex-wrap: wrap;
 	}
 
-	.form-group {
+	.form-element {
 
 		@include breakpoint(crawler) {
 			flex: 1 1 0;
@@ -25,7 +25,7 @@
 	}
 }
 
-.form-group {
+.form-element {
 	margin-bottom: 16px;
 	position: relative;
 
@@ -69,7 +69,82 @@
 		color: $color-alert;
 	}
 
-	&.form-group-right {
+	&.form-element-submit {
 		text-align: right;
 	}
 }
+
+.form-checkbox {
+	align-items: baseline;
+	display: flex;
+
+	.input {
+		flex: 0 0 auto;
+		margin-right: 6px;
+		width: auto;
+	}
+
+	.label {
+		flex: 1 1 auto;
+	}
+}
+
+.form-file {
+
+	.js & {
+
+		input[type="file"] {
+			@include hidden;
+		}
+	}
+
+	.no-js & {
+
+		.label {
+			display: none;
+		}
+	}
+
+	.label {
+		cursor: pointer;
+		display: inline-block;
+		overflow: hidden;
+		text-overflow: ellipsis;
+
+		&:hover {
+
+			.button {
+				background-color: $color-500;
+			}
+		}
+
+		> * {
+			pointer-events: none;
+		}
+	}
+
+	.button {
+		@include font-size-400;
+		background-color: $color-400;
+		color: $white;
+		margin-right: 4px;
+		padding: 6px 12px;
+
+		&:hover {
+			background-color: $color-500;
+		}
+	}
+
+	.caption {
+		@include font-size-400;
+		color: $color-text-light;
+		display: inline-block;
+		vertical-align: middle;
+
+		&.has-caption {
+			color: $color-text;
+		}
+	}
+}
+
+.form-inputs {}

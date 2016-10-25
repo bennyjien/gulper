@@ -8,11 +8,6 @@ jQuery(document).ready(function($) {
 	// initialize FastClick (use .needsclick if click is required)
 	FastClick.attach(document.body);
 
-	// disable input inside .is-disabled
-	$('.is-disabled').on('keydown', 'input', function(e) {
-		e.preventDefault();
-	});
-
 	// initialize Flickity
 	var $slider = $('.js-slider').find('.slides').flickity({
 		imagesLoaded: true,

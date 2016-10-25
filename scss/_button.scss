@@ -12,9 +12,12 @@
 	vertical-align: middle;
 	white-space: nowrap;
 
-	&:hover,
-	&:focus,
 	&:visited {
+		background-color: $color-one-500;
+	}
+
+	&:hover,
+	&:focus {
 		background-color: $color-one-400;
 		color: $white;
 		outline: 0;

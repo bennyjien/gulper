@@ -31,6 +31,13 @@ Have fun! :)
 
 ## CHANGELOG
 
+1.0.7 (Oct 25, 2016)
++ Move jquery to header
++ Update flickity.js to 2.0.5
++ style.css: update class naming
++ style.js: rewrite switchFunction & toggleFunction
++ gulpfile.js & package.json: updated
+
 1.0.6 (Aug 31, 2016)
 + Rewrite Documentation
 + Rename entry.scss to wordpress.scss

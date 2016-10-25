@@ -1,7 +1,11 @@
-.list {
+.list-inline {
 	list-style: none;
 	margin: 0;
 	padding: 0;
+
+	.item {
+		display: inline-block;
+	}
 }
 
 .list-ordered,
@@ -10,7 +14,7 @@
 	padding-left: 24px;
 	text-indent: -24px;
 
-	li {
+	.item {
 
 		&:before {
 			content: "\2022";
@@ -24,7 +28,7 @@
 
 .list-ordered {
 
-	li {
+	.item {
 		counter-increment: list-ordered;
 
 		&:before {

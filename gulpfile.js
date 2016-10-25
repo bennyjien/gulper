@@ -1,7 +1,7 @@
 var gulp = require('gulp');
 var gulpIf = require('gulp-if');
-var notify = require("gulp-notify");
-var rename = require("gulp-rename");
+var notify = require('gulp-notify');
+var rename = require('gulp-rename');
 var kit = require('gulp-kit');
 var sass = require('gulp-sass');
 var useref = require('gulp-useref');
@@ -31,7 +31,7 @@ gulp.task('browserSync', function() {
 		server: {
 			baseDir: 'dist/',
 		},
-		browser: "google chrome",
+		browser: 'google chrome',
 		notify: {
 			styles: {
 				borderRadius: '8px 0 0',
@@ -46,7 +46,7 @@ gulp.task('browserSync', function() {
 gulp.task('kit-js-dist', function() {
 	return gulp.src('kit/**/*.kit')
 		.pipe(kit())
-		.pipe(prettify({indent_size: 4}))
+		.pipe(prettify({indent_size: 4, preserve_newlines: true, unformatted: ['a', 'span', 'img', 'code', 'pre', 'sub', 'sup', 'em', 'strong', 'b', 'i', 'u', 'strike', 'big', 'small', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'svg','br', 'label', 'input']}))
 		.pipe(useref({ searchPath: './' }))
 		.pipe(gulpIf('*.js', uglify()))
 		.pipe(gulp.dest('dist/'));
@@ -122,7 +122,14 @@ gulp.task('doc-sass', function() {
 // 	.pipe(browserSync.stream());
 // });
 
-gulp.task('svg-sprite', function() {
+gulp.task('svg', function() {
+	return gulp.src('assets/images/**/*.svg')
+	.pipe(svgo())
+	.pipe(gulp.dest('dist/assets/images/'))
+	.pipe(browserSync.stream());
+});
+
+gulp.task('svg-sprite', ['svg'], function() {
 	return gulp.src('assets/images/**/*.svg')
 	.pipe(svgo())
 	.pipe(svgSymbols())
@@ -152,7 +159,7 @@ gulp.task('uploads', function() {
 // Watching for changes
 gulp.task('watch', function() {
 	gulp.watch('kit/**/*.kit', ['kit-reload']);
-	gulp.watch('scss/*.scss', ['sass' , 'doc-sass']);
+	gulp.watch('scss/**/*.scss', ['sass' , 'doc-sass']);
 	gulp.watch('js/**/*.js', ['js-reload']);
 	gulp.watch('_doc/*.kit', ['doc-kit-reload']);
 	gulp.watch('_doc/*.scss', ['doc-sass']);
