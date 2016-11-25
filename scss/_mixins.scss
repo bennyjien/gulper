@@ -2,7 +2,7 @@
 
 @mixin breakpoint($zombie) {
 	@if $zombie == creeper {
-		@media only screen and (min-width: 480px) { @content; }
+		@media only screen and (min-width: 414px) { @content; }
 	}
 	@else if $zombie == crawler {
 		@media only screen and (min-width: 640px) { @content; }

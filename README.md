@@ -31,6 +31,16 @@ Have fun! :)
 
 ## CHANGELOG
 
+1.0.9 (Nov 25, 2016)
++ /root: Update favicon
++ footer.kit: remove instantClick.js
++ mixins.scss: change creeper breakpoint 480px to 414px
++ Various small fix
+
+1.0.8 (Oct 26, 2016)
++ Add symbols folder inside assets/images to hold SVG symbols
++ Update gulpfile.js to reflect above change
+
 1.0.7 (Oct 25, 2016)
 + Move jquery to header
 + Update flickity.js to 2.0.5
