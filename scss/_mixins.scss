@@ -1,61 +1,66 @@
+// FUNCTIONS
+@function strip-unit($value) {
+	@return $value / ($value * 0 + 1);
+}
+
 // BREAKPOINT
 
 @mixin breakpoint($zombie) {
 	@if $zombie == creeper {
-		@media only screen and (min-width: 414px) { @content; }
+		@media screen and (min-width: 414px) { @content; }
 	}
 	@else if $zombie == crawler {
-		@media only screen and (min-width: 640px) { @content; }
+		@media screen and (min-width: 640px) { @content; }
 	}
 	@else if $zombie == walker {
-		@media only screen and (min-width: 768px) { @content; }
+		@media screen and (min-width: 768px) { @content; }
 	}
 	@else if $zombie == runner {
-		@media only screen and (min-width: 1024px) { @content; }
+		@media screen and (min-width: 1024px) { @content; }
 	}
 	@else if $zombie == jumper {
-		@media only screen and (min-width: 1120px) { @content; }
+		@media screen and (min-width: 1120px) { @content; }
 	}
 	@else if $zombie == flyer {
-		@media only screen and (min-width: 1280px) { @content; }
+		@media screen and (min-width: 1280px) { @content; }
 	}
 	@else if $zombie == teleporter {
-		@media only screen and (min-width: 1440px) { @content; }
+		@media screen and (min-width: 1440px) { @content; }
 	}
 	@else if $zombie == demigod {
-		@media only screen and (min-width: 1600px) { @content; }
+		@media screen and (min-width: 1600px) { @content; }
 	}
 	@else if $zombie == god {
-		@media only screen and (min-width: 1920px) { @content; }
+		@media screen and (min-width: 1920px) { @content; }
 	}
 	@else if $zombie == creeper-crawler {
-		@media only screen and (min-width: 480px) and (max-width: 639px) { @content; }
+		@media screen and (min-width: 480px) and (max-width: 639px) { @content; }
 	}
 	@else if $zombie == crawler-walker {
-		@media only screen and (min-width: 640px) and (max-width: 767px) { @content; }
+		@media screen and (min-width: 640px) and (max-width: 767px) { @content; }
 	}
 	@else if $zombie == walker-runner {
-		@media only screen and (min-width: 768px) and (max-width: 1023px) { @content; }
+		@media screen and (min-width: 768px) and (max-width: 1023px) { @content; }
 	}
 	@else if $zombie == runner-jumper {
-		@media only screen and (min-width: 1024px) and (max-width: 1119px) { @content; }
+		@media screen and (min-width: 1024px) and (max-width: 1119px) { @content; }
 	}
 	@else if $zombie == jumper-flyer {
-		@media only screen and (min-width: 1152px) and (max-width: 1279px) { @content; }
+		@media screen and (min-width: 1152px) and (max-width: 1279px) { @content; }
 	}
 	@else if $zombie == flyer-teleporter {
-		@media only screen and (min-width: 1280px) and (max-width: 1339px) { @content; }
+		@media screen and (min-width: 1280px) and (max-width: 1339px) { @content; }
 	}
 	@else if $zombie == teleporter-demigod {
-		@media only screen and (min-width: 1440px) and (max-width: 1599px) { @content; }
+		@media screen and (min-width: 1440px) and (max-width: 1599px) { @content; }
 	}
 	@else if $zombie == demigod-god {
-		@media only screen and (min-width: 1600px) and (max-width: 1919px) { @content; }
+		@media screen and (min-width: 1600px) and (max-width: 1919px) { @content; }
 	}
 	@else if $zombie == watcher {
-		@media only screen and (-o-min-device-pixel-ratio: 1.5),
-			   only screen and (-webkit-min-device-pixel-ratio: 1.5),
-			   only screen and (min-resolution: 144dpi) { @content; }
+		@media screen and (-o-min-device-pixel-ratio: 1.5),
+			   screen and (-webkit-min-device-pixel-ratio: 1.5),
+			   screen and (min-resolution: 144dpi) { @content; }
 	}
 }
 
@@ -74,6 +79,18 @@
 }
 
 // TYPOGRAPHY
+
+@mixin font-fluid($min-vw, $max-vw, $min-value, $max-value) {
+	font-size: $min-value;
+
+	@media screen and (min-width: $min-vw) {
+		font-size: calc(#{$min-value} + #{strip-unit($max-value - $min-value)} * (100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)});
+	}
+
+	@media screen and (min-width: $max-vw) {
+		font-size: $max-value;
+	}
+}
 
 @mixin font-size-100 {
 	font-size: $font-size-100;

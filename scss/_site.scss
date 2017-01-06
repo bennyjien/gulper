@@ -1,3 +1,5 @@
+// CONTAINER CLASS
+
 .site {
 	background-color: $color-background;
 	display: flex;
@@ -16,61 +18,6 @@
 		top: 0;
 		width: 100%;
 		z-index: -1;
-	}
-}
-
-.site-header {
-	background-color: $white;
-	border-bottom: 1px solid rgba($black, 0.1);
-	flex: 0 0 auto;
-	position: relative;
-	width: 100%;
-	z-index: 8;
-
-	> .inner {
-		align-items: center;
-		display: flex;
-	}
-}
-
-.site-content {
-	display: flex;
-	flex: 1 0 auto;
-	flex-direction: column;
-	position: relative;
-	z-index: 3;
-
-	> .inner {
-		display: flex;
-		flex: 1 1 auto;
-		flex-direction: column;
-		padding-bottom: 48px;
-		padding-top: 48px;
-		width: 100%;
-
-		@include breakpoint(walker) {
-			flex-direction: row;
-			justify-content: space-between;
-		}
-	}
-}
-
-.site-footer {
-	background-color: $color-700;
-	color: $white;
-	flex: 0 0 auto;
-	position: relative;
-	transition: all 0.3s $ease;
-	width: 100%;
-	z-index: 4;
-
-	> .inner {
-		padding-bottom: 24px;
-		padding-top: 24px;
-	}
-
-	a {
-		color: $white;
 	}
 }
 
@@ -100,9 +47,18 @@
 	}
 }
 
-.site-copyright {
-	@include font-size-200;
-	margin: 0;
+.site-header {
+	background-color: $white;
+	border-bottom: 1px solid rgba($black, 0.1);
+	flex: 0 0 auto;
+	position: relative;
+	width: 100%;
+	z-index: 8;
+
+	> .inner {
+		align-items: center;
+		display: flex;
+	}
 }
 
 .site-logo {
@@ -168,4 +124,50 @@
 			font-size: $font-size-500;
 		}
 	}
+}
+
+.site-content {
+	display: flex;
+	flex: 1 0 auto;
+	flex-direction: column;
+	position: relative;
+	z-index: 3;
+
+	> .inner {
+		display: flex;
+		flex: 1 1 auto;
+		flex-direction: column;
+		padding-bottom: 48px;
+		padding-top: 48px;
+		width: 100%;
+
+		@include breakpoint(walker) {
+			flex-direction: row;
+			justify-content: space-between;
+		}
+	}
+}
+
+.site-footer {
+	background-color: $color-700;
+	color: $white;
+	flex: 0 0 auto;
+	position: relative;
+	transition: all 0.3s $ease;
+	width: 100%;
+	z-index: 4;
+
+	> .inner {
+		padding-bottom: 24px;
+		padding-top: 24px;
+	}
+
+	a {
+		color: $white;
+	}
+}
+
+.site-copyright {
+	@include font-size-200;
+	margin: 0;
 }

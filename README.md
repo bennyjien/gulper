@@ -1,16 +1,17 @@
-# Haunter: Gulpy Website Generator
+# Gulper: Gulpy Website Generator
 
-**Haunter is Gulp-based static webpage generator.** It includes HTML boilerplate, not-so-minimal CSS, and some JS scripts for kickstarting web projects. It also includes _Documentation_ template.
+**Gulper is Gulp-based static webpage generator.** It includes HTML boilerplate, not-so-minimal CSS, and some JS scripts for kickstarting web projects. It also includes _Documentation_ template.
 
-Haunter does:
+Gulper does:
 + Live reloading browser
 + Compile kit (http://incident57.com/codekit/help.html#kit) to HTML
 + Compile SCSS to CSS
 + Autoprefix CSS to support last 2 versions
 + Lint, concatenate and uglify JavaScript
-+ Combine SVG files in assets/images/ to SVG Symbol (https://github.com/Hiswe/gulp-svg-symbols)
++ Optimize SVG files with SVGO
++ Combine SVG files in assets/images/symbols/ to SVG Symbol (https://github.com/Hiswe/gulp-svg-symbols)
 
-Haunter doesn't:
+Gulper doesn't:
 + optimize images, use **imageoptim** or **jpegmini**
 + generate favicons, use http://realfavicongenerator.net/
 
@@ -26,10 +27,20 @@ Have fun! :)
 ## KNOWN ISSUES
 
 + svg source without <xml> will fail silently, close and re-run `gulp` if this happens
-+ always useref external script, unbundled script will not included in _dist/_
++ always useref external script, un-useref-ed script will not included in _dist/_
 + to review _doc/_, run `gulp build` since _doc/_ needs bundle.js
 
 ## CHANGELOG
+
+1.1.1 (Jan 6, 2017)
++ HAPPY NEW YEAR! Change name from Haunter to Gulper
++ header.kit: update jquery src from CDN with fallback
++ mixins.scss: add font-fluid mixin
+
+1.1.0 (Dec 20, 2016)
++ .htaccess: updated based on HTML5 Boilerplate
++ index.kit: add guide to write HTML markup
++ Various changes on scss
 
 1.0.9 (Nov 25, 2016)
 + /root: Update favicon
@@ -68,25 +79,20 @@ Have fun! :)
 + style.js: convert VelocityJS-dependant script to TweenMax, rewrite switch and toggle scripts
 
 1.0.3 (Aug 10, 2016)
-+ /scss/plugins/: *NEW*
++ /scss/plugins: *NEW*
 + js.scss: *NEW*
 + script.js & style.js: add `js-` prefix to js selector
-+ Kaizen
++ Various small fix
 
 1.0.2 (Aug 9, 2016)
 + Update readme.md
-+ Kaizen
++ Various small fix
 
 1.0.1 (Aug 6, 2016)
-+ /scss/: rearranged
++ /scss: rearranged
 + style.js: remove unnecessary scripts
 + gulpfile.js: fix bugs
 
 1.0.0 (Jul 14, 2016)
 + Fresh start!
 + Inspired from Walker 2.50
-
-
-## TODO
-
-- look at form.scss
