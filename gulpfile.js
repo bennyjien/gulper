@@ -46,7 +46,7 @@ gulp.task('browserSync', function() {
 gulp.task('kit-js-dist', function() {
 	return gulp.src('kit/**/*.kit')
 		.pipe(kit())
-		.pipe(prettify({indent_size: 4, preserve_newlines: true, unformatted: ['a', 'span', 'img', 'code', 'pre', 'sub', 'sup', 'em', 'strong', 'b', 'i', 'u', 'strike', 'big', 'small', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'svg','br', 'label', 'input']}))
+		.pipe(prettify({indent_char: '\t', indent_size: 1, preserve_newlines: true, unformatted: ['a', 'span', 'img', 'code', 'pre', 'sub', 'sup', 'em', 'strong', 'b', 'i', 'u', 'strike', 'big', 'small', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'svg','br', 'label', 'input'], wrap_line_length: 0}))
 		.pipe(useref({ searchPath: './' }))
 		.pipe(gulpIf('*.js', uglify()))
 		.pipe(gulp.dest('dist/'));
@@ -139,7 +139,7 @@ gulp.task('svg-sprite', ['svg'], function() {
 
 // Copying assets & uploads
 gulp.task('root', function() {
-	return gulp.src('root/**/*')
+	return gulp.src(['root/**/*', 'root/**/.*'])
 		.pipe(gulp.dest('dist/'))
 		.pipe(browserSync.stream());
 });

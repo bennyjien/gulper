@@ -5,9 +5,6 @@
 // initialize when document is ready
 jQuery(document).ready(function($) {
 
-	// initialize FastClick (use .needsclick if click is required)
-	FastClick.attach(document.body);
-
 	// initialize Flickity
 	var $slider = $('.js-slider').find('.slides').flickity({
 		imagesLoaded: true,

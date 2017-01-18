@@ -13,6 +13,24 @@ jQuery(document).ready(function($) {
 	// sticky polyfill
 	$('.js-sticky').Stickyfill();
 
+	// get mouse position (http://www.quirksmode.org/js/events_properties.html#position)
+	function mousePos(e) {
+	    var posX = 0,
+	        posY = 0;
+	    if (!e) e = window.event;
+	    if (e.pageX || e.pageY) {
+	        posX = e.pageX;
+	        posY = e.pageY;
+	    } else if (e.clientX || e.clientY) {
+	        posX = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+	        posY = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+	    }
+	    return {
+	        x: posX,
+	        y: posY
+	    };
+	}
+
 	// input[type="file"] custom
 	 /* <div class="input-file">
 			<input type="file" id="file" name="file" data-multiple-caption="{count} files selected" multiple>

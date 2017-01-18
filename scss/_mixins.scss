@@ -34,7 +34,7 @@
 		@media screen and (min-width: 1920px) { @content; }
 	}
 	@else if $zombie == creeper-crawler {
-		@media screen and (min-width: 480px) and (max-width: 639px) { @content; }
+		@media screen and (min-width: 414px) and (max-width: 639px) { @content; }
 	}
 	@else if $zombie == crawler-walker {
 		@media screen and (min-width: 640px) and (max-width: 767px) { @content; }
@@ -133,13 +133,8 @@
 }
 
 @mixin font-size-900 {
-	font-size: $font-size-h1;
-	line-height: $line-height-h1;
-
-	@include breakpoint(crawler) {
-		font-size: $font-size-900;
-		line-height: $line-height-900;
-	}
+	font-size: $font-size-900;
+	line-height: $line-height-900;
 }
 
 @mixin font-size-h1 {
@@ -209,7 +204,7 @@
 	//hyphens: auto;
 }
 
-// HELPER
+// LAYOUT
 
 @mixin clearfix {
 

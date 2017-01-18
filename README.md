@@ -32,6 +32,16 @@ Have fun! :)
 
 ## CHANGELOG
 
+1.1.3 (Jan 18, 2017)
++ style.js: add script for get mouse position
+
+1.1.2 (Jan 12, 2017)
++ fastclick.js: removed (no longer required)
++ gulpfile.js: updated
++ magnific-popup.js: updated
++ magnific-popup.scss: updated
++ Various changes on scss
+
 1.1.1 (Jan 6, 2017)
 + HAPPY NEW YEAR! Change name from Haunter to Gulper
 + header.kit: update jquery src from CDN with fallback
