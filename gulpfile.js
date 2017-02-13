@@ -3,11 +3,12 @@ var gulpIf = require('gulp-if');
 var notify = require('gulp-notify');
 var rename = require('gulp-rename');
 var kit = require('gulp-kit');
-var sass = require('gulp-sass');
-var useref = require('gulp-useref');
 var prettify = require('gulp-prettify');
+var sass = require('gulp-sass');
 var autoprefixer = require('gulp-autoprefixer');
 var jshint = require('gulp-jshint');
+var useref = require('gulp-useref');
+var babel = require('gulp-babel');
 var uglify = require('gulp-uglify');
 var svg2png = require('gulp-svg2png');
 var svgSymbols = require('gulp-svg-symbols');
@@ -48,6 +49,7 @@ gulp.task('kit-js-dist', function() {
 		.pipe(kit())
 		.pipe(prettify({indent_char: '\t', indent_size: 1, preserve_newlines: true, unformatted: ['a', 'span', 'img', 'code', 'pre', 'sub', 'sup', 'em', 'strong', 'b', 'i', 'u', 'strike', 'big', 'small', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'svg','br', 'label', 'input'], wrap_line_length: 0}))
 		.pipe(useref({ searchPath: './' }))
+		.pipe(gulpIf('bundle.js', babel({ presets: ['es2015'] })))
 		.pipe(gulpIf('*.js', uglify()))
 		.pipe(gulp.dest('dist/'));
 });
@@ -72,7 +74,7 @@ gulp.task('sass', function() {
 
 gulp.task('js-hint', function() {
 	gulp.src(['js/style.js', 'js/script.js'])
-		.pipe(jshint())
+		.pipe(jshint({ esnext: true }))
 		.pipe(jshint.reporter('default'))
 		.pipe(jshint.reporter('fail')).on('error', handleErrors);
 });

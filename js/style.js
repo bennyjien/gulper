@@ -2,282 +2,305 @@
  * Style related scripts including polyfill should be written here
  */
 
-jQuery(document).ready(function($) {
+(function() {
+	"use strict";
 
-	var $window = $(window);
-	var $body = $('body');
+	var $body = document.querySelector('body');
 
 	// svg polyfill
 	svg4everybody();
 
 	// sticky polyfill
-	$('.js-sticky').Stickyfill();
+	var stickyElements = document.getElementsByClassName('js-sticky');
 
-	// get mouse position (http://www.quirksmode.org/js/events_properties.html#position)
-	function mousePos(e) {
-	    var posX = 0,
-	        posY = 0;
-	    if (!e) e = window.event;
-	    if (e.pageX || e.pageY) {
-	        posX = e.pageX;
-	        posY = e.pageY;
-	    } else if (e.clientX || e.clientY) {
-	        posX = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-	        posY = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-	    }
-	    return {
-	        x: posX,
-	        y: posY
-	    };
+	for (var i = stickyElements.length - 1; i >= 0; i--) {
+	    Stickyfill.add(stickyElements[i]);
 	}
 
-	// input[type="file"] custom
-	 /* <div class="input-file">
-			<input type="file" id="file" name="file" data-multiple-caption="{count} files selected" multiple>
-			<label for="file"><span class="button">Browse files</span> <span class="caption">No file selected&hellip;</span></label>
-		</div>
-	 */
-	$('.js-input-file').each(function() {
-		var $input  = $(this).find('input'),
-			$label = $input.next('label'),
-			labelVal = $label.html();
+	// scroll to targeted id
+	function scrollTo(event, element) {
+		const scrollTarget = element.dataset.scrollTarget || element.hash || '',
+			  $scrollTarget = document.querySelector(`[id='${scrollTarget.substring(1)}']`),
+			  scrollDuration = element.dataset.scrollDuration || 0.4,
+			  $offset = document.querySelector(element.dataset.scrollOffset) || '',
+			  offset = $offset.offsetHeight || 0;
 
-		$input.on('change', function(e) {
-			var fileName = '';
-
-			if (this.files && this.files.length > 1) {
-				fileName = (this.getAttribute('data-multiple-caption') || '').replace('{count}', this.files.length);
-			}
-			else if (e.target.value) {
-				fileName = e.target.value.split('\\').pop();
-			}
-
-			if (fileName) {
-				$label.find('.caption').html(fileName).addClass('has-caption');
-			}
-			else {
-				$label.html(labelVal);
-			}
-		});
-	});
+		if ($scrollTarget) {
+			TweenMax.to(window, scrollDuration, { scrollTo:{ y: scrollTarget, offsetY: offset } });
+			event.preventDefault();
+		}
+	}
 
 	// init ScrollMagic
-	var sceneController = new ScrollMagic.Controller();
+	var sceneController = new ScrollMagic.Controller(),
+		$scenes = document.querySelectorAll('.js-scene');
 
-	$('.js-scene').each(function() {
-	    var scene = new ScrollMagic.Scene({ triggerElement: this, reverse: false })
-	        .setClassToggle(this, 'in-viewport')
+	$scenes.forEach(scene => {
+		var sceneElement = new ScrollMagic.Scene({ triggerElement: scene, reverse: false })
+			.setClassToggle(scene, 'in-viewport')
 			.addIndicators()
-	        .addTo(sceneController);
+			.addTo(sceneController);
 	});
 
-	// scroll to function (link will scroll to href)
-	/* data-scroll-offset="[selector]" -> offset of selector height
+	// scroller function
+	/* data-scroll-target="[selector]" -> scroll to target
+	   data-scroll-offset="[selector]" -> offset of selector height
+	   data-scroll-duration="[duration]" -> how long is scrolling animation
 	*/
-	var scrollToFunction = function() {
-		$('.js-scroll').on('click', function(e) {
-			var $this = $(this);
-			var scrollTarget = $this.attr('href');
-			var $offset = $($this.data('scroll-offset'));
-			var offset = $offset.height();
-			TweenMax.to(window, 0.5, { scrollTo:{ y: scrollTarget, offsetY: offset } });
-			e.preventDefault();
-		});
-	};
+	var scrollFunction = function() {
+		const $scrolls = document.querySelectorAll('.js-scroll');
 
-	// switch function (link will switch href and unswitch others from same data-switch-group, think tabs)
-	 /* data-switch-group="[name]" -> switch grouping
-	 	data-switch-method="auto|manual" -> how switch is handled
-	 	data-switch-duration="[second]" -> how long is switch animation if switch method is auto
-	 	data-switch-scroll="[selector]" -> switch scroll to
-	 */
-	var switchFunction = function() {
-		$('.js-switch').on('click', function(e) {
-			var $this = $(this),
-				$switchTarget = $($this.attr('href')),
-				$switchGroup = $('[data-switch-group="'+$switchTarget.data('switch-group')+'"]'),
-				$switchTargetGroup = $switchGroup.filter('.js-switch-target'),
-				switchTarget = $this.attr('href').substring(1),
-				switchMethod = $this.data('switch-method') ? $this.data('switch-method') : 'auto',
-				switchDuration = $this.data('switch-duration') ? $this.data('switch-duration') : 0.2,
-				switchScroll = $this.data('switch-scroll');
+		$scrolls.forEach(scroll => scroll.addEventListener('click', function() { scrollTo(event, this); }));
+	}();
 
-			if (!$switchTarget.hasClass('is-switched')) {
-				if (switchMethod === 'auto') {
-					TweenMax.to($switchTargetGroup, switchDuration, { display: 'none', overflow: 'hidden', autoAlpha: 0, onComplete: function() {
-						TweenMax.set($switchTarget, { display: 'block', overflow: 'visible', autoAlpha: 1 });
-						TweenMax.from($switchTarget, switchDuration, { overflow: 'hidden', autoAlpha: 0 });
-						$switchGroup.removeClass('is-switched');
-						$this.addClass('is-switched');
-						$switchTarget.addClass('is-switched');
+	// tab function, can use scroll to function
+	/* data-tab-group="[name]" -> tab grouping
+	   data-tab-duration="[second]" -> how long is tab animation if tab method is auto
+	*/
+	var tabFunction = function() {
+		const $tabs = document.querySelectorAll('.js-tab');
+
+		function tabCheck() {
+			var queryString = getParameterByName('tab'),
+				$this = document.querySelector("a[href='#" + queryString + "']"),
+				$tabTarget = $this && document.querySelector($this.hash);
+
+			if (queryString && $tabTarget) {
+				var $tabGroup = document.querySelectorAll('[data-tab-group="'+$tabTarget.dataset.tabGroup+'"]');
+					$tabGroup.forEach(tab => tab.classList.remove('is-tabbed'));
+					$this.classList.add('is-tabbed');
+					$tabTarget.classList.add('is-tabbed');
+			}
+		}
+
+		function tabTo(event, $this) {
+			var $tabTarget = document.querySelector($this.hash);
+
+			if ($tabTarget) {
+				var $tabGroup =  document.querySelectorAll('[data-tab-group="'+$tabTarget.dataset.tabGroup+'"]'),
+					$tabTargetGroup = document.querySelectorAll('.js-tab-target[data-tab-group="'+$tabTarget.dataset.tabGroup+'"]'),
+					tabTarget = $this.hash.substring(1),
+					tabDuration = $this.dataset.tabDuration || 0.2,
+					tabScrollTarget = $this.dataset.scrollTarget;
+
+				if (!$tabTarget.classList.contains('is-tabbed')) {
+					TweenMax.to($tabTargetGroup, tabDuration/2, { display: 'none', height: 0, overflow: 'hidden', autoAlpha: 0, onComplete: function() {
+						TweenMax.set($tabTarget, { display: 'block', height: 'auto', overflow: 'visible', autoAlpha: 1 });
+						TweenMax.from($tabTarget, tabDuration, { height: 0, overflow: 'hidden', autoAlpha: 0 });
 					}});
-				} else {
-					$switchGroup.removeClass('is-switched');
-					$this.addClass('is-switched');
-					$switchTarget.addClass('is-switched');
-				}
-				TweenMax.to(window, switchDuration, { scrollTo: switchScroll });
+					$tabGroup.forEach(tab => tab.classList.remove('is-tabbed'));
+					$this.classList.add('is-tabbed');
+					$tabTarget.classList.add('is-tabbed');
 
-				if (window.history && history.pushState) {
-					history.replaceState('', '', '?switch' + '=' + switchTarget);
+					if (tabScrollTarget) {
+						scrollTo(event, $this);
+					}
+
+					if (window.history && history.pushState) {
+						history.replaceState('', '', '?tab' + '=' + tabTarget);
+					}
+				}
+
+				event.preventDefault();
+			}
+		}
+
+		tabCheck();
+		$tabs.forEach(tab => tab.addEventListener('click', function(event) { tabTo(event, this); }));
+	}();
+
+	// toggle function, can use scroll to function
+	// modifier: .js-toggle-hover
+	/* data-toggle-target="[selector]" -> toggle target
+	   data-toggle-area="[selector]" -> toggle will end outside this area
+	   data-toggle-method="auto|manual" -> how toggle is handled, default is auto
+	   data-toggle-duration="[second]" -> how long is toggle animation
+	   data-toggle-focus="[selector]" -> toggle will focus on targeted form
+	*/
+	var toggleFunction = function() {
+		const $toggles = document.querySelectorAll('.js-toggle');
+
+		function transitionSlideUp(target, duration) {
+			TweenMax.to(target, duration/2, { display: 'none', overflow: 'hidden', autoAlpha: 0, height: 0 });
+		}
+
+		function transitionSlideDown(target, duration) {
+			TweenMax.set(target, { display: 'block', overflow: 'visible', autoAlpha: 1, height: 'auto' });
+			TweenMax.from(target, duration, { overflow: 'hidden', autoAlpha: 0, height: 0, delay: duration/2 });
+		}
+
+		function toggleOpen(event, $this) {
+			var toggleTarget = $this.dataset.toggleTarget || $this.hash,
+				$toggleTarget = document.querySelector(toggleTarget),
+				$toggleArea = $this.dataset.toggleArea ? document.querySelector($this.dataset.toggleArea) : $this,
+				$toggleFocus = document.querySelector($this.dataset.toggleFocus),
+				toggleMethod = $this.dataset.toggleMethod || 'auto',
+				toggleDuration = $this.dataset.toggleDuration || 0.25,
+				toggleScrollTarget = $this.dataset.scrollTarget,
+				bodyClass = toggleTarget.substring(1),
+				preventDefault = $this.dataset.toggleTarget ? false : true;
+
+			if (!$toggleTarget) return false;
+
+			if (event.type === 'mouseenter' || event.type === 'touchstart') {
+				if ($this.classList.contains('js-toggle-hover')) {
+					var $toggleLinkToggled = $toggleArea.querySelectorAll('.js-toggle-hover.is-toggled');
+
+					$toggleLinkToggled.forEach(toggle => {
+						if (toggle !== $this) {
+							toggle.classList.remove('is-toggled');
+						}
+					});
+
+					var $toggleAllToggled = $toggleArea.querySelectorAll('.is-toggled'),
+					$toggleCurrentToggled = [];
+
+					$toggleAllToggled.forEach(toggle => {
+						if (toggle !== $this && toggle !== $toggleTarget) {
+							$toggleCurrentToggled.push(toggle);
+						}
+					});
+
+					if (toggleMethod === 'auto') {
+						transitionSlideUp($toggleCurrentToggled, toggleDuration);
+					}
+
+					$toggleCurrentToggled.forEach(toggle => toggle.classList.remove('is-toggled'));
+
+					if ($this.classList.contains('is-toggled') === false) {
+						$this.classList.add('is-toggled');
+						$toggleTarget.classList.add('is-toggled');
+						if (toggleMethod === 'auto') {
+							transitionSlideDown($toggleTarget, toggleDuration);
+						}
+					}
+
+					$toggleArea.addEventListener('mouseleave', function(event) {
+						toggleClose(event, $this, $toggleTarget, $toggleArea, toggleMethod, toggleDuration, bodyClass);
+					});
+				}
+			} else if (event.type === 'click') {
+				if (!$this.classList.contains('js-toggle-hover')) {
+					if ($this.classList.contains('is-toggled') || $toggleTarget.classList.contains('is-toggled')) {
+						if (!hasChild($this, $toggleArea)) {
+							$this.classList.remove('is-toggled');
+							$this.classList.add('is-untoggling');
+							$toggleTarget.classList.remove('is-toggled');
+							$toggleTarget.classList.add('is-untoggling');
+							$body.classList.add(bodyClass+'-is-untoggling');
+							setTimeout(function() {
+								$this.classList.remove('is-untoggling');
+								$toggleTarget.classList.remove('is-untoggling');
+								$body.classList.remove(bodyClass+'-is-toggled', bodyClass+'-is-untoggling');
+							}, toggleDuration*1000);
+							if (toggleMethod === 'auto') {
+								transitionSlideUp($toggleTarget, toggleDuration);
+							}
+						}
+					} else {
+						$toggleTarget.classList.add('is-toggled');
+						$this.classList.add('is-toggled');
+						$body.classList.add(bodyClass+'-is-toggled');
+						if (toggleScrollTarget) {
+							scrollTo(event, $this);
+						}
+						if (toggleMethod === 'auto') {
+							transitionSlideDown($toggleTarget, toggleDuration);
+						}
+						if ($toggleFocus) {
+							$toggleFocus.focus();
+						}
+						$body.addEventListener('click', function(event) { toggleClose(event, $this, $toggleTarget, $toggleArea, toggleMethod, toggleDuration, bodyClass); });
+						$body.addEventListener('touchend', function(event) { toggleClose(event, $this, $toggleTarget, $toggleArea, toggleMethod, toggleDuration, bodyClass); });
+					}
+
+					if (preventDefault === true) {
+						event.preventDefault();
+					}
 				}
 			}
-			e.preventDefault();
-		});
-
-		var queryString = {};
-		window.location.href.replace(
-			new RegExp('([^?=&]+)(=([^&]*))?', 'g'),
-			function($0, $1, $2, $3) { queryString[$1] = $3; }
-		);
-
-		if (queryString['switch']) {
-			var $this = $("a[href='#" + queryString['switch'] + "']"),
-				$switchTarget = $($this.attr('href')),
-				$switchGroup = $('[data-switch-group="'+$switchTarget.data('switch-group')+'"]'),
-				$switchTargetGroup = $switchGroup.filter('.js-switch-target');
-			$switchGroup.removeClass('is-switched');
-			$this.addClass('is-switched');
-			$switchTarget.addClass('is-switched');
 		}
-	};
 
-	// toggle function (link will toggle href, think checkbox)
-	// modifier: .toggle-hover
-	 /* data-toggle-target="[selector]" -> toggle target
-		data-toggle-area="[selector]" -> toggle will end if mouse click outside this area or leave this area
-		data-toggle-method="auto|manual" -> how toggle is handled, default is auto
-		data-toggle-duration="[second]" -> how long is toggle animation
-		data-toggle-scroll="[selector]" -> toggle scroll to
-		data-toggle-focus="[selector]" -> toggle will focus on targeted form
-	 */
-	 var toggleFunction = function() {
- 		$('.js-toggle').on('click mouseenter touchstart', function(event){
- 			var $this = $(this),
- 				toggleTarget = $this.data('toggle-target') ? $this.data('toggle-target') : $this.attr('href'),
- 				$toggleTarget = $(toggleTarget),
- 				$toggleArea = $this.data('toggle-area') ? $($this.data('toggle-area')) : $this,
- 				$toggleFocus = $($this.data('toggle-focus')),
- 				toggleMethod = $this.data('toggle-method') ? $this.data('toggle-method') : 'auto',
- 				toggleDuration = $this.data('toggle-duration') ? $this.data('toggle-duration') : 0.25,
- 				toggleScroll = $this.data('toggle-scroll'),
- 				bodyClass = toggleTarget.substring(1),
- 				preventDefault = $this.data('toggle-target') ? false : true;
-
- 			if (event.type === 'mouseenter' || event.type === 'touchstart') {
- 				if ($this.hasClass('js-toggle-hover')) {
- 					$toggleArea.find('.js-toggle-hover.is-toggled').not($this).removeClass('is-toggled');
- 					if (toggleMethod === 'auto') {
- 						TweenMax.to($toggleArea.find('.is-toggled').not($this).not($toggleTarget), toggleDuration/2, { display: 'none', overflow: 'hidden', autoAlpha: 0, height: 0 });
- 					}
- 					$toggleArea.find('.is-toggled').not($this).not($toggleTarget).removeClass('is-toggled');
-
- 					if ($this.hasClass('is-toggled') === false) {
- 						$this.addClass('is-toggled');
- 						$toggleTarget.addClass('is-toggled');
- 						$body.addClass(bodyClass+'-is-toggled');
- 						if (toggleMethod === 'auto') {
- 							TweenMax.set($toggleTarget, { display: 'block', overflow: 'visible', autoAlpha: 1, height: 'auto' });
- 							TweenMax.from($toggleTarget, toggleDuration, { overflow: 'hidden', autoAlpha: 0, height: 0, delay: toggleDuration/2 });
- 						}
- 					}
-
- 					$toggleArea.on('mouseleave', function() {
- 						$this.removeClass('is-toggled');
- 						$toggleTarget.removeClass('is-toggled');
- 						$body.removeClass(bodyClass+'-is-toggled');
- 						if (toggleMethod === 'auto') {
- 							TweenMax.to($toggleTarget, toggleDuration, { display: 'none', overflow: 'hidden', autoAlpha: 0, height: 0 });
- 						}
- 					});
- 				}
- 			} else if (event.type === 'click') {
-				if (!$this.hasClass('js-toggle-hover')) {
-	 				if ($this.hasClass('is-toggled') || $toggleTarget.hasClass('is-toggled')) {
-	 					if ($this.has($toggleArea).length === 0) {
-	 						$this.removeClass('is-toggled').addClass('is-untoggling');
-	 						$toggleTarget.removeClass('is-toggled').addClass('is-untoggling');
-	 						$body.addClass(bodyClass+'-is-untoggling');
-	 						setTimeout(function() {
-	 							$this.removeClass('is-untoggling');
-	 							$toggleTarget.removeClass('is-untoggling');
-	 							$body.removeClass(bodyClass+'-is-toggled').removeClass(bodyClass+'-is-untoggling');
-	 						}, toggleDuration*1000);
-	 						if (toggleMethod === 'auto') {
-	 							TweenMax.to($toggleTarget, toggleDuration, { display: 'none', overflow: 'hidden', autoAlpha: 0, height: 0 });
-	 						}
-	 					}
-	 				} else {
-	 					$toggleTarget.addClass('is-toggled');
-	 					$this.addClass('is-toggled');
-	 					$body.addClass(bodyClass+'-is-toggled');
-	 					TweenMax.to(window, toggleDuration, { scrollTo: toggleScroll });
-	 					if (toggleMethod === 'auto') {
-	 						TweenMax.set($toggleTarget, { display: 'block', overflow: 'visible', autoAlpha: 1, height: 'auto' });
-	 						TweenMax.from($toggleTarget, toggleDuration, { overflow: 'hidden', autoAlpha: 0, height: 0 });
-	 					}
-						$toggleFocus.focus();
-	 				}
-
-	 				if (preventDefault === true) {
-						event.preventDefault();
-	 				}
+		function toggleClose(event, $this, $toggleTarget, $toggleArea, toggleMethod, toggleDuration, bodyClass) {
+			if ($this.classList.contains('js-toggle-hover')) {
+				$this.classList.remove('is-toggled');
+				$this.classList.add('is-untoggling');
+				$toggleTarget.classList.remove('is-toggled');
+				$toggleTarget.classList.add('is-untoggling');
+				setTimeout(function() {
+					$this.classList.remove('is-untoggling');
+					$toggleTarget.classList.remove('is-untoggling');
+				}, toggleDuration*1000);
+				if (toggleMethod === 'auto') {
+					transitionSlideUp($toggleTarget, toggleDuration);
 				}
- 			}
+			} else {
+				if ($this !== event.target && !hasChild($this, event.target) && $toggleArea !== event.target && !hasChild($toggleArea, event.target)) {
+					$this.classList.remove('is-toggled');
+					$this.classList.add('is-untoggling');
+					$toggleTarget.classList.remove('is-toggled');
+					$toggleTarget.classList.add('is-untoggling');
+					$body.classList.add(bodyClass+'-is-untoggling');
+					setTimeout(function() {
+						$this.classList.remove('is-untoggling');
+						$toggleTarget.classList.remove('is-untoggling');
+						$body.classList.remove(bodyClass+'-is-toggled', bodyClass+'-is-untoggling');
+					}, toggleDuration*1000);
+					if (toggleMethod === 'auto') {
+						transitionSlideUp($toggleTarget, toggleDuration);
+					}
+				}
+			}
+		}
 
- 			$body.on('click touchend', function(e) {
- 				if (!$this.is(e.target) && $this.has(e.target).length === 0 && !$toggleArea.is(e.target) && $toggleArea.has(e.target).length === 0) {
- 					$this.removeClass('is-toggled').addClass('is-untoggling');
- 					$toggleTarget.removeClass('is-toggled').addClass('is-untoggling');
- 					$body.addClass(bodyClass+'-is-untoggling');
- 					setTimeout(function() {
- 						$this.removeClass('is-untoggling');
- 						$toggleTarget.removeClass('is-untoggling');
- 						$body.removeClass(bodyClass+'-is-toggled').removeClass(bodyClass+'-is-untoggling');
- 					}, toggleDuration*1000);
- 					if (toggleMethod === 'auto') {
- 						TweenMax.to($toggleTarget, toggleDuration, { display: 'none', overflow: 'hidden', autoAlpha: 0, height: 0 });
- 					}
- 				}
- 			});
- 		});
- 	};
+		$toggles.forEach(toggle => toggle.addEventListener('click', function(event) { toggleOpen(event, this); }));
+		$toggles.forEach(toggle => toggle.addEventListener('mouseenter', function(event) { toggleOpen(event, this); }));
+		$toggles.forEach(toggle => toggle.addEventListener('touchstart', function(event) { toggleOpen(event, this); }));
+	}();
 
 	// mover function (will move elements depending of breakpoints)
-	 /* data-mover-breakpoint="[width]" -> mover breakpoint width
-		data-mover-target="[selector]" -> mover will append selected element to this selector
-	 */
+	/* data-mover-breakpoint="[width]" -> mover breakpoint width
+	   data-mover-target="[selector]" -> mover will append selected element to this selector
+	*/
 	var moverFunction = function() {
-		$('.js-mover').each(function() {
-			var $this = $(this);
-			$this.before("<div class='js-mover-source'></div>");
+		const $movers = document.querySelectorAll('.js-mover');
 
-			var $moverSource = $this.prev(),
-				$moverTarget = $($this.data('mover-target')),
-				moverBreakpoint = $this.data('mover-breakpoint'),
-				windowWidth = $window.width();
+		function moverStart(element) {
+			var $this = element;
+				$this.insertAdjacentHTML('beforebegin', "<div class='js-mover-source'></div>");
+
+			var $moverSource = $this.previousElementSibling,
+				$moverTarget = document.querySelector($this.dataset.moverTarget),
+				moverBreakpoint = $this.dataset.moverBreakpoint,
+				windowWidth = window.outerWidth;
 
 			if (windowWidth >= moverBreakpoint) {
-				$this.appendTo($moverTarget);
+				$moverTarget.appendChild($this);
 			}
 
-			$window.resize(function() {
-				windowWidth = $window.width();
+			window.addEventListener('resize', function() {
+				windowWidth = window.outerWidth;
 
 				if (windowWidth >= moverBreakpoint) {
-					if ($this.parent() !== $moverTarget) {
-						$this.appendTo($moverTarget);
+					if ($this.parentNode !== $moverTarget) {
+						$moverTarget.appendChild($this);
 					}
 				} else {
-					if ($this.prev() !== $moverSource) {
-						$this.insertAfter($moverSource);
+					if ($this.parentNode !== $moverSource) {
+						$moverSource.appendChild($this);
 					}
 				}
 			});
-		});
-	};
+		}
+
+		$movers.forEach(mover => moverStart(mover));
+	}();
 
 	// equalling heights function
+	/* EXAMPLE
+	   var $floater = document.querySelectorAll('.floaters .floater');
+	   equalheight($floater);
+	*/
 	var equalheight = function(container) {
 		var $this,
 			currentHighest = 0,
@@ -286,34 +309,35 @@ jQuery(document).ready(function($) {
 			rowDivs = [],
 			topPosition = 0;
 
-		$(container).each(function() {
-			$this = $(this);
-			$this.css('min-height', '0');
-			topPosition = $this.position().top;
+		function calculateHeight(container) {
+			container.forEach(element => {
+				$this = element;
+				$this.style.minHeight = 0;
+				topPosition = $this.offsetTop;
 
-			if (currentRowStart !== topPosition) {
-				for (currentDiv = 0 ; currentDiv < rowDivs.length ; currentDiv++) {
-					rowDivs[currentDiv].css('min-height', currentHighest);
+				if (currentRowStart !== topPosition) {
+					for (currentDiv = 0 ; currentDiv < rowDivs.length ; currentDiv++) {
+						rowDivs[currentDiv].style.minHeight = currentHighest + 'px';
+					}
+					rowDivs.length = 0;
+					currentRowStart = topPosition;
+					currentHighest = $this.offsetHeight;
+					rowDivs.push($this);
+				} else {
+					rowDivs.push($this);
+					currentHighest = (currentHighest < $this.offsetHeight) ? $this.offsetHeight : currentHighest;
 				}
-				rowDivs.length = 0;
-				currentRowStart = topPosition;
-				currentHighest = $this.outerHeight();
-				rowDivs.push($this);
-			} else {
-				rowDivs.push($this);
-				currentHighest = (currentHighest < $this.outerHeight()) ? ($this.outerHeight()) : (currentHighest);
-			}
 
-			for (currentDiv = 0 ; currentDiv < rowDivs.length ; currentDiv++) {
-				rowDivs[currentDiv].css('min-height', currentHighest);
-			}
+				for (currentDiv = 0 ; currentDiv < rowDivs.length ; currentDiv++) {
+					rowDivs[currentDiv].style.minHeight = currentHighest + 'px';
+				}
+			});
+		}
+
+		calculateHeight(container);
+		window.addEventListener('resize', function() {
+			calculateHeight(container);
 		});
 	};
 
-	// run functions
-	scrollToFunction();
-	switchFunction();
-	toggleFunction();
-	moverFunction();
-
-});
+})();
