@@ -1,5 +1,13 @@
 // .only-* and .is-*
 
+.only-desktop {
+	display: none;
+
+	@include breakpoint(walker) {
+		display: block;
+	}
+}
+
 .only-mobile {
 
 	@include breakpoint(walker) {
@@ -22,10 +30,10 @@
 
 	&:after {
 		content: "";
-		animation: walker-spin 1.5s infinite linear;
-		border-left: 4px solid rgba($black, 0.2);
-		border-bottom: 4px solid rgba($black, 0.2);
-		border-right: 4px solid rgba($black, 0.2);
+		animation: spin 1.5s infinite linear;
+		border-left: 4px solid rgba($color-800, 0.2);
+		border-bottom: 4px solid rgba($color-800, 0.2);
+		border-right: 4px solid rgba($color-800, 0.2);
 		border-top: 4px solid $color-one-500;
 		border-radius: 100%;
 		display: block;

@@ -64,20 +64,6 @@
 	}
 }
 
-// BOX SHADOW
-
-@mixin box-shadow-400 {
-	box-shadow: 0 0 2px rgba($black, 0.1), 0 0 8px rgba($black, 0.1);
-}
-
-@mixin box-shadow-500 {
-	box-shadow: 0 0 4px rgba($black, 0.1), 0 0 12px rgba($black, 0.1);
-}
-
-@mixin box-shadow-600 {
-	box-shadow: 0 0 4px rgba($black, 0.1), 0 0 12px rgba($black, 0.2);
-}
-
 // TYPOGRAPHY
 
 @mixin font-fluid($min-vw, $max-vw, $min-value, $max-value) {
@@ -228,4 +214,12 @@
 	padding: 0;
 	position: absolute;
 	width: 1px;
+}
+
+@mixin gsap-visible {
+	display: block !important;
+	height: auto !important;
+	opacity: 1 !important;
+	overflow: auto !important;
+	visibility: visible !important;
 }

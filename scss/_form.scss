@@ -1,186 +1,204 @@
-.form-groups {
-	margin: -6px -8px;
-	position: relative;
-
-	@include breakpoint(crawler) {
+@at-root {
+	.form-checkbox,
+	.form-radio {
+		align-items: baseline;
 		display: flex;
-		flex-wrap: wrap;
-	}
-
-	.form-group {
-		padding: 6px 8px;
-
-		@include breakpoint(crawler) {
-			flex: 0 1 50%;
-		}
-
-		&.form-group-wide {
-
-			@include breakpoint(crawler) {
-				flex: 1 1 100%;
-			}
-		}
-	}
-}
-
-.form-group {
-	position: relative;
-
-	.label {
-		display: inline-block;
 
 		.input {
-			display: inline-block;
+			flex: 0 0 auto;
+			margin-right: 6px;
 			width: auto;
 		}
 
-		+ .input {
-			margin-top: 4px;
-		}
-	}
-
-	.input {
-		display: block;
-		width: 100%;
-	}
-
-	.caption {
-		@include font-size-400;
-		color: $color-text-light;
-		margin: 4px 0;
-
-		&:first-child {
-			margin-top: 0;
-		}
-
-		&:last-child {
-			margin-bottom: 0;
-		}
-	}
-
-	.req {
-		color: $color-alert;
-	}
-
-	&.form-group-submit {
-		text-align: right;
-	}
-}
-
-.form-checkbox,
-.form-radio {
-	align-items: baseline;
-	display: flex;
-
-	.input {
-		flex: 0 0 auto;
-		margin-right: 6px;
-		width: auto;
-	}
-
-	.label {
-		flex: 1 1 auto;
-	}
-}
-
-.form-text {
-	position: relative;
-
-	&.is-filled {
-
 		.label {
-			transform: scale(0.75) translateX(4px);
+			flex: 1 1 auto;
 		}
 	}
+}
 
-	.input {
-		font-weight: 600;
-		padding: 20px 8px 4px 8px;
+@at-root {
+	.form-file {
 
-		&:active,
-		&:focus {
+		.js & {
 
-			+ .label {
-				transform: scale(0.75) translateX(4px);
+			input[type="file"] {
+				@include hidden;
 			}
 		}
 
-		&.input-textarea {
-			height: 120px;
-			resize: none;
+		.no-js & {
+
+			.label {
+				display: none;
+			}
 		}
-	}
-
-	.label {
-		@include ellipsis;
-		background-color: $white;
-		color: $color-text-lighter;
-		left: 1px;
-		padding: 4px 8px;
-		pointer-events: none;
-		position: absolute;
-		right: 1px;
-		top: 1px;
-		transform-origin: left top;
-		transform: translateY(8px);
-		transition: all 0.2s $ease;
-	}
-}
-
-.form-file {
-
-	.js & {
-
-		input[type="file"] {
-			@include hidden;
-		}
-	}
-
-	.no-js & {
 
 		.label {
-			display: none;
+			cursor: pointer;
+			display: inline-block;
+			overflow: hidden;
+			text-overflow: ellipsis;
+
+			&:hover {
+
+				.button {
+					background-color: $color-500;
+				}
+			}
+
+			> * {
+				pointer-events: none;
+			}
 		}
-	}
 
-	.label {
-		cursor: pointer;
-		display: inline-block;
-		overflow: hidden;
-		text-overflow: ellipsis;
+		.button {
+			@include font-size-400;
+			background-color: $color-400;
+			color: $white;
+			margin-right: 4px;
+			padding: 6px 12px;
 
-		&:hover {
-
-			.button {
+			&:hover {
 				background-color: $color-500;
 			}
 		}
 
-		> * {
+		.caption {
+			@include font-size-400;
+			color: $color-text-light;
+			display: inline-block;
+			vertical-align: middle;
+
+			&.has-caption {
+				color: $color-text;
+			}
+		}
+	}
+}
+
+@at-root {
+	.form-phone {
+
+		.label {
+			display: inline-block;
+
+			+ .input {
+				display: flex;
+				margin-top: 2px;
+				width: 100%;
+			}
+		}
+
+		.input {
+
+			&.input-code {
+				border-top-right-radius: 0;
+				border-bottom-right-radius: 0;
+				border-right: none;
+				color: $color-text;
+				flex: 0 1 auto;
+				width: 64px;
+			}
+
+			&.input-phone {
+				border-top-left-radius: 0;
+				border-bottom-left-radius: 0;
+				flex: 1 1 auto;
+			}
+		}
+	}
+}
+
+@at-root {
+	.form-texts {
+		margin: -8px -8px 8px;
+		position: relative;
+
+		@include breakpoint(crawler) {
+			display: flex;
+			flex-wrap: wrap;
+		}
+
+		&:last-child {
+			margin-bottom: -8px;
+		}
+
+		.form-text {
+			margin-bottom: 0;
+			padding: 8px 8px;
+
+			@include breakpoint(crawler) {
+				flex: 0 1 50%;
+			}
+		}
+	}
+
+	.form-text {
+		margin-bottom: 16px;
+		position: relative;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+
+		&.is-filled {
+
+			.label {
+				transform: scale(0.75) translateX(4px);
+			}
+		}
+
+		.label {
+			@include ellipsis;
+			background-color: $white;
+			color: $color-text-light;
+			left: 1px;
+			padding: 4px 8px;
 			pointer-events: none;
+			position: absolute;
+			right: 1px;
+			top: 1px;
+			transform-origin: left top;
+			transform: translateY(8px);
+			transition: all 0.2s ease-out;
+		}
+
+		.input {
+			font-weight: 600;
+			padding: 20px 8px 4px 8px;
+
+			&:active,
+			&:focus {
+
+				+ .label {
+					transform: scale(0.75) translateX(4px);
+				}
+			}
+
+			&.input-textarea {
+				height: 120px;
+				resize: none;
+			}
+		}
+
+		.caption {
+			@include font-size-400;
+			color: $color-text-light;
+			margin: 4px 0;
+
+			&:first-child {
+				margin-top: 0;
+			}
+
+			&:last-child {
+				margin-bottom: 0;
+			}
 		}
 	}
+}
 
-	.button {
-		@include font-size-400;
-		background-color: $color-400;
-		color: $white;
-		margin-right: 4px;
-		padding: 6px 12px;
-
-		&:hover {
-			background-color: $color-500;
-		}
-	}
-
-	.caption {
-		@include font-size-400;
-		color: $color-text-light;
-		display: inline-block;
-		vertical-align: middle;
-
-		&.has-caption {
-			color: $color-text;
-		}
+@at-root {
+	.form-submit {
+		text-align: right;
 	}
 }

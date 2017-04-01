@@ -287,7 +287,7 @@ Author URI: http://bennyjien.com/
 		background-color: $color-500;
 		display: flex;
 		height: 64px;
-		transition: all 0.2s $ease;
+		transition: all 0.2s ease-out;
 		width: 64px;
 
 		.label {
@@ -301,7 +301,7 @@ Author URI: http://bennyjien.com/
 		}
 
 		&.box-bounce {
-			transition: all 0.2s $bounce;
+			transition: all 0.2s $ease-out-back;
 		}
 	}
 }

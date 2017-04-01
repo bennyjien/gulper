@@ -7,7 +7,7 @@ Gulper does:
 + Compile kit (http://incident57.com/codekit/help.html#kit) to HTML
 + Compile SCSS to CSS
 + Autoprefix CSS to support last 2 versions
-+ Lint, concatenate and uglify JavaScript
++ Lint, babelify, concatenate and uglify JavaScript
 + Optimize SVG files with SVGO
 + Combine SVG files in assets/images/symbols/ to SVG Symbol (https://github.com/Hiswe/gulp-svg-symbols)
 
@@ -27,10 +27,18 @@ Have fun! :)
 ## KNOWN ISSUES
 
 + svg source without <xml> will fail silently, close and re-run `gulp` if this happens
-+ always useref external script, un-useref-ed script will not included in _dist/_
++ always use useref for script, un-useref-ed script will not included in _dist/_
 + to review _doc/_, run `gulp build` since _doc/_ needs bundle.js
 
 ## CHANGELOG
+
+1.2 (ongoing)
++ too many changes o.0
+
+1.1.4 (Feb 13, 2017)
++ footer.kit: divide library.js and bundle.js because of babel
++ helper.js: *NEW*
++ gulpfile.js & package.json: add babel for bundle.js
 
 1.1.3 (Jan 18, 2017)
 + style.js: add script for get mouse position

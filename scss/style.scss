@@ -4,7 +4,7 @@ Theme URI: https://github.com/bennyjien/gulper
 Author: Benny Jien
 Author URI: http://bennyjien.com/
 Description: This site is infected with Gulper. Switching to another theme is not recommended since this theme is definitely more awesome.
-Version: 1.1.4
+Version: 1.2
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: responsive-layout, mobile-first
@@ -27,19 +27,17 @@ Tags: responsive-layout, mobile-first
 @import "main";
 
 // globals
+@import "reset";
 @import "global";
-@import "helper";
 @import "modifier";
 @import "keyframes";
 
 // modules
 @import "form";
-@import "list";
 @import "pagination";
 @import "search";
 @import "slider";
 @import "table";
-@import "thumbnail";
 
 // media
 @import "mobile";
