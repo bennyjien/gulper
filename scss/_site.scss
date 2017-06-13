@@ -1,27 +1,25 @@
-// CONTAINER CLASS
-
-.site {
-	background-color: $white;
-	display: flex;
-	flex-direction: column;
-	min-height: 100%;
-	position: relative;
-
-	&:before {
-		content: "";
-		background-color: $black;
-		height: 100%;
-		left: 0;
-		opacity: 0;
-		transition: opacity 0.2s ease-out;
-		position: absolute;
-		top: 0;
-		width: 100%;
-		z-index: -1;
-	}
-}
-
 @at-root {
+	.site-container {
+		background-color: $white;
+		display: flex;
+		flex-direction: column;
+		min-height: 100%;
+		position: relative;
+
+		&:before {
+			content: "";
+			background-color: $black;
+			height: 100%;
+			left: 0;
+			opacity: 0;
+			transition: opacity 0.2s ease-out;
+			position: absolute;
+			top: 0;
+			width: 100%;
+			z-index: -1;
+		}
+	}
+
 	.site-header {
 		background-color: $white;
 		border-bottom: 1px solid rgba($black, 0.1);
@@ -29,84 +27,8 @@
 		position: relative;
 		width: 100%;
 		z-index: 8;
-
-		> .inner {
-			align-items: center;
-			display: flex;
-		}
 	}
-}
 
-@at-root {
-	.site-logo {
-		color: rgba($black, 0.1);
-		display: block;
-		flex: 0 0 auto;
-		font-size: $font-size-h2;
-		font-weight: 700;
-		letter-spacing: -0.04em;
-		line-height: 3;
-		margin-right: 24px;
-		text-transform: lowercase;
-		transition: all 0.3s ease-out;
-
-		&:hover,
-		&:focus {
-			color: $color-one-500;
-			text-decoration: none;
-		}
-	}
-}
-
-@at-root {
-	.site-nav {
-		display: none;
-		flex: 1 1 auto;
-		position: relative;
-		text-align: right;
-		width: calc(100% - 160px);
-
-		@include breakpoint(walker) {
-			display: block;
-		}
-
-		a {
-			background-color: $color-one-500;
-			color: $white;
-			display: block;
-			line-height: 48px;
-			padding: 0 24px;
-			transition: all 0.3s ease-out;
-			white-space: nowrap;
-
-			&:hover,
-			&:focus {
-				background-color: $color-one-400;
-				color: $white;
-				text-decoration: none;
-			}
-
-			&:active {
-				background-color: $color-one-600;
-			}
-		}
-
-		.menu {
-			display: inline-block;
-			font-size: 0;
-			text-align: left;
-			white-space: nowrap;
-
-			li {
-				border-left: 1px solid $color-one-500;
-				display: inline-block;
-				font-size: $font-size-500;
-			}
-		}
-	}
-}
-
-@at-root {
 	.site-content {
 		display: flex;
 		flex: 1 0 auto;
@@ -126,13 +48,15 @@
 				flex-direction: row;
 				justify-content: space-between;
 			}
+
+			&.inner-zero {
+				padding-top: 0;
+			}
 		}
 	}
-}
 
-@at-root {
 	.site-footer {
-		background-color: $color-700;
+		background-color: $color-background-dark;
 		color: $white;
 		flex: 0 0 auto;
 		position: relative;
@@ -152,8 +76,7 @@
 }
 
 @at-root {
-	.site-copyright {
-		@include font-size-200;
-		margin: 0;
+	.site-logo {
+		color: $color-one-500;
 	}
 }

@@ -12,6 +12,14 @@
 .wordpress-post {
 	@include clearfix;
 
+	p {
+
+		+ ol,
+		+ ul {
+			margin-top: -16px;
+		}
+	}
+
 	.aligncenter {
 		display: block;
 		margin: 0 auto;

@@ -1,69 +1,13 @@
-// CONTAINER CLASS
-
-.main {
-	flex: 1 1 auto;
-	min-width: 0;
-	width: 100%;
-}
-
 @at-root {
-	.main-header {
-		margin-bottom: 32px;
-	}
-
-	.main-header-title {
-		@include font-size-h1;
-		margin-bottom: 4px;
-
-		&:last-child {
-			margin-bottom: 0;
-		}
-	}
-}
-
-@at-root {
-	.main-content {}
-}
-
-@at-root {
-	.main-section {
-		margin-bottom: 32px;
-
-		&:last-child {
-			margin-bottom: 0;
-		}
-	}
-}
-
-@at-root {
-	.main-footer {
-		margin-top: 32px;
-	}
-}
-
-@at-root {
-	.main-sidebar {
+	.main-content {
 		flex: 1 1 auto;
+		min-width: 0;
 		width: 100%;
-
-		@include breakpoint(walker) {
-			flex: 0 0 auto;
-			margin-left: 48px;
-			width: 200px;
-		}
-
-		@include breakpoint(runner) {
-			width: 256px;
-		}
 	}
 }
 
 @at-root {
-	.main-widget {
-		margin-bottom: 24px;
-
-		&:last-child {
-			margin-bottom: 0;
-		}
+	.main-aside {
+		@include aside;
 	}
 }

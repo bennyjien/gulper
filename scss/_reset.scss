@@ -1,4 +1,4 @@
-// TYPOGRAPHY
+// GLOBALS
 
 * {
 	box-sizing: inherit;
@@ -20,7 +20,7 @@ body {
 	@include font-size-500;
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-font-smoothing: antialiased;
-	background-color: $color-viewport;
+	background-color: $color-background;
 	color: $color-text;
 	font-family: $sans-serif;
 	height: 100%;
@@ -62,14 +62,6 @@ p, address, blockquote, figure, pre, table {
 
 	&:last-child {
 		margin-bottom: 0;
-	}
-}
-
-p {
-
-	+ ol,
-	+ ul {
-		margin-top: -16px;
 	}
 }
 
@@ -241,8 +233,6 @@ hr {
 	width: 100%;
 }
 
-// FORM
-
 ::placeholder {
 	color: $color-text-lighter;
 	opacity: 1;
@@ -349,8 +339,6 @@ select {
 		display: none;
 	}
 }
-
-// TABLE
 
 table {
 	background-color: $white;

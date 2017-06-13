@@ -1,3 +1,9 @@
-.toggle-target {
-	display: none;
+@at-root {
+	.toggle-target {
+		display: none;
+
+		&.is-toggled {
+			display: block;
+		}
+	}
 }

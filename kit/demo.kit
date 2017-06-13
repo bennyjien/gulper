@@ -6,11 +6,13 @@
 				<div class="inner wrapper">
 
 					<div class="main" role="main" itemscope itemprop="mainContentOfPage" itemtype="http://schema.org/Blog">
-						<header class="main-header"></header>
+						<header class="main-header js-scene">
+							<a href="http://placehold.it/480x480" class="js-toggle" data-toggle-type="image"><img src="http://placehold.it/240x240/eeeeee/111111"></a>
+						</header>
 						<div class="main-content">
 							<div id="emaple" class="example js-mover" data-mover-breakpoint="600" data-mover-target="#example1">
-								<a href="#toggle-test" class="js-toggle" data-toggle-area="#emaple">Toggle It!</a>
-								<div id="toggle-test" class="doc-toggle-test">
+								<a href="#toggle-test" class="js-toggle" data-toggle-area="#emaple" data-toggle-method="auto" data-toggle-duration="1">Toggle It!</a>
+								<div id="toggle-test" class="doc-toggle-test toggle-target">
 									<p>Horayy... It is toggled!</p>
 									<div class="form-phone">
 										<label for="checkout-phone" class="label">Telepon</label>
@@ -23,42 +25,42 @@
 							</div>
 							<div id="example1" class="example">
 								<a href="#toggle-test2" class="js-toggle js-toggle-hover">Toggle Them!</a>
-								<div id="toggle-test2" class="doc-toggle-test">
+								<div id="toggle-test2" class="doc-toggle-test toggle-target">
 									<p>Horayy... We are toggled!</p>
 								</div>
 							</div>
 							<div id="navigation">
-								<a href="#nav-1" id="nav-toggle-1" class="js-toggle js-toggle-hover" data-toggle-area="#navigation">Toggle Nav 1</a>
-								<a href="#nav-2" id="nav-toggle-2" class="js-toggle js-toggle-hover" data-toggle-area="#navigation" data-toggle-state="toggled">Toggle Nav 2</a>
-								<a href="#nav-3" id="nav-toggle-3" class="js-toggle js-toggle-hover" data-toggle-area="#navigation">Toggle Nav 3</a>
-								<div id="nav-1">
+								<a href="#nav-1" id="nav-toggle-1" class="js-toggle" data-toggle-trigger="hover" data-toggle-area="#navigation">Toggle Nav 1</a>
+								<a href="#nav-2" id="nav-toggle-2" class="js-toggle" data-toggle-trigger="hover" data-toggle-area="#navigation" data-toggle-state="toggled">Toggle Nav 2</a>
+								<a href="#nav-3" id="nav-toggle-3" class="js-toggle" data-toggle-trigger="hover" data-toggle-area="#navigation">Toggle Nav 3</a>
+								<div id="nav-1" class="toggle-target">
 									<h1>Nav 1</h1>
 									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit, iste.</p>
 								</div>
-								<div id="nav-2">
+								<div id="nav-2" class="toggle-target">
 									<h1>Nav 2</h1>
 									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit, iste.</p>
 								</div>
-								<div id="nav-3">
+								<div id="nav-3" class="toggle-target">
 									<h1>Nav 3</h1>
 									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit, iste.</p>
 								</div>
 							</div>
 							<div class="example">
 								<div class="doc-tab-nav">
-									<a href="#tab-1" class="js-tab" data-tab-group="tab">Switch 1</a>
-									<a href="#tab-2" class="js-tab" data-tab-group="tab" data-scroll-target="#tabe-2" data-scroll-duration="0.1">Scroll Switch 2</a>
-									<a href="#tab-3" class="js-tab" data-tab-group="tab">Switch 3</a>
+									<a href="#tab-1" class="js-tab" data-tab-group="tab" data-tab-type="collapse">Switch 1</a>
+									<a href="#tab-2" class="js-tab" data-tab-group="tab" data-tab-type="collapse">Scroll Switch 2</a>
+									<a href="#tab-3" class="js-tab" data-tab-group="tab" data-tab-type="collapse">Switch 3</a>
 								</div>
 								<div class="doc-tab-content">
-									<div id="tab-1" class="js-tab-target" data-tab-group="tab">
+									<div id="tab-1" class="tab-target js-tab-target" data-tab-group="tab">
 										<p>Switch 1</p>
 									</div>
-									<div id="tab-2" class="js-tab-target" data-tab-group="tab">
+									<div id="tab-2" class="tab-target js-tab-target" data-tab-group="tab">
 										<p>Switch 2</p>
 										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde optio omnis, laborum nisi neque explicabo quis harum nihil aperiam illum.</p>
 									</div>
-									<div id="tab-3" class="js-tab-target" data-tab-group="tab">
+									<div id="tab-3" class="tab-target js-tab-target" data-tab-group="tab">
 										<p>Switch 3</p>
 									</div>
 								</div>
@@ -66,37 +68,19 @@
 							<div class="example">
 								<div class="doc-tab-nav">
 									<a href="#tabe-1" class="js-tab" data-tab-group="tabe">Switch 1</a>
-									<a href="#tabe-2" class="js-tab" data-tab-group="tabe" data-scroll-target="#2" data-scroll-offset=".site-header" data-scroll-duration="0.1">Switch 2</a>
+									<a href="#tabe-2" class="js-tab" data-tab-group="tabe" data-scroll-target="#tabe-2" data-scroll-duration="100">Switch 2</a>
 									<a href="#tabe-3" class="js-tab" data-tab-group="tabe">Switch 3</a>
 								</div>
 								<div class="doc-tab-content">
-									<div id="tabe-1" class="js-tab-target" data-tab-group="tabe">
+									<div id="tabe-1" class="tab-target js-tab-target" data-tab-group="tabe">
 										<p>Switch 1</p>
 									</div>
-									<div id="tabe-2" class="js-tab-target" data-tab-group="tabe">
+									<div id="tabe-2" class="tab-target js-tab-target" data-tab-group="tabe">
 										<p>Switch 2</p>
 										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde optio omnis, laborum nisi neque explicabo quis harum nihil aperiam illum.</p>
 									</div>
-									<div id="tabe-3" class="js-tab-target" data-tab-group="tabe">
+									<div id="tabe-3" class="tab-target js-tab-target" data-tab-group="tabe">
 										<p>Switch 3</p>
-									</div>
-								</div>
-							</div>
-							<div class="example">
-								<div class="doc-tab-nav">
-									<a href="#tabtog-1" class="js-toggle" data-toggle-group="tabtog">Toggle Switch 1</a>
-									<a href="#tabtog-2" class="js-toggle" data-toggle-group="tabtog" data-scroll-target="#2" data-scroll-offset=".site-header" data-scroll-duration="0.1">Toggle Switch 2</a>
-									<a href="#tabtog-3" class="js-toggle" data-toggle-group="tabtog">Toggle Switch 3</a>
-								</div>
-								<div class="doc-tab-content">
-									<div id="tabtog-1" class="js-toggle-target" data-toggle-group="tabtog">
-										<p>Toggle Switch 1</p>
-									</div>
-									<div id="tabtog-2" class="js-toggle-target" data-toggle-group="tabtog">
-										<p>Toggle Switch 2</p>
-									</div>
-									<div id="tabtog-3" class="js-toggle-target" data-toggle-group="tabtog">
-										<p>Toggle Switch 3</p>
 									</div>
 								</div>
 							</div>
@@ -121,8 +105,8 @@
 								<div class="floater">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis iusto ducimus, culpa numquam explicabo quis eveniet magnam, expedita saepe odit cumque ipsum? Debitis ipsam placeat atque quos similique natus autem.</div>
 								<div class="floater">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, dolorem.</div>
 							</div>
-							<div id="data-2" class="markup-howto js-scene">
-								<h1 class="title">HTML Markup How-To</h1>
+							<div id="data-2" class="markup-howto js-scene" data-scene-offset="-240">
+								<h1 class="title">Scroll Target HTML Markup How-To</h1>
 								<ul class="markup-rules">
 									<li class="markup-rule">There are 3 class: global, module, and submodule</li>
 									<li class="markup-rule">Global has 1 word</li>
