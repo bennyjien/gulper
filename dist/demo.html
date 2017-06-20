@@ -48,7 +48,7 @@
 
 					<div class="main" role="main" itemscope itemprop="mainContentOfPage" itemtype="http://schema.org/Blog">
 						<header class="main-header js-scene">
-							<a href="http://placehold.it/480x480" class="js-toggle" data-toggle-type="image"><img src="http://placehold.it/240x240/eeeeee/111111"></a>
+							<a href="http://placehold.it/480x480/" class="js-toggle" data-toggle-type="image" data-toggle-trigger="hover"><img src="http://placehold.it/240x240/eeeeee/111111"></a>
 						</header>
 						<div class="main-content">
 							<div id="emaple" class="example js-mover" data-mover-breakpoint="600" data-mover-target="#example1">
@@ -65,9 +65,19 @@
 								</div>
 							</div>
 							<div id="example1" class="example">
-								<a href="#toggle-test2" class="js-toggle js-toggle-hover">Toggle Them!</a>
+								<a href="#toggle-test2" class="js-toggle" data-toggle-trigger="hover" data-toggle-area="#toggle-test">Toggle Them!</a>
 								<div id="toggle-test2" class="doc-toggle-test toggle-target">
 									<p>Horayy... We are toggled!</p>
+								</div>
+							</div>
+							<div id="toggle-popup">
+								<a href="#popup" class="js-toggle" data-toggle-area="#about-popup" data-toggle-animation="slide">Popup</a>
+								<div id="popup" class="toggle-popup-container">
+									<div class="toggle-popup-content">
+										<div id="about-popup" class="section">
+											<p>THIS IS POPUP!</p>
+										</div>
+									</div>
 								</div>
 							</div>
 							<div id="navigation">

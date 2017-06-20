@@ -4,7 +4,6 @@
 /* global window document history MouseEvent getParameterByName hasChild Stickyfill anime scrollMonitor svg4everybody */
 
 (function() {
-	'use strict';
 
 	const $body = document.querySelector('body');
 
@@ -16,7 +15,7 @@
 	// sticky polyfill
 	const stickyElements = document.getElementsByClassName('js-sticky');
 
-	for (let i = stickyElements.length - 1; i >= 0; i--) {
+	for (let i = stickyElements.length - 1; i >= 0; i -= 1) {
 		Stickyfill.add(stickyElements[i]);
 	}
 
@@ -27,10 +26,10 @@
 
 		const animation = anime({
 			targets: target,
-			height: height,
-			opacity: opacity,
-			duration: duration,
-			delay: delay,
+			height,
+			opacity,
+			duration,
+			delay,
 			easing: 'easeOutQuad'
 		});
 
@@ -232,17 +231,17 @@
 	}();
 
 	// toggle function, can use scroll to function
-	/* data-toggle-type="default|image" -> image type will zoom image
-	   data-toggle-trigger="click|hover" -> how will toggle be triggered
+	/* data-toggle-trigger="click|hover" -> how will toggle be triggered
 	   data-toggle-target="[selector]" -> toggle target
 	   data-toggle-area="[selector]" -> toggle will end outside this area
-	   data-toggle-method="auto|manual" -> how toggle is handled
+	   data-toggle-animation="slide|manual" -> how toggle is handled
 	   data-toggle-duration="[ms]" -> how long is toggle animation
 	   data-toggle-focus="[selector]" -> toggle will focus on targeted form
 	   data-toggle-state="undefined|toggled" -> toggle state on page load
 	*/
 	const toggleFunction = function() {
-		const $toggles = document.querySelectorAll('.js-toggle');
+		const $toggles = document.querySelectorAll('.js-toggle'),
+			$togglesImage = document.querySelectorAll('.js-toggle[data-toggle-type="image"]');
 
 		function toggleInit($this) {
 			const eventClick = new MouseEvent('click'),
@@ -255,13 +254,12 @@
 		}
 
 		function toggleOpen(event, $this) {
-			const toggleType = $this.dataset.toggleType || 'default',
-				toggleTrigger = $this.dataset.toggleTrigger || 'click',
+			const toggleTrigger = $this.dataset.toggleTrigger || 'click',
 				toggleTarget = $this.dataset.toggleTarget || $this.hash,
 				$toggleTarget = document.querySelector(toggleTarget),
-				$toggleArea = document.querySelector($this.dataset.toggleArea) || $toggleTarget,
+				$toggleArea = document.querySelector($this.dataset.toggleArea) || $this,
 				$toggleFocus = document.querySelector($this.dataset.toggleFocus),
-				toggleMethod = $this.dataset.toggleMethod || 'auto',
+				toggleAnimation = $this.dataset.toggleAnimation || 'slide',
 				toggleDuration = $this.dataset.toggleDuration || 200,
 				toggleScrollTarget = $this.dataset.scrollTarget,
 				bodyClass = toggleTarget.substring(1),
@@ -288,7 +286,7 @@
 						}
 					});
 
-					if (toggleMethod === 'auto') {
+					if (toggleAnimation === 'slide') {
 						$toggleCurrentToggled.forEach(toggle => animeSlideUp(toggle, toggleDuration/2, 0));
 					}
 
@@ -297,14 +295,14 @@
 					if ($this.classList.contains('is-toggled') === false) {
 						$this.classList.add('is-toggled');
 						$toggleTarget.classList.add('is-toggled');
-						if (toggleMethod === 'auto') {
+						if (toggleAnimation === 'slide') {
 							animeSlideDown($toggleTarget, toggleDuration, toggleDuration/2);
 						}
 					}
 
-					$toggleArea.addEventListener('mouseleave', function(event) { toggleClose(event, $this, toggleTrigger, $toggleTarget, $toggleArea, toggleMethod, toggleDuration, bodyClass); });
-					$body.addEventListener('click', function(event) { toggleClose(event, $this, toggleTrigger, $toggleTarget, $toggleArea, toggleMethod, toggleDuration, bodyClass); });
-					$body.addEventListener('touchend', function(event) { toggleClose(event, $this, toggleTrigger, $toggleTarget, $toggleArea, toggleMethod, toggleDuration, bodyClass); });
+					$toggleArea.addEventListener('mouseleave', function(event) { toggleClose(event, $this, toggleTrigger, $toggleTarget, $toggleArea, toggleAnimation, toggleDuration, bodyClass); });
+					$body.addEventListener('click', function(event) { toggleClose(event, $this, toggleTrigger, $toggleTarget, $toggleArea, toggleAnimation, toggleDuration, bodyClass); });
+					$body.addEventListener('touchend', function(event) { toggleClose(event, $this, toggleTrigger, $toggleTarget, $toggleArea, toggleAnimation, toggleDuration, bodyClass); });
 				}
 			} else if (event.type === 'click') {
 				if (toggleTrigger === 'click') {
@@ -320,7 +318,7 @@
 								$toggleTarget.classList.remove('is-untoggling');
 								$body.classList.remove(bodyClass+'-is-toggled', bodyClass+'-is-untoggling');
 							}, toggleDuration);
-							if (toggleMethod === 'auto') {
+							if (toggleAnimation === 'slide') {
 								animeSlideUp($toggleTarget, toggleDuration/2, 0);
 							}
 						}
@@ -335,18 +333,18 @@
 							$toggleTarget.classList.add('is-toggled');
 							$body.classList.remove(bodyClass+'-is-toggling');
 							$body.classList.add(bodyClass+'-is-toggled');
-						}, toggleMethod === 'manual' ? 1 : toggleDuration);
+						}, toggleAnimation === 'manual' ? 1 : toggleDuration);
 						if (toggleScrollTarget) {
 							scrollTo(event, $this);
 						}
-						if (toggleMethod === 'auto') {
+						if (toggleAnimation === 'slide') {
 							animeSlideDown($toggleTarget, toggleDuration, 0);
 						}
 						if ($toggleFocus) {
 							$toggleFocus.focus();
 						}
-						$body.addEventListener('click', function(event) { toggleClose(event, $this, toggleTrigger, $toggleTarget, $toggleArea, toggleMethod, toggleDuration, bodyClass); });
-						$body.addEventListener('touchend', function(event) { toggleClose(event, $this, toggleTrigger, $toggleTarget, $toggleArea, toggleMethod, toggleDuration, bodyClass); });
+						$body.addEventListener('click', function(event) { toggleClose(event, $this, toggleTrigger, $toggleTarget, $toggleArea, toggleAnimation, toggleDuration, bodyClass); });
+						$body.addEventListener('touchend', function(event) { toggleClose(event, $this, toggleTrigger, $toggleTarget, $toggleArea, toggleAnimation, toggleDuration, bodyClass); });
 					}
 
 					if (preventDefault === true) {
@@ -356,7 +354,7 @@
 			}
 		}
 
-		function toggleClose(event, $this, toggleTrigger, $toggleTarget, $toggleArea, toggleMethod, toggleDuration, bodyClass) {
+		function toggleClose(event, $this, toggleTrigger, $toggleTarget, $toggleArea, toggleAnimation, toggleDuration, bodyClass) {
 			if ($this.classList.contains('is-toggled') || $toggleTarget.classList.contains('is-toggled')) {
 				if (toggleTrigger === 'hover' && event.type !== 'click') {
 					$this.classList.remove('is-toggled');
@@ -367,7 +365,7 @@
 						$this.classList.remove('is-untoggling');
 						$toggleTarget.classList.remove('is-untoggling');
 					}, toggleDuration);
-					if (toggleMethod === 'auto') {
+					if (toggleAnimation === 'slide') {
 						animeSlideUp($toggleTarget, toggleDuration/2, 0);
 					}
 				} else {
@@ -382,7 +380,7 @@
 							$toggleTarget.classList.remove('is-untoggling');
 							$body.classList.remove(bodyClass+'-is-toggled', bodyClass+'-is-untoggling');
 						}, toggleDuration);
-						if (toggleMethod === 'auto') {
+						if (toggleAnimation === 'slide') {
 							animeSlideUp($toggleTarget, toggleDuration/2, 0);
 						}
 					}

@@ -207,23 +207,30 @@
 	flex: 1 1 auto;
 	width: 100%;
 
-	@include breakpoint(walker) {
+	@include breakpoint(runner) {
 		flex: 0 0 auto;
-		margin-left: 48px;
+		margin-left: 32px;
 		width: 256px;
 	}
 
-	@include breakpoint(runner) {
+	@include breakpoint(jumper) {
+		margin-left: 48px;
 		width: 320px;
 	}
 }
 
 @mixin aside-left {
+	margin-bottom: 24px;
+	order: -1;
 
-	@include breakpoint(walker) {
+	@include breakpoint(runner) {
+		margin-bottom: 0;
 		margin-left: 0;
+		margin-right: 32px;
+	}
+
+	@include breakpoint(jumper) {
 		margin-right: 48px;
-		order: -1;
 	}
 }
 

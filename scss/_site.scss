@@ -34,7 +34,6 @@
 		flex: 1 0 auto;
 		flex-direction: column;
 		position: relative;
-		z-index: 3;
 
 		> .inner {
 			display: flex;
@@ -44,7 +43,7 @@
 			padding-top: 48px;
 			width: 100%;
 
-			@include breakpoint(walker) {
+			@include breakpoint(runner) {
 				flex-direction: row;
 				justify-content: space-between;
 			}
