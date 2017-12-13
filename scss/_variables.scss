@@ -1,16 +1,16 @@
 // COLOR
 
-$white: 					#FFFFFF;
-$black: 					#000000;
+$white: 							#FFFFFF;
+$black: 							#000000;
 
-$color-100: 				#FAFAFA; // background-light
-$color-200: 				#EBEBEB; // border-light
-$color-300: 				#E0E0E0; // border
-$color-400: 				#CCCCCC; // border-dark, text-lighter, button-disabled
-$color-500: 				#989898; // text-light
-$color-600: 				#4C4C4C; // text, button-hover
-$color-700: 				#3D3D3D; // background, button
-$color-800: 				#1E1E1E; // background-dark, text-dark
+$color-100: 					#FAFAFA; // background-light
+$color-200: 					#EBEBEB; // border-light
+$color-300: 					#E0E0E0; // border
+$color-400: 					#CCCCCC; // border-dark, text-lighter, button-disabled
+$color-500: 					#989898; // text-light
+$color-600: 					#4C4C4C; // text, button-hover
+$color-700: 					#3D3D3D; // background, button
+$color-800: 					#1E1E1E; // background-dark, text-dark
 
 $color-one-100: 			#2bad29;
 $color-one-200: 			#259b24;
@@ -30,45 +30,44 @@ $color-two-600: 			#c00010;
 $color-two-700: 			#f20e3c;
 $color-two-800: 			#e00032;
 
-$color-info-light: 			#CEE5F5;
-$color-info: 				#5CB4EE;
-$color-info-dark: 			#5CB4EE;
+$color-info-light: 		#CEE1F5;
+$color-info: 					#9FC3EC;
+$color-info-dark: 		#2578D4;
 
-$color-success-light: 		#C6EBC5;
-$color-success: 			#269921;
-$color-success-dark: 		#269921;
+$color-success-light: #BDF1B1;
+$color-success: 			#78E35F;
+$color-success-dark: 	#0BA300;
 
-$color-warning-light: 		#FFEBCC;
-$color-warning: 			#FCAD2A;
-$color-warning-dark: 		#FCAD2A;
+$color-warning-light: #F9E097;
+$color-warning: 			#F2C121;
+$color-warning-dark: 	#917415;
 
-$color-alert-light: 		#FABEC4;
-$color-alert: 				#F60F26;
-$color-alert-dark: 			#F60F26;
+$color-alert-light: 	#FCD1D2;
+$color-alert: 				#FAA4A6;
+$color-alert-dark: 		#F4474A;
 
-$color-text-lighter: 		$color-400;
-$color-text-light: 			$color-500;
-$color-text: 				$color-600;
-$color-text-dark: 			$color-800;
+$color-text-lighter: 	$color-400;
+$color-text-light: 		$color-500;
+$color-text: 					$color-600;
+$color-text-dark: 		$color-800;
 
-$color-background-light: 	$color-100;
-$color-background: 			$color-700;
-$color-background-dark: 	$color-800;
-$color-background-gradient: linear-gradient(to right, $color-one-100, $color-two-100);
-$color-background-pattern: 	url("assets/images/bg-pattern.svg");
+$color-bg-light: 			$color-100;
+$color-bg: 						$color-700;
+$color-bg-dark: 			$color-800;
+$color-bg-gradient: 	linear-gradient(to right, $color-one-100, $color-two-100);
 
-$color-border-light: 		$color-200;
+$color-border-light: 	$color-200;
 $color-border: 				$color-300;
-$color-border-dark: 		$color-400;
+$color-border-dark: 	$color-400;
 
 $color-dribbble: 			#ea4c89;
 $color-facebook: 			#3b5998;
-$color-facebook-alt: 		#60a2f3;
-$color-googleplus: 			#cc3732;
-$color-instagram: 			#cd486b;
-$color-line: 				#1BB71F;
+$color-facebook-alt: 	#60a2f3;
+$color-googleplus: 		#cc3732;
+$color-instagram: 		#cd486b;
+$color-line: 					#1BB71F;
 $color-linkedin: 			#0077b5;
-$color-pinterest: 			#cc2127;
+$color-pinterest: 		#cc2127;
 $color-twitter: 			#00aced;
 $color-whatsapp: 			#33D16B;
 $color-youtube: 			#cd201f;
@@ -84,56 +83,56 @@ $box-shadow-600: 			0 0 8px rgba($color-800, 0.04), 0 8px 16px 0 rgba($color-800
 $box-shadow-700: 			0 0 10px rgba($color-800, 0.04), 0 10px 20px 0 rgba($color-800, 0.08);
 $box-shadow-800: 			0 0 12px rgba($color-800, 0.04), 0 12px 24px 0 rgba($color-800, 0.08);
 
-$text-shadow-100: 			none;
-$text-shadow-200: 			0 0 1px rgba($color-800, 0.04), 0 1px 2px 0 rgba($color-800, 0.08);
-$text-shadow-300: 			0 0 2px rgba($color-800, 0.04), 0 2px 4px 0 rgba($color-800, 0.08);
-$text-shadow-400: 			0 0 4px rgba($color-800, 0.04), 0 4px 8px 0 rgba($color-800, 0.08);
-$text-shadow-500: 			0 0 6px rgba($color-800, 0.04), 0 6px 12px 0 rgba($color-800, 0.08);
-$text-shadow-600: 			0 0 8px rgba($color-800, 0.04), 0 8px 16px 0 rgba($color-800, 0.08);
-$text-shadow-700: 			0 0 10px rgba($color-800, 0.04), 0 10px 20px 0 rgba($color-800, 0.08);
-$text-shadow-800: 			0 0 12px rgba($color-800, 0.04), 0 12px 24px 0 rgba($color-800, 0.08);
+$text-shadow-100: 		none;
+$text-shadow-200: 		0 0 1px rgba($color-800, 0.04), 0 1px 2px 0 rgba($color-800, 0.08);
+$text-shadow-300: 		0 0 2px rgba($color-800, 0.04), 0 2px 4px 0 rgba($color-800, 0.08);
+$text-shadow-400: 		0 0 4px rgba($color-800, 0.04), 0 4px 8px 0 rgba($color-800, 0.08);
+$text-shadow-500: 		0 0 6px rgba($color-800, 0.04), 0 6px 12px 0 rgba($color-800, 0.08);
+$text-shadow-600: 		0 0 8px rgba($color-800, 0.04), 0 8px 16px 0 rgba($color-800, 0.08);
+$text-shadow-700: 		0 0 10px rgba($color-800, 0.04), 0 10px 20px 0 rgba($color-800, 0.08);
+$text-shadow-800: 		0 0 12px rgba($color-800, 0.04), 0 12px 24px 0 rgba($color-800, 0.08);
 
 // TYPOGRAPHY
 
-$sans-serif: 				"Helvetica Neue", sans-serif;
-$serif: 					Georgia, serif;
-$monospace: 				Menlo, Monaco, Consolas, "Courier New", monospace;
+$sans-serif: 					"Helvetica Neue", sans-serif;
+$serif: 							Georgia, serif;
+$monospace: 					Menlo, Monaco, Consolas, "Courier New", monospace;
 
 $font-size-100: 			11px;
-$line-height-100: 			1.45455;
+$line-height-100: 		1.45455;
 
 $font-size-200: 			12px;
-$line-height-200: 			1.33334;
+$line-height-200: 		1.33334;
 
 $font-size-300: 			13px;
-$line-height-300: 			1.38462;
+$line-height-300: 		1.38462;
 
 $font-size-400: 			14px;
-$line-height-400: 			1.42858;
+$line-height-400: 		1.42858;
 
 $font-size-500: 			16px;
-$line-height-500: 			1.5;
+$line-height-500: 		1.5;
 
 $font-size-600: 			18px;
-$line-height-600: 			1.44445;
+$line-height-600: 		1.44445;
 
 $font-size-700:	 			24px;
-$line-height-700: 			1.33334;
+$line-height-700: 		1.33334;
 
-$font-size-800: 			36px;
-$line-height-800: 			1.11112;
+$font-size-800: 			32px;
+$line-height-800: 		1.125;
 
 $font-size-900: 			48px;
-$line-height-900: 			1.16667;
+$line-height-900: 		1.16667;
 
-$font-size-display: 		64px;
-$line-height-display: 		1.125;
+$font-size-display: 	64px;
+$line-height-display: 1.125;
 
-$font-size-jumbotron: 		96px;
-$line-height-jumbotron: 	1.16667;
+$font-size-jumbo: 		96px;
+$line-height-jumbo: 	1.16667;
 
-$font-size-h1: 				36px;
-$line-height-h1: 			1.11112;
+$font-size-h1: 				32px;
+$line-height-h1: 			1.125;
 
 $font-size-h2: 				24px;
 $line-height-h2: 			1.16667;
@@ -170,11 +169,11 @@ $ease-out-expo: 			cubic-bezier(0.190, 1.000, 0.220, 1.000);
 $ease-out-circ: 			cubic-bezier(0.075, 0.820, 0.165, 1.000);
 $ease-out-back: 			cubic-bezier(0.175, 0.885, 0.320, 1.275);
 
-$ease-in-out-quad: 			cubic-bezier(0.455, 0.030, 0.515, 0.955);
-$ease-in-out-cubic: 		cubic-bezier(0.645, 0.045, 0.355, 1.000);
-$ease-in-out-quart: 		cubic-bezier(0.770, 0.000, 0.175, 1.000);
-$ease-in-out-quint: 		cubic-bezier(0.860, 0.000, 0.070, 1.000);
-$ease-in-out-sine: 			cubic-bezier(0.445, 0.050, 0.550, 0.950);
-$ease-in-out-expo: 			cubic-bezier(1.000, 0.000, 0.000, 1.000);
-$ease-in-out-circ: 			cubic-bezier(0.785, 0.135, 0.150, 0.860);
-$ease-in-out-back: 			cubic-bezier(0.680, -0.550, 0.265, 1.550);
+$ease-in-out-quad: 		cubic-bezier(0.455, 0.030, 0.515, 0.955);
+$ease-in-out-cubic: 	cubic-bezier(0.645, 0.045, 0.355, 1.000);
+$ease-in-out-quart: 	cubic-bezier(0.770, 0.000, 0.175, 1.000);
+$ease-in-out-quint: 	cubic-bezier(0.860, 0.000, 0.070, 1.000);
+$ease-in-out-sine: 		cubic-bezier(0.445, 0.050, 0.550, 0.950);
+$ease-in-out-expo: 		cubic-bezier(1.000, 0.000, 0.000, 1.000);
+$ease-in-out-circ: 		cubic-bezier(0.785, 0.135, 0.150, 0.860);
+$ease-in-out-back: 		cubic-bezier(0.680, -0.550, 0.265, 1.550);

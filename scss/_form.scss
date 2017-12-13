@@ -10,39 +10,6 @@
 }
 
 @at-root {
-	.form-group {
-		margin: -8px;
-		position: relative;
-
-		&:not(:last-child) {
-			margin-bottom: 8px;
-		}
-
-		@include breakpoint(crawler) {
-			display: flex;
-			flex-wrap: wrap;
-		}
-
-		&:last-child {
-			margin-bottom: -8px;
-		}
-
-		[class^="form-"] {
-			margin-bottom: 0;
-			padding: 8px 8px;
-
-			&:not(:last-child) {
-				margin-bottom: 0;
-			}
-
-			@include breakpoint(crawler) {
-				flex: 0 1 50%;
-			}
-		}
-	}
-}
-
-@at-root {
 	.form-checkboxes {
 		border: none;
 		padding: 0;
@@ -55,13 +22,14 @@
 			margin-bottom: 2px;
 		}
 	}
-	
+
 	.form-checkbox {
 		align-items: baseline;
+		break-inside: avoid;
 		display: flex;
 
 		&:not(:last-child) {
-			margin-bottom: 16px;
+			margin-bottom: 2px;
 		}
 
 		.input {
@@ -72,6 +40,14 @@
 
 		.label {
 			flex: 0 1 auto;
+		}
+	}
+
+	.form-checkbox-column {
+
+		@include breakpoint(crawler) {
+			columns: 2;
+			column-gap: 24px;
 		}
 	}
 }
@@ -216,7 +192,7 @@
 		}
 
 		.label {
-			flex: 1 1 auto;
+			flex: 0 1 auto;
 		}
 	}
 }
@@ -230,40 +206,60 @@
 
 		.js & {
 
-			input[type="file"] {
+			.form-file-input {
 				@include hidden;
 			}
 		}
 
 		.no-js & {
 
-			.label {
+			.form-file-label,
+			.form-file-remove {
 				display: none;
 			}
 		}
 
 		.label {
-			cursor: pointer;
 			display: inline-block;
-			overflow: hidden;
-			text-overflow: ellipsis;
+			font-weight: 700;
+			margin-bottom: 2px;
+		}
+	}
 
-			&:hover {
+	.form-file-label {
+		cursor: pointer;
+		display: inline-block;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		vertical-align: middle;
 
-				.button {
-					background-color: $color-500;
-				}
+		&.has-placeholder {
+
+			+ .form-file-remove {
+				display: inline-block;
 			}
 
-			> * {
-				pointer-events: none;
+			.placeholder {
+				color: $color-text;
 			}
+		}
+
+		&:hover {
+
+			.button {
+				background-color: $color-500;
+			}
+		}
+
+		> * {
+			pointer-events: none;
 		}
 
 		.button {
 			@include font-size-400;
 			background-color: $color-400;
 			color: $white;
+			cursor: pointer;
 			margin-right: 4px;
 			padding: 6px 12px;
 
@@ -275,12 +271,23 @@
 		.placeholder {
 			@include font-size-400;
 			color: $color-text-light;
+			cursor: pointer;
 			display: inline-block;
 			vertical-align: middle;
+		}
+	}
 
-			&.has-placeholder {
-				color: $color-text;
-			}
+	.form-file-remove {
+		color: $color-text-light;
+		display: none;
+		margin-left: 2px;
+		transition: all 0.2s ease-out;
+		vertical-align: middle;
+
+		&:hover,
+		&:focus {
+			color: $color-alert-dark;
+			text-decoration: none;
 		}
 	}
 }
@@ -294,12 +301,12 @@
 
 		.label {
 			display: inline-block;
-			margin-bottom: 2px;
+		}
 
-			+ .input {
-				display: flex;
-				width: 100%;
-			}
+		.inputs {
+			display: flex;
+			margin-top: 2px;
+			width: 100%;
 		}
 
 		.input {
@@ -516,6 +523,7 @@
 
 		.label {
 			display: inline-block;
+			font-weight: 700;
 			margin-bottom: 2px;
 		}
 
@@ -535,11 +543,11 @@
 
 		.label {
 			display: inline-block;
+			font-weight: 700;
 			margin-bottom: 2px;
 		}
 
 		.input {
-			display: block;
 			width: 100%;
 
 			&.input-textarea {
@@ -562,6 +570,32 @@
 			}
 		}
 	}
+
+	.form-text-addon {
+		display: flex;
+
+		&:not(:last-child) {
+			margin-bottom: 4px;
+		}
+
+		.addon {
+			border: 1px solid $color-border;
+			border-radius: 3px 0 0 3px;
+			flex: 0 0 auto;
+			font-size: $font-size-400;
+			line-height: 24px;
+			margin: 0;
+			padding: 3px 7px;
+			width: 128px;
+		}
+
+		.input {
+			border-top-left-radius: 0;
+			border-bottom-left-radius: 0;
+			border-left: 0;
+			flex: 1 1 0;
+		}
+	}
 }
 
 @at-root {
@@ -573,6 +607,31 @@
 
 		&:not(:last-child) {
 			margin-bottom: 16px;
+		}
+	}
+}
+
+@at-root {
+	.form-group {
+		margin: -8px -8px 8px;
+		position: relative;
+
+		@include breakpoint(crawler) {
+			display: flex;
+			flex-wrap: wrap;
+		}
+
+		&:last-child {
+			margin-bottom: -8px;
+		}
+
+		[class^="form-"] {
+			margin-bottom: 0;
+			padding: 8px 8px;
+
+			@include breakpoint(crawler) {
+				flex: 0 1 50%;
+			}
 		}
 	}
 }

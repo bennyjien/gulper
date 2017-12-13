@@ -1,6 +1,6 @@
 /* This file contains helper functions
  */
- /* global window document */
+ /* global window document anime */
 
 // get parameter in url
 function getParameterByName(name, url) {
@@ -43,4 +43,49 @@ function mousePos(event) {
 		x: posX,
 		y: posY
 	};
+}
+
+// equalling heights function
+/* EXAMPLE
+   equalheight('.floaters .floater');
+*/
+function equalheight(elements) {
+	let $this,
+		currentHighest = 0,
+		currentRowStart = 0,
+		currentDiv,
+		rowDivs = [],
+		topPosition = 0;
+
+	function calculateHeight(elements) {
+		const $elements = document.querySelectorAll(elements);
+
+		$elements.forEach(element => {
+			$this = element;
+			$this.style.minHeight = 0;
+			topPosition = $this.offsetTop;
+
+			if (currentRowStart !== topPosition) {
+				for (currentDiv = 0 ; currentDiv < rowDivs.length ; currentDiv++) {
+					rowDivs[currentDiv].style.minHeight = currentHighest + 'px';
+				}
+				rowDivs.length = 0;
+				currentRowStart = topPosition;
+				currentHighest = $this.offsetHeight;
+				rowDivs.push($this);
+			} else {
+				rowDivs.push($this);
+				currentHighest = (currentHighest < $this.offsetHeight) ? $this.offsetHeight : currentHighest;
+			}
+
+			for (currentDiv = 0 ; currentDiv < rowDivs.length ; currentDiv++) {
+				rowDivs[currentDiv].style.minHeight = currentHighest + 'px';
+			}
+		});
+	}
+
+	calculateHeight(elements);
+	window.addEventListener('resize', function() {
+		calculateHeight(elements);
+	});
 }

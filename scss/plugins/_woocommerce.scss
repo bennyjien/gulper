@@ -78,8 +78,8 @@
 	.woocommerce-message {
 		@include clearfix;
 		background: $white;
-		box-shadow: 0 1px 2px rgba($black, 0.2);
-		color: rgba($black, 0.5);
+		box-shadow: $box-shadow-300;
+		color: color-text;
 		list-style: none;
 		margin: 0 0 24px;
 		padding: 16px 16px 16px 64px;
@@ -111,31 +111,31 @@
 	}
 
 	.woocommerce-message {
-		border-top: 2px solid $color-success;
+		border-top: 2px solid $color-success-dark;
 
 		&:before {
 			content: "\2713";
-			background-color: $color-success;
+			background-color: $color-success-dark;
 		}
 	}
 
 	.woocommerce-info {
-		border-top: 2px solid $color-600;
+		border-top: 2px solid $color-info-dark;
 
 		&:before {
 			content: "i";
-			background-color: $color-600;
+			background-color: $color-info-dark;
 			font-family: $serif;
 			font-style: italic;
 		}
 	}
 
 	.woocommerce-error {
-		border-top: 2px solid $color-alert;
+		border-top: 2px solid $color-alert-dark;
 
 		&:before {
 			content: "\00d7";
-			background-color: $color-alert;
+			background-color: $color-alert-dark;
 			font-weight: 700;
 		}
 	}
@@ -189,7 +189,7 @@
 		}
 
 		.out-of-stock {
-			color: $color-alert;
+			color: $color-alert-dark;
 		}
 
 		.images {
@@ -519,43 +519,6 @@
 	#content .button,
 	#respond #submit,
 	.button {
-		background-color: $color-600;
-
-		&:hover,
-		&:focus {
-			background-color: $color-500;
-		}
-
-		&:active {
-			background-color: $color-700;
-		}
-
-		&.add_to_cart_button {
-			background-color: $color-one-500;
-
-			&:hover,
-			&:focus {
-				background-color: $color-one-400;
-			}
-
-			&:active {
-				background-color: $color-one-600;
-			}
-		}
-
-		&.alt,
-		&.checkout {
-			background-color: $color-600;
-
-			&:hover,
-			&:focus {
-				background-color: $color-500;
-			}
-
-			&:active {
-				background-color: $color-700;
-			}
-		}
 
 		&.loading {
 
@@ -581,13 +544,6 @@
 				text-indent: 0;
 				top: 4px;
 			}
-		}
-
-		&.disabled,
-		&:disabled {
-			background-color: $color-300;
-			color: $color-600;
-			cursor: not-allowed;
 		}
 	}
 
@@ -1128,7 +1084,7 @@
 
 		.remove {
 			border-radius: 100%;
-			color: $color-alert;
+			color: $color-alert-dark;
 			display: block;
 			font-family: Arial;
 			font-size: 18px;
@@ -1139,7 +1095,7 @@
 			width: 16px;
 
 			&:hover {
-				background-color: $color-alert;
+				background-color: $color-alert-dark;
 				color: $white;
 			}
 		}
@@ -1383,7 +1339,7 @@
 				.chosen-single,
 				.input-text,
 				select {
-					border-color: $color-alert;
+					border-color: $color-alert-dark;
 				}
 			}
 
@@ -1405,7 +1361,7 @@
 
 			.required {
 				border: 0;
-				color: $color-alert;
+				color: $color-alert-dark;
 				font-weight: 700;
 			}
 

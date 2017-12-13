@@ -12,7 +12,7 @@ var babel = require('gulp-babel');
 var uglify = require('gulp-uglify');
 var svg2png = require('gulp-svg2png');
 var svgSymbols = require('gulp-svg-symbols');
-var svgo = require('gulp-svgo');
+var svgmin = require('gulp-svgmin');
 var del = require('del');
 var runSequence = require('run-sequence');
 var browserSync = require('browser-sync').create();
@@ -47,7 +47,7 @@ gulp.task('browserSync', function() {
 gulp.task('kit-js-dist', function() {
 	return gulp.src('kit/**/*.kit')
 		.pipe(kit())
-		.pipe(prettify({indent_char: '\t', indent_size: 1, preserve_newlines: true, unformatted: ['a', 'span', 'img', 'code', 'pre', 'sub', 'sup', 'em', 'strong', 'b', 'i', 'u', 'strike', 'big', 'small', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'svg','br', 'label', 'input'], wrap_line_length: 0}))
+		.pipe(prettify({indent_char: '\t', indent_size: 1, preserve_newlines: true, unformatted: ['a', 'span', 'img', 'code', 'pre', 'sub', 'sup', 'em', 'strong', 'b', 'i', 'u', 'strike', 'big', 'small', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'svg','br', 'label', 'input', 'script'], wrap_line_length: 0}))
 		.pipe(useref({ searchPath: './' }))
 		.pipe(gulpIf('bundle.js', babel({ presets: ['es2015'] })))
 		.pipe(gulpIf('bundle.js', uglify()))
@@ -118,7 +118,7 @@ gulp.task('doc-sass', function() {
 
 // gulp.task('svg-sprite', ['svg-fallback'], function() {
 // 	return gulp.src('assets/images/symbols/**/*.svg')
-// 	.pipe(svgo())
+// 	.pipe(svgmin())
 // 	.pipe(svgSymbols({ className: '.icon-%f' }))
 // 	.pipe(gulp.dest('dist/assets/images/'))
 // 	.pipe(browserSync.stream());
@@ -126,14 +126,18 @@ gulp.task('doc-sass', function() {
 
 gulp.task('svg', function() {
 	return gulp.src('assets/images/**/*.svg')
-	.pipe(svgo())
+	.pipe(svgmin({
+		plugins: [{
+			cleanupIDs: false
+		}]
+	}))
 	.pipe(gulp.dest('dist/assets/images/'))
 	.pipe(browserSync.stream());
 });
 
 gulp.task('svg-sprite', ['svg'], function() {
 	return gulp.src('assets/images/symbols/**/*.svg')
-	.pipe(svgo())
+	.pipe(svgmin())
 	.pipe(svgSymbols())
 	.pipe(gulp.dest('dist/assets/images/'))
 	.pipe(browserSync.stream());

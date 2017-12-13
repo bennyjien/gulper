@@ -18,9 +18,10 @@ html {
 
 body {
 	@include font-size-500;
+	@include hyphenate;
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-font-smoothing: antialiased;
-	background-color: $color-background;
+	background-color: $color-bg;
 	color: $color-text;
 	font-family: $sans-serif;
 	height: 100%;
@@ -242,7 +243,11 @@ fieldset {
 	border: 1px solid $color-border;
 	margin: 0 0 24px;
 	min-width: 0;
-	padding: 16px 24px 24px;
+	padding: 16px;
+
+	@include breakpoint(crawler) {
+		padding: 24px;
+	}
 
 	&:last-child {
 		margin-bottom: 0;
@@ -250,8 +255,8 @@ fieldset {
 }
 
 legend {
-	@include font-size-h5;
-	color: $color-text-light;
+	color: $color-text;
+	font-weight: 700;
 	margin-left: -8px;
 	padding: 0 8px;
 }

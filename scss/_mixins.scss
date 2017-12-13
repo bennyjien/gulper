@@ -129,9 +129,9 @@
 	line-height: $line-height-display;
 }
 
-@mixin font-size-jumbotron {
-	font-size: $font-size-jumbotron;
-	line-height: $line-height-jumbotron;
+@mixin font-size-jumbo {
+	font-size: $font-size-jumbo;
+	line-height: $line-height-jumbo;
 }
 
 @mixin font-size-h1 {
@@ -275,7 +275,7 @@
 		padding-right: 32px;
 	}
 
-	@include breakpoint(jumper) {
+	@include breakpoint(runner) {
 		padding-left: 48px;
 		padding-right: 48px;
 	}
@@ -295,7 +295,7 @@
 		margin-right: -32px;
 	}
 
-	@include breakpoint(jumper) {
+	@include breakpoint(runner) {
 		margin-left: -48px;
 		margin-right: -48px;
 	}

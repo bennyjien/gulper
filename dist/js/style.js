@@ -4,7 +4,6 @@
 /* global window document history MouseEvent getParameterByName hasChild Stickyfill anime scrollMonitor svg4everybody */
 
 (function() {
-	'use strict';
 
 	const $body = document.querySelector('body');
 
@@ -16,7 +15,7 @@
 	// sticky polyfill
 	const stickyElements = document.getElementsByClassName('js-sticky');
 
-	for (let i = stickyElements.length - 1; i >= 0; i--) {
+	for (let i = stickyElements.length - 1; i >= 0; i -= 1) {
 		Stickyfill.add(stickyElements[i]);
 	}
 
@@ -27,10 +26,10 @@
 
 		const animation = anime({
 			targets: target,
-			height: height,
-			opacity: opacity,
-			duration: duration,
-			delay: delay,
+			height,
+			opacity,
+			duration,
+			delay,
 			easing: 'easeOutQuad'
 		});
 
@@ -438,11 +437,12 @@
 
 	// form file function
 	/* EXAMPLE
-	 	<div class="form-file js-form-file">
+		<div class="form-file js-form-file">
 			<label class="label">File</label>
 			<div class="input">
 				<input type="file" id="checkout-attachment" class="form-file-input" name="checkout-attachment" data-multiple-placeholder="{count} files selected" multiple>
 				<label for="checkout-attachment" class="form-file-label"><span class="button">Browse files</span> <span class="placeholder">No file selected&hellip;</span></label>
+				<a href="#" class="form-file-remove" title="Remove attachment">&times;</a>
 			</div>
 		</div>
 	*/
@@ -452,74 +452,52 @@
 		$formFile.forEach(element => {
 			const $input = element.querySelector('.form-file-input'),
 				$label = element.querySelector('.form-file-label'),
+				$remove = element.querySelector('.form-file-remove'),
 				labelDefault = $label.innerHTML;
 
-			$input.addEventListener('change', function(event) {
-				let fileName = '';
+			function addFile($this, event) {
+				let $files = $this.files,
+					fileName = '',
+					fileSize = 0;
 
-				if (this.files && this.files.length > 1) {
-					fileName = (this.getAttribute('data-multiple-placeholder') || '').replace('{count}', this.files.length);
+				for (let file of $files) {
+					fileSize += file.size;
 				}
-				else if (event.target.value) {
-					fileName = event.target.value.split('\\').pop();
+				fileSize = Math.round(fileSize/1024/1024 * 100) / 100;
+
+				if ($this.files && $this.files.length > 1) {
+					fileName = `${($this.getAttribute('data-multiple-placeholder') || '').replace('{count}', $this.files.length)} (${fileSize}MB)`;
+				} else if (event.target.value) {
+					fileName = `${event.target.value.split('\\').pop()} (${fileSize}MB)`;
 				}
 
 				if (fileName) {
 					const $labelCaption = $label.querySelector('.placeholder');
-
 					$labelCaption.innerHTML = fileName;
-					$labelCaption.classList.add('has-placeholder');
+					$label.classList.add('has-placeholder');
+				} else {
+					removeFile(event);
 				}
-				else {
-					$label.innerHTML = labelDefault;
-				}
+			}
+
+			function removeFile(event) {
+				$input.value = '';
+				$label.innerHTML = labelDefault;
+				$label.classList.remove('has-placeholder');
+				event.preventDefault();
+			}
+
+			$input.addEventListener('change', function(event) {
+				addFile(this, event);
 			});
+
+			if ($remove) {
+				$remove.addEventListener('click', function(event) {
+					removeFile(event);
+				});
+			}
+
 		});
 	}();
-
-	// equalling heights function
-	/* EXAMPLE
-	   equalheight('.floaters .floater');
-	*/
-	const equalheight = function(elements) {
-		let $this,
-			currentHighest = 0,
-			currentRowStart = 0,
-			currentDiv,
-			rowDivs = [],
-			topPosition = 0;
-
-		function calculateHeight(elements) {
-			const $elements = document.querySelectorAll(elements);
-
-			$elements.forEach(element => {
-				$this = element;
-				$this.style.minHeight = 0;
-				topPosition = $this.offsetTop;
-
-				if (currentRowStart !== topPosition) {
-					for (currentDiv = 0 ; currentDiv < rowDivs.length ; currentDiv++) {
-						rowDivs[currentDiv].style.minHeight = currentHighest + 'px';
-					}
-					rowDivs.length = 0;
-					currentRowStart = topPosition;
-					currentHighest = $this.offsetHeight;
-					rowDivs.push($this);
-				} else {
-					rowDivs.push($this);
-					currentHighest = (currentHighest < $this.offsetHeight) ? $this.offsetHeight : currentHighest;
-				}
-
-				for (currentDiv = 0 ; currentDiv < rowDivs.length ; currentDiv++) {
-					rowDivs[currentDiv].style.minHeight = currentHighest + 'px';
-				}
-			});
-		}
-
-		calculateHeight(elements);
-		window.addEventListener('resize', function() {
-			calculateHeight(elements);
-		});
-	};
 
 })();

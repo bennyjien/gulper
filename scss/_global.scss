@@ -97,6 +97,11 @@
 	fill: currentColor;
 	height: 1em;
 	width: 1em;
+
+	&.icon-inline {
+		position: relative;
+		top: -2px;
+	}
 }
 
 .list {

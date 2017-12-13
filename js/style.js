@@ -237,7 +237,9 @@
 	   data-toggle-animation="slide|manual" -> how toggle is handled
 	   data-toggle-duration="[ms]" -> how long is toggle animation
 	   data-toggle-focus="[selector]" -> toggle will focus on targeted form
+	   data-toggle-iteration="infinite|once" -> once will only trigger toggle once
 	   data-toggle-state="undefined|toggled" -> toggle state on page load
+	   data-scroll-target="[selector]" -> scroll to target
 	*/
 	const toggleFunction = function() {
 		const $toggles = document.querySelectorAll('.js-toggle'),
@@ -261,15 +263,24 @@
 				$toggleFocus = document.querySelector($this.dataset.toggleFocus),
 				toggleAnimation = $this.dataset.toggleAnimation || 'slide',
 				toggleDuration = $this.dataset.toggleDuration || 200,
+				toggleIteration = $this.dataset.toggleIteration || 'infinite',
 				toggleScrollTarget = $this.dataset.scrollTarget,
 				bodyClass = toggleTarget.substring(1),
 				preventDefault = $this.dataset.toggleTarget ? false : true;
 
 			if (!$toggleTarget) return false;
 
+			if (!$this.classList.contains('js-toggle')){
+				return false;
+			}
+
 			if (event.type === 'mouseenter' || event.type === 'touchstart') {
 				if (toggleTrigger === 'hover') {
 					const $toggleLinkToggled = $toggleArea.querySelectorAll('.js-toggle.is-toggled');
+
+					if (toggleIteration === 'once') {
+						$this.classList.remove('js-toggle');
+					}
 
 					$toggleLinkToggled.forEach(toggle => {
 						if (toggle !== $this) {
@@ -306,6 +317,10 @@
 				}
 			} else if (event.type === 'click') {
 				if (toggleTrigger === 'click') {
+					if (toggleIteration === 'once') {
+						$this.classList.remove('js-toggle');
+					}
+
 					if ($this.classList.contains('is-toggled') || $toggleTarget.classList.contains('is-toggled')) {
 						if (!hasChild($this, $toggleArea)) {
 							$this.classList.remove('is-toggled');
@@ -326,6 +341,7 @@
 						$this.classList.add('is-toggling');
 						$toggleTarget.classList.add('is-toggling');
 						$body.classList.add(bodyClass+'-is-toggling');
+
 						setTimeout(function() {
 							$this.classList.remove('is-toggling');
 							$this.classList.add('is-toggled');
@@ -333,16 +349,19 @@
 							$toggleTarget.classList.add('is-toggled');
 							$body.classList.remove(bodyClass+'-is-toggling');
 							$body.classList.add(bodyClass+'-is-toggled');
+
+							if ($toggleFocus) {
+								$toggleFocus.focus();
+							}
 						}, toggleAnimation === 'manual' ? 1 : toggleDuration);
+
 						if (toggleScrollTarget) {
 							scrollTo(event, $this);
 						}
 						if (toggleAnimation === 'slide') {
 							animeSlideDown($toggleTarget, toggleDuration, 0);
 						}
-						if ($toggleFocus) {
-							$toggleFocus.focus();
-						}
+
 						$body.addEventListener('click', function(event) { toggleClose(event, $this, toggleTrigger, $toggleTarget, $toggleArea, toggleAnimation, toggleDuration, bodyClass); });
 						$body.addEventListener('touchend', function(event) { toggleClose(event, $this, toggleTrigger, $toggleTarget, $toggleArea, toggleAnimation, toggleDuration, bodyClass); });
 					}
@@ -437,11 +456,12 @@
 
 	// form file function
 	/* EXAMPLE
-	 	<div class="form-file js-form-file">
+		<div class="form-file js-form-file">
 			<label class="label">File</label>
 			<div class="input">
 				<input type="file" id="checkout-attachment" class="form-file-input" name="checkout-attachment" data-multiple-placeholder="{count} files selected" multiple>
 				<label for="checkout-attachment" class="form-file-label"><span class="button">Browse files</span> <span class="placeholder">No file selected&hellip;</span></label>
+				<a href="#" class="form-file-remove" title="Remove attachment">&times;</a>
 			</div>
 		</div>
 	*/
@@ -451,74 +471,52 @@
 		$formFile.forEach(element => {
 			const $input = element.querySelector('.form-file-input'),
 				$label = element.querySelector('.form-file-label'),
+				$remove = element.querySelector('.form-file-remove'),
 				labelDefault = $label.innerHTML;
 
-			$input.addEventListener('change', function(event) {
-				let fileName = '';
+			function addFile($this, event) {
+				let $files = $this.files,
+					fileName = '',
+					fileSize = 0;
 
-				if (this.files && this.files.length > 1) {
-					fileName = (this.getAttribute('data-multiple-placeholder') || '').replace('{count}', this.files.length);
+				for (let file of $files) {
+					fileSize += file.size;
 				}
-				else if (event.target.value) {
-					fileName = event.target.value.split('\\').pop();
+				fileSize = Math.round(fileSize/1024/1024 * 100) / 100;
+
+				if ($this.files && $this.files.length > 1) {
+					fileName = `${($this.getAttribute('data-multiple-placeholder') || '').replace('{count}', $this.files.length)} (${fileSize}MB)`;
+				} else if (event.target.value) {
+					fileName = `${event.target.value.split('\\').pop()} (${fileSize}MB)`;
 				}
 
 				if (fileName) {
 					const $labelCaption = $label.querySelector('.placeholder');
-
 					$labelCaption.innerHTML = fileName;
-					$labelCaption.classList.add('has-placeholder');
+					$label.classList.add('has-placeholder');
+				} else {
+					removeFile(event);
 				}
-				else {
-					$label.innerHTML = labelDefault;
-				}
+			}
+
+			function removeFile(event) {
+				$input.value = '';
+				$label.innerHTML = labelDefault;
+				$label.classList.remove('has-placeholder');
+				event.preventDefault();
+			}
+
+			$input.addEventListener('change', function(event) {
+				addFile(this, event);
 			});
+
+			if ($remove) {
+				$remove.addEventListener('click', function(event) {
+					removeFile(event);
+				});
+			}
+
 		});
 	}();
-
-	// equalling heights function
-	/* EXAMPLE
-	   equalheight('.floaters .floater');
-	*/
-	const equalheight = function(elements) {
-		let $this,
-			currentHighest = 0,
-			currentRowStart = 0,
-			currentDiv,
-			rowDivs = [],
-			topPosition = 0;
-
-		function calculateHeight(elements) {
-			const $elements = document.querySelectorAll(elements);
-
-			$elements.forEach(element => {
-				$this = element;
-				$this.style.minHeight = 0;
-				topPosition = $this.offsetTop;
-
-				if (currentRowStart !== topPosition) {
-					for (currentDiv = 0 ; currentDiv < rowDivs.length ; currentDiv++) {
-						rowDivs[currentDiv].style.minHeight = currentHighest + 'px';
-					}
-					rowDivs.length = 0;
-					currentRowStart = topPosition;
-					currentHighest = $this.offsetHeight;
-					rowDivs.push($this);
-				} else {
-					rowDivs.push($this);
-					currentHighest = (currentHighest < $this.offsetHeight) ? $this.offsetHeight : currentHighest;
-				}
-
-				for (currentDiv = 0 ; currentDiv < rowDivs.length ; currentDiv++) {
-					rowDivs[currentDiv].style.minHeight = currentHighest + 'px';
-				}
-			});
-		}
-
-		calculateHeight(elements);
-		window.addEventListener('resize', function() {
-			calculateHeight(elements);
-		});
-	};
 
 })();
