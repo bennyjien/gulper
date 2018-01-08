@@ -32,7 +32,6 @@ gulp.task('browserSync', function() {
 		server: {
 			baseDir: 'dist/',
 		},
-		browser: 'google chrome',
 		notify: {
 			styles: {
 				borderRadius: '8px 0 0',
@@ -47,10 +46,10 @@ gulp.task('browserSync', function() {
 gulp.task('kit-js-dist', function() {
 	return gulp.src('kit/**/*.kit')
 		.pipe(kit())
-		.pipe(prettify({indent_char: '\t', indent_size: 1, preserve_newlines: true, unformatted: ['a', 'span', 'img', 'code', 'pre', 'sub', 'sup', 'em', 'strong', 'b', 'i', 'u', 'strike', 'big', 'small', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'svg','br', 'label', 'input', 'script'], wrap_line_length: 0}))
+		.pipe(prettify({indent_char: '\t', indent_size: 1, preserve_newlines: true, unformatted: ['a', 'span', 'img', 'code', 'pre', 'sub', 'sup', 'em', 'strong', 'b', 'i', 'u', 'strike', 'big', 'small', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'svg','br', 'label', 'input', 'script', 'time'], wrap_line_length: 0}))
 		.pipe(useref({ searchPath: './' }))
-		.pipe(gulpIf('bundle.js', babel({ presets: ['es2015'] })))
-		.pipe(gulpIf('bundle.js', uglify()))
+		.pipe(gulpIf('assets/js/bundle.js', babel({ presets: ['es2015'] })))
+		.pipe(gulpIf('assets/js/bundle.js', uglify()))
 		.pipe(gulp.dest('dist/'));
 });
 
@@ -65,15 +64,15 @@ gulp.task('kit-reload', ['kit'], function() {
 });
 
 gulp.task('sass', function() {
-	return gulp.src('scss/**/*.scss')
+	return gulp.src('assets/scss/**/*.scss')
 		.pipe(sass({ outputStyle: 'compressed' }).on('error', handleErrors))
 		.pipe(autoprefixer({ browsers: ['last 2 versions'], cascade: false }))
-		.pipe(gulp.dest('dist/'))
+		.pipe(gulp.dest('dist/assets/css/'))
 		.pipe(browserSync.stream());
 });
 
 gulp.task('js-hint', function() {
-	gulp.src(['js/style.js', 'js/script.js'])
+	gulp.src(['assets/js/style.js', 'assets/js/script.js'])
 		.pipe(jshint({ esnext: true }))
 		.pipe(jshint.reporter('default'))
 		.pipe(jshint.reporter('fail')).on('error', handleErrors);
@@ -82,8 +81,8 @@ gulp.task('js-hint', function() {
 gulp.task('js', function() {
 	gulp.run('js-hint');
 
-	return gulp.src('js/**/*')
-		.pipe(gulp.dest('dist/js/'));
+	return gulp.src('assets/js/**/*')
+		.pipe(gulp.dest('dist/assets/js/'));
 });
 
 gulp.task('js-reload', ['js'], function() {
@@ -108,39 +107,23 @@ gulp.task('doc-sass', function() {
 		.pipe(browserSync.stream());
 });
 
-// Generating SVG Symbol
-// gulp.task('svg-fallback', function() {
-// 	return gulp.src('assets/images/symbols/**/*.svg')
-// 		.pipe(svg2png())
-// 		.pipe(rename({ prefix: 'svg-symbols.svg.' }))
-// 		.pipe(gulp.dest('dist/assets/images/'));
-// });
-
-// gulp.task('svg-sprite', ['svg-fallback'], function() {
-// 	return gulp.src('assets/images/symbols/**/*.svg')
-// 	.pipe(svgmin())
-// 	.pipe(svgSymbols({ className: '.icon-%f' }))
-// 	.pipe(gulp.dest('dist/assets/images/'))
-// 	.pipe(browserSync.stream());
-// });
-
 gulp.task('svg', function() {
 	return gulp.src('assets/images/**/*.svg')
-	.pipe(svgmin({
-		plugins: [{
-			cleanupIDs: false
-		}]
-	}))
-	.pipe(gulp.dest('dist/assets/images/'))
-	.pipe(browserSync.stream());
+		.pipe(svgmin({
+			plugins: [{
+				cleanupIDs: false
+			}]
+		}))
+		.pipe(gulp.dest('dist/assets/images/'))
+		.pipe(browserSync.stream());
 });
 
 gulp.task('svg-sprite', ['svg'], function() {
 	return gulp.src('assets/images/symbols/**/*.svg')
-	.pipe(svgmin())
-	.pipe(svgSymbols())
-	.pipe(gulp.dest('dist/assets/images/'))
-	.pipe(browserSync.stream());
+		.pipe(svgmin())
+		.pipe(svgSymbols())
+		.pipe(gulp.dest('dist/assets/images/'))
+		.pipe(browserSync.stream());
 });
 
 // Copying assets & uploads
@@ -151,7 +134,7 @@ gulp.task('root', function() {
 });
 
 gulp.task('assets', function() {
-	return gulp.src(['assets/**/*', '!assets/images/**/*.svg', '!assets/images/symbols/'])
+	return gulp.src(['assets/**/*', '!assets/images/**/*.svg', '!assets/js/**/*', '!assets/{scss,scss/**}'])
 		.pipe(gulp.dest('dist/assets/'))
 		.pipe(browserSync.stream());
 });
@@ -165,13 +148,13 @@ gulp.task('uploads', function() {
 // Watching for changes
 gulp.task('watch', function() {
 	gulp.watch('kit/**/*.kit', ['kit-reload']);
-	gulp.watch('scss/**/*.scss', ['sass' , 'doc-sass']);
-	gulp.watch('js/**/*.js', ['js-reload']);
 	gulp.watch('_doc/*.kit', ['doc-kit-reload']);
 	gulp.watch('_doc/*.scss', ['doc-sass']);
 	gulp.watch('root/**/*', ['root']);
-	gulp.watch(['assets/**/*', '!assets/images/**/*.svg'], ['assets']);
+	gulp.watch(['assets/**/*', '!assets/images/**/*.svg', '!assets/{js,js/**}', '!assets/{scss,scss/**}'], ['assets']);
 	gulp.watch('assets/images/**/*.svg', ['svg', 'svg-sprite']);
+	gulp.watch('assets/js/**/*.js', ['js-reload']);
+	gulp.watch('assets/scss/**/*.scss', ['sass' , 'doc-sass']);
 	gulp.watch('uploads/**/*', ['uploads']);
 });
 

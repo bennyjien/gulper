@@ -1,10 +1,9 @@
 /* This file extends the limit of style.css
  * Style related scripts including polyfill should be written here
  */
-/* global window document history MouseEvent getParameterByName hasChild Stickyfill ScrollMagic TweenMax svg4everybody */
+/* global window document history MouseEvent getParameterByName hasChild Stickyfill anime scrollMonitor svg4everybody */
 
 (function() {
-	'use strict';
 
 	const $body = document.querySelector('body');
 
@@ -16,35 +15,93 @@
 	// sticky polyfill
 	const stickyElements = document.getElementsByClassName('js-sticky');
 
-	for (let i = stickyElements.length - 1; i >= 0; i--) {
+	for (let i = stickyElements.length - 1; i >= 0; i -= 1) {
 		Stickyfill.add(stickyElements[i]);
+	}
+
+	// anime.js animation
+	function animeSlide(target, duration, height, opacity, delay) {
+		anime.remove(target);
+		target.style.overflow = 'hidden';
+
+		const animation = anime({
+			targets: target,
+			height,
+			opacity,
+			duration,
+			delay,
+			easing: 'easeOutQuad'
+		});
+
+		function hideElement() {
+			if (height === 0) {
+				target.style.display = 'none';
+			}
+		}
+
+		animation.finished.then(hideElement);
+	}
+
+	function animeSlideDown(target, duration, delay) {
+		let targetHeight;
+
+		target.style.display = 'block';
+		target.style.height = 'auto';
+		targetHeight = target.offsetHeight;
+		target.style.height = 0;
+		animeSlide(target, duration, targetHeight, 1, delay);
+	}
+
+	function animeSlideUp(target, duration, delay) {
+		animeSlide(target, duration, 0, 0, delay);
 	}
 
 	// scroll to targeted id
 	function scrollTo(event, element) {
-		const scrollTarget = element.dataset.scrollTarget || element.hash || '',
+		const scrollY = window.scrollY,
+			scrollTarget = element.dataset.scrollTarget || element.hash || '',
 			$scrollTarget = document.querySelector(`[id='${scrollTarget.substring(1)}']`),
-			scrollDuration = element.dataset.scrollDuration || 0.4,
+			scrollTargetY = $scrollTarget.getBoundingClientRect().top,
+			scrollDuration = element.dataset.scrollDuration || 200,
 			$offset = document.querySelector(element.dataset.scrollOffset) || '',
-			offset = $offset.offsetHeight || 0;
+			offsetY = $offset.offsetHeight || 0;
+
+		const prop = {
+			y: 0
+		};
 
 		if ($scrollTarget) {
-			TweenMax.to(window, scrollDuration, {
-				scrollTo: {
-					y: scrollTarget,
-					offsetY: offset
+			const animation = anime({
+				targets: prop,
+				y: scrollTargetY + scrollY - offsetY,
+				round: 1,
+				duration: scrollDuration,
+				easing: 'easeOutQuad',
+				update: function() {
+					window.scrollTo(0, prop.y);
 				}
 			});
 			event.preventDefault();
 		}
 	}
 
-	// unwrapper function: fixing calculation bug because of scrollbar
-	var unwrapperFunction = function(event) {
-		var $unwrapper = document.querySelectorAll('.js-unwrapper'),
-			math = `calc(50% - ${windowWidth}px/2)`;
+	// scroller function
+	/* data-scroll-target="[selector]" -> scroll to target
+	   data-scroll-offset="[selector]" -> offset of selector height
+	   data-scroll-duration="[duration]" -> how long is scrolling animation
+	*/
+	const scrollFunction = function(event) {
+		const $scrolls = document.querySelectorAll('.js-scroll');
 
-		function unwrapperApply() {
+		$scrolls.forEach(scroll => scroll.addEventListener('click', function(event) { scrollTo(event, this); }));
+	}();
+
+	// unwrapper function: fixing calculation bug because of scrollbar
+	const unwrapperFunction = function(event) {
+		const $unwrapper = document.querySelectorAll('.js-unwrapper');
+		let math = `calc(50% - ${windowWidth}px/2)`;
+
+		function unwrapperInit() {
 			windowWidth = document.documentElement.clientWidth;
 
 			if (windowWidth >= 1152) {
@@ -62,42 +119,40 @@
 			}
 		}
 
-		unwrapperApply();
-		window.addEventListener('resize', unwrapperApply);
+		unwrapperInit();
+		window.addEventListener('resize', unwrapperInit);
 	}();
 
-	// init ScrollMagic
-	const sceneController = new ScrollMagic.Controller(),
-		$scenes = document.querySelectorAll('.js-scene');
+	// init scrollMonitor
+	const sceneFunction = function() {
+		const $scenes = document.querySelectorAll('.js-scene');
 
-	$scenes.forEach(scene => {
-		var sceneElement = new ScrollMagic.Scene({ triggerElement: scene, reverse: false })
-			.setClassToggle(scene, 'in-viewport')
-			.addIndicators()
-			.addTo(sceneController);
-	});
+		function sceneInit($this) {
+			const sceneOffset = parseInt($this.dataset.sceneOffset) || 0;
+			const sceneWatcher = scrollMonitor.create($this, sceneOffset);
 
-	// scroller function
-	/* data-scroll-target="[selector]" -> scroll to target
-	   data-scroll-offset="[selector]" -> offset of selector height
-	   data-scroll-duration="[duration]" -> how long is scrolling animation
-	*/
-	var scrollFunction = function(event) {
-		const $scrolls = document.querySelectorAll('.js-scroll');
+			sceneWatcher.enterViewport(function() {
+				this.watchItem.classList.add('in-viewport');
+			});
 
-		$scrolls.forEach(scroll => scroll.addEventListener('click', function(event) { scrollTo(event, this); }));
+			sceneWatcher.exitViewport(function() {
+				this.watchItem.classList.remove('in-viewport');
+			});
+		}
+
+		$scenes.forEach(scene => sceneInit(scene));
 	}();
 
 	// tab function, can use scroll to function
 	/* data-tab-type="normal|collapse" -> collapse tab can be closed individually
 	   data-tab-group="[name]" -> tab grouping
-	   data-tab-duration="[second]" -> how long is tab animation if tab method is auto
+	   data-tab-duration="[ms]" -> how long is tab animation if tab method is auto
 	*/
-	var tabFunction = function() {
+	const tabFunction = function() {
 		const $tabs = document.querySelectorAll('.js-tab');
 
 		function tabInit() {
-			var $tabTargets = document.querySelectorAll('.js-tab-target'),
+			const $tabTargets = document.querySelectorAll('.js-tab-target'),
 				$firstTabs = document.querySelectorAll('[data-tab-group]:first-child'),
 				$firstTabTargets = document.querySelectorAll('[data-tab-group].js-tab-target:first-child'),
 				queryString = getParameterByName('tab'),
@@ -109,7 +164,7 @@
 			$firstTabs.forEach(element => element.classList.add('is-tabbed'));
 
 			if (queryString && $tabTarget) {
-				var $tabGroup = document.querySelectorAll(`[data-tab-group="${$tabTarget.dataset.tabGroup}"]`),
+				const $tabGroup = document.querySelectorAll(`[data-tab-group="${$tabTarget.dataset.tabGroup}"]`),
 					$tabTargetGroup = document.querySelectorAll(`[data-tab-group="${$tabTarget.dataset.tabGroup}"].js-tab-target`);
 
 				$tabTargetGroup.forEach(element => element.style.display = 'none');
@@ -121,18 +176,18 @@
 		}
 
 		function tabSwitch(event, $this) {
-			var $tabTarget = document.querySelector($this.hash);
+			const $tabTarget = document.querySelector($this.hash);
 
 			if ($tabTarget) {
-				var $tabGroup =  document.querySelectorAll(`[data-tab-group="${$tabTarget.dataset.tabGroup}"]`),
+				const $tabGroup =  document.querySelectorAll(`[data-tab-group="${$tabTarget.dataset.tabGroup}"]`),
 					$tabTargetGroup = document.querySelectorAll(`.js-tab-target[data-tab-group="${$tabTarget.dataset.tabGroup}"]`),
 					tabType = $this.dataset.tabType || 'tab',
 					tabTarget = $this.hash.substring(1),
-					tabDuration = $this.dataset.tabDuration || 0.2,
+					tabDuration = $this.dataset.tabDuration || 200,
 					tabScrollTarget = $this.dataset.scrollTarget;
 
 				if (!$tabTarget.classList.contains('is-tabbed')) {
-					var closeDuration = 0;
+					let closeDuration = 0;
 
 					$tabTargetGroup.forEach(element => {
 						if (element.classList.contains('is-tabbed')) {
@@ -140,32 +195,16 @@
 						}
 					});
 
-					TweenMax.to($tabTargetGroup, closeDuration, {
-						display: 'none',
-						height: 0,
-						overflow: 'hidden',
-						autoAlpha: 0,
-						onComplete: function() {
-							TweenMax.set($tabTarget, {
-								display: 'block',
-								height: 'auto',
-								overflow: 'visible',
-								autoAlpha: 1
-							});
-							TweenMax.from($tabTarget, tabDuration, {
-								height: 0,
-								overflow: 'hidden',
-								autoAlpha: 0
-							});
-						}
-					});
-
+					$tabTargetGroup.forEach(element => animeSlideUp(element, closeDuration, 0));
+					animeSlideDown($tabTarget, tabDuration, 0);
 					$tabGroup.forEach(element => element.classList.remove('is-tabbed'));
 					$this.classList.add('is-tabbed');
 					$tabTarget.classList.add('is-tabbed');
 
 					if (tabScrollTarget) {
-						scrollTo(event, $this);
+						setTimeout(function() {
+							scrollTo(event, $this);
+						}, closeDuration);
 					}
 
 					if (window.history && history.pushState) {
@@ -173,13 +212,7 @@
 					}
 				} else {
 					if (tabType === 'collapse') {
-						TweenMax.to($tabTargetGroup, tabDuration/2, {
-							display: 'none',
-							height: 0,
-							overflow: 'hidden',
-							autoAlpha: 0
-						});
-
+						$tabTargetGroup.forEach(element => animeSlideUp(element, tabDuration, 0));
 						$this.classList.remove('is-tabbed');
 						$tabTarget.classList.remove('is-tabbed');
 
@@ -201,40 +234,20 @@
 	/* data-toggle-trigger="click|hover" -> how will toggle be triggered
 	   data-toggle-target="[selector]" -> toggle target
 	   data-toggle-area="[selector]" -> toggle will end outside this area
-	   data-toggle-method="auto|manual" -> how toggle is handled, default is auto
-	   data-toggle-duration="[second]" -> how long is toggle animation
+	   data-toggle-animation="slide|manual" -> how toggle is handled
+	   data-toggle-duration="[ms]" -> how long is toggle animation
 	   data-toggle-focus="[selector]" -> toggle will focus on targeted form
+	   data-toggle-iteration="infinite|once" -> once will only trigger toggle once
 	   data-toggle-state="undefined|toggled" -> toggle state on page load
+	   data-toggle-keyclose="false|true" -> toggle target can be closed by keydown
+	   data-scroll-target="[selector]" -> scroll to target
 	*/
-	var toggleFunction = function() {
-		const $toggles = document.querySelectorAll('.js-toggle');
-
-		function toggleSlideUp(target, duration) {
-			TweenMax.to(target, duration, {
-				display: 'none',
-				height: 0,
-				overflow: 'hidden',
-				autoAlpha: 0
-			});
-		}
-
-		function toggleSlideDown(target, duration, delay) {
-			TweenMax.set(target, {
-				display: 'block',
-				height: 'auto',
-				overflow: 'visible',
-				autoAlpha: 1
-			});
-			TweenMax.from(target, duration, {
-				height: 0,
-				overflow: 'hidden',
-				autoAlpha: 0,
-				delay: delay
-			});
-		}
+	const toggleFunction = function() {
+		const $toggles = document.querySelectorAll('.js-toggle'),
+			$togglesImage = document.querySelectorAll('.js-toggle[data-toggle-type="image"]');
 
 		function toggleInit($this) {
-			var eventClick = new MouseEvent('click'),
+			const eventClick = new MouseEvent('click'),
 				eventMouse = new MouseEvent('mouseenter');
 
 			if ($this.dataset.toggleState === 'toggled') {
@@ -244,22 +257,32 @@
 		}
 
 		function toggleOpen(event, $this) {
-			var toggleTrigger = $this.dataset.toggleTrigger || 'click',
+			const toggleTrigger = $this.dataset.toggleTrigger || 'click',
 				toggleTarget = $this.dataset.toggleTarget || $this.hash,
 				$toggleTarget = document.querySelector(toggleTarget),
-				$toggleArea = document.querySelector($this.dataset.toggleArea) || $toggleTarget,
+				$toggleArea = document.querySelector($this.dataset.toggleArea) || $this,
 				$toggleFocus = document.querySelector($this.dataset.toggleFocus),
-				toggleMethod = $this.dataset.toggleMethod || 'auto',
-				toggleDuration = $this.dataset.toggleDuration || 0.25,
+				toggleAnimation = $this.dataset.toggleAnimation || 'slide',
+				toggleDuration = $this.dataset.toggleDuration || 200,
+				toggleIteration = $this.dataset.toggleIteration || 'infinite',
 				toggleScrollTarget = $this.dataset.scrollTarget,
+				toggleKeyclose = $this.dataset.toggleKeyclose || false,
 				bodyClass = toggleTarget.substring(1),
 				preventDefault = $this.dataset.toggleTarget ? false : true;
 
 			if (!$toggleTarget) return false;
 
+			if (!$this.classList.contains('js-toggle')){
+				return false;
+			}
+
 			if (event.type === 'mouseenter' || event.type === 'touchstart') {
 				if (toggleTrigger === 'hover') {
-					var $toggleLinkToggled = $toggleArea.querySelectorAll('.js-toggle.is-toggled');
+					const $toggleLinkToggled = $toggleArea.querySelectorAll('.js-toggle.is-toggled');
+
+					if (toggleIteration === 'once') {
+						$this.classList.remove('js-toggle');
+					}
 
 					$toggleLinkToggled.forEach(toggle => {
 						if (toggle !== $this) {
@@ -267,7 +290,7 @@
 						}
 					});
 
-					var $toggleAllToggled = $toggleArea.querySelectorAll('.is-toggled'),
+					const $toggleAllToggled = $toggleArea.querySelectorAll('.is-toggled'),
 						$toggleCurrentToggled = [];
 
 					$toggleAllToggled.forEach(toggle => {
@@ -276,8 +299,8 @@
 						}
 					});
 
-					if (toggleMethod === 'auto') {
-						toggleSlideUp($toggleCurrentToggled, toggleDuration/2);
+					if (toggleAnimation === 'slide') {
+						$toggleCurrentToggled.forEach(toggle => animeSlideUp(toggle, toggleDuration/2, 0));
 					}
 
 					$toggleCurrentToggled.forEach(toggle => toggle.classList.remove('is-toggled'));
@@ -285,17 +308,27 @@
 					if ($this.classList.contains('is-toggled') === false) {
 						$this.classList.add('is-toggled');
 						$toggleTarget.classList.add('is-toggled');
-						if (toggleMethod === 'auto') {
-							toggleSlideDown($toggleTarget, toggleDuration, toggleDuration/2);
+						if (toggleAnimation === 'slide') {
+							animeSlideDown($toggleTarget, toggleDuration, toggleDuration/2);
 						}
 					}
 
-					$toggleArea.addEventListener('mouseleave', function(event) { toggleClose(event, $this, toggleTrigger, $toggleTarget, $toggleArea, toggleMethod, toggleDuration, bodyClass); });
-					$body.addEventListener('click', function(event) { toggleClose(event, $this, toggleTrigger, $toggleTarget, $toggleArea, toggleMethod, toggleDuration, bodyClass); });
-					$body.addEventListener('touchend', function(event) { toggleClose(event, $this, toggleTrigger, $toggleTarget, $toggleArea, toggleMethod, toggleDuration, bodyClass); });
+					$toggleArea.addEventListener('mouseleave', function(event) {
+						toggleClose(event, $this, toggleTrigger, $toggleTarget, $toggleArea, toggleAnimation, toggleDuration, bodyClass);
+					});
+					$body.addEventListener('click', function(event) {
+						toggleClose(event, $this, toggleTrigger, $toggleTarget, $toggleArea, toggleAnimation, toggleDuration, bodyClass);
+					});
+					$body.addEventListener('touchend', function(event) {
+						toggleClose(event, $this, toggleTrigger, $toggleTarget, $toggleArea, toggleAnimation, toggleDuration, bodyClass);
+					});
 				}
 			} else if (event.type === 'click') {
 				if (toggleTrigger === 'click') {
+					if (toggleIteration === 'once') {
+						$this.classList.remove('js-toggle');
+					}
+
 					if ($this.classList.contains('is-toggled') || $toggleTarget.classList.contains('is-toggled')) {
 						if (!hasChild($this, $toggleArea)) {
 							$this.classList.remove('is-toggled');
@@ -307,15 +340,16 @@
 								$this.classList.remove('is-untoggling');
 								$toggleTarget.classList.remove('is-untoggling');
 								$body.classList.remove(bodyClass+'-is-toggled', bodyClass+'-is-untoggling');
-							}, toggleDuration*1000);
-							if (toggleMethod === 'auto') {
-								toggleSlideUp($toggleTarget, toggleDuration/2);
+							}, toggleDuration);
+							if (toggleAnimation === 'slide') {
+								animeSlideUp($toggleTarget, toggleDuration/2, 0);
 							}
 						}
 					} else {
 						$this.classList.add('is-toggling');
 						$toggleTarget.classList.add('is-toggling');
 						$body.classList.add(bodyClass+'-is-toggling');
+
 						setTimeout(function() {
 							$this.classList.remove('is-toggling');
 							$this.classList.add('is-toggled');
@@ -323,18 +357,31 @@
 							$toggleTarget.classList.add('is-toggled');
 							$body.classList.remove(bodyClass+'-is-toggling');
 							$body.classList.add(bodyClass+'-is-toggled');
-						}, toggleMethod === 'manual' ? 1 : toggleDuration*1000);
+
+							if ($toggleFocus) {
+								$toggleFocus.focus();
+							}
+						}, toggleAnimation === 'manual' ? 1 : toggleDuration);
+
 						if (toggleScrollTarget) {
 							scrollTo(event, $this);
 						}
-						if (toggleMethod === 'auto') {
-							toggleSlideDown($toggleTarget, toggleDuration, 0);
+						if (toggleAnimation === 'slide') {
+							animeSlideDown($toggleTarget, toggleDuration, 0);
 						}
-						if ($toggleFocus) {
-							$toggleFocus.focus();
+
+						$body.addEventListener('click', function(event) {
+							toggleClose(event, $this, toggleTrigger, $toggleTarget, $toggleArea, toggleAnimation, toggleDuration, bodyClass);
+						});
+						$body.addEventListener('touchend', function(event) {
+							toggleClose(event, $this, toggleTrigger, $toggleTarget, $toggleArea, toggleAnimation, toggleDuration, bodyClass);
+						});
+
+						if (toggleKeyclose === 'true') {
+							document.addEventListener('keydown', function(event) {
+								toggleClose(event, $this, toggleTrigger, $toggleTarget, $toggleArea, toggleAnimation, toggleDuration, bodyClass);
+							});
 						}
-						$body.addEventListener('click', function(event) { toggleClose(event, $this, toggleTrigger, $toggleTarget, $toggleArea, toggleMethod, toggleDuration, bodyClass); });
-						$body.addEventListener('touchend', function(event) { toggleClose(event, $this, toggleTrigger, $toggleTarget, $toggleArea, toggleMethod, toggleDuration, bodyClass); });
 					}
 
 					if (preventDefault === true) {
@@ -344,9 +391,9 @@
 			}
 		}
 
-		function toggleClose(event, $this, toggleTrigger, $toggleTarget, $toggleArea, toggleMethod, toggleDuration, bodyClass) {
+		function toggleClose(event, $this, toggleTrigger, $toggleTarget, $toggleArea, toggleAnimation, toggleDuration, bodyClass) {
 			if ($this.classList.contains('is-toggled') || $toggleTarget.classList.contains('is-toggled')) {
-				if (toggleTrigger === 'hover' && event.type !== 'click') {
+				if ((toggleTrigger === 'hover' && event.type !== 'click') || (toggleTrigger === 'click' && event.type === 'keydown')) {
 					$this.classList.remove('is-toggled');
 					$this.classList.add('is-untoggling');
 					$toggleTarget.classList.remove('is-toggled');
@@ -354,9 +401,9 @@
 					setTimeout(function() {
 						$this.classList.remove('is-untoggling');
 						$toggleTarget.classList.remove('is-untoggling');
-					}, toggleDuration*1000);
-					if (toggleMethod === 'auto') {
-						toggleSlideUp($toggleTarget, toggleDuration/2);
+					}, toggleDuration);
+					if (toggleAnimation === 'slide') {
+						animeSlideUp($toggleTarget, toggleDuration/2, 0);
 					}
 				} else {
 					if ($this !== event.target && !hasChild($this, event.target) && $toggleArea !== event.target && !hasChild($toggleArea, event.target)) {
@@ -369,9 +416,9 @@
 							$this.classList.remove('is-untoggling');
 							$toggleTarget.classList.remove('is-untoggling');
 							$body.classList.remove(bodyClass+'-is-toggled', bodyClass+'-is-untoggling');
-						}, toggleDuration*1000);
-						if (toggleMethod === 'auto') {
-							toggleSlideUp($toggleTarget, toggleDuration/2);
+						}, toggleDuration);
+						if (toggleAnimation === 'slide') {
+							animeSlideUp($toggleTarget, toggleDuration/2, 0);
 						}
 					}
 				}
@@ -390,18 +437,18 @@
 	/* data-mover-breakpoint="[width]" -> mover breakpoint width
 	   data-mover-target="[selector]" -> mover will append selected element to this selector
 	*/
-	var moverFunction = function() {
+	const moverFunction = function() {
 		const $movers = document.querySelectorAll('.js-mover');
 
 		function moverStart(element) {
-			var $this = element;
+			const $this = element;
 
 			$this.insertAdjacentHTML('beforebegin', '<div class="js-mover-source"></div>');
 
-			var $moverSource = $this.previousElementSibling,
+			const $moverSource = $this.previousElementSibling,
 				$moverTarget = document.querySelector($this.dataset.moverTarget),
-				moverBreakpoint = $this.dataset.moverBreakpoint,
-				windowWidth = document.documentElement.clientWidth;
+				moverBreakpoint = $this.dataset.moverBreakpoint;
+			let windowWidth = document.documentElement.clientWidth;
 
 			if (windowWidth >= moverBreakpoint) {
 				$moverTarget.appendChild($this);
@@ -416,7 +463,7 @@
 					}
 				} else {
 					if ($this.parentNode !== $moverSource) {
-						$moverSource.appendChild($this);
+						$moverSource.parentNode.insertBefore($this, $moverSource.nextSibling);
 					}
 				}
 			});
@@ -427,86 +474,67 @@
 
 	// form file function
 	/* EXAMPLE
-	 	<div class="form-file js-form-file">
+		<div class="form-file js-form-file">
 			<label class="label">File</label>
 			<div class="input">
 				<input type="file" id="checkout-attachment" class="form-file-input" name="checkout-attachment" data-multiple-placeholder="{count} files selected" multiple>
 				<label for="checkout-attachment" class="form-file-label"><span class="button">Browse files</span> <span class="placeholder">No file selected&hellip;</span></label>
+				<a href="#" class="form-file-remove" title="Remove attachment">&times;</a>
 			</div>
 		</div>
 	*/
-	var formFileFunction = function() {
-		var $formFile = document.querySelectorAll('.js-form-file');
+	const formFileFunction = function() {
+		const $formFile = document.querySelectorAll('.js-form-file');
 
 		$formFile.forEach(element => {
-			var $input = element.querySelector('.form-file-input'),
+			const $input = element.querySelector('.form-file-input'),
 				$label = element.querySelector('.form-file-label'),
+				$remove = element.querySelector('.form-file-remove'),
 				labelDefault = $label.innerHTML;
 
-			$input.addEventListener('change', function(event) {
-				var fileName = '';
+			function addFile($this, event) {
+				let $files = $this.files,
+					fileName = '',
+					fileSize = 0;
 
-				if (this.files && this.files.length > 1) {
-					fileName = (this.getAttribute('data-multiple-placeholder') || '').replace('{count}', this.files.length);
+				for (let file of $files) {
+					fileSize += file.size;
 				}
-				else if (event.target.value) {
-					fileName = event.target.value.split('\\').pop();
+				fileSize = Math.round(fileSize/1024/1024 * 100) / 100;
+
+				if ($this.files && $this.files.length > 1) {
+					fileName = `${($this.getAttribute('data-multiple-placeholder') || '').replace('{count}', $this.files.length)} (${fileSize}MB)`;
+				} else if (event.target.value) {
+					fileName = `${event.target.value.split('\\').pop()} (${fileSize}MB)`;
 				}
 
 				if (fileName) {
-					var $labelCaption = $label.querySelector('.placeholder');
+					const $labelCaption = $label.querySelector('.placeholder');
 					$labelCaption.innerHTML = fileName;
-					$labelCaption.classList.add('has-placeholder');
+					$label.classList.add('has-placeholder');
+				} else {
+					removeFile(event);
 				}
-				else {
-					$label.innerHTML = labelDefault;
-				}
+			}
+
+			function removeFile(event) {
+				$input.value = '';
+				$label.innerHTML = labelDefault;
+				$label.classList.remove('has-placeholder');
+				event.preventDefault();
+			}
+
+			$input.addEventListener('change', function(event) {
+				addFile(this, event);
 			});
+
+			if ($remove) {
+				$remove.addEventListener('click', function(event) {
+					removeFile(event);
+				});
+			}
+
 		});
 	}();
-
-	// equalling heights function
-	/* EXAMPLE
-	   equalheight('.floaters .floater');
-	*/
-	var equalheight = function(elements) {
-		var $this,
-			currentHighest = 0,
-			currentRowStart = 0,
-			currentDiv,
-			rowDivs = [],
-			topPosition = 0;
-
-		function calculateHeight(elements) {
-			var $elements = document.querySelectorAll(elements);
-			$elements.forEach(element => {
-				$this = element;
-				$this.style.minHeight = 0;
-				topPosition = $this.offsetTop;
-
-				if (currentRowStart !== topPosition) {
-					for (currentDiv = 0 ; currentDiv < rowDivs.length ; currentDiv++) {
-						rowDivs[currentDiv].style.minHeight = currentHighest + 'px';
-					}
-					rowDivs.length = 0;
-					currentRowStart = topPosition;
-					currentHighest = $this.offsetHeight;
-					rowDivs.push($this);
-				} else {
-					rowDivs.push($this);
-					currentHighest = (currentHighest < $this.offsetHeight) ? $this.offsetHeight : currentHighest;
-				}
-
-				for (currentDiv = 0 ; currentDiv < rowDivs.length ; currentDiv++) {
-					rowDivs[currentDiv].style.minHeight = currentHighest + 'px';
-				}
-			});
-		}
-
-		calculateHeight(elements);
-		window.addEventListener('resize', function() {
-			calculateHeight(elements);
-		});
-	};
 
 })();

@@ -31,8 +31,11 @@ Have fun! :)
 + to review _doc/_, run `gulp build` since _doc/_ needs bundle.js
 
 ## CHANGELOG
+1.3
++ remove GSAP independency
++ changes on file structure
 
-1.2 (ongoing)
+1.2 (Jan 8, 2018)
 + too many changes o.0
 
 1.1.4 (Feb 13, 2017)

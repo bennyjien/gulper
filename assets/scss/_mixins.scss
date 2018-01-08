@@ -20,7 +20,7 @@
 		@media screen and (min-width: 1024px) { @content; }
 	}
 	@else if $zombie == jumper {
-		@media screen and (min-width: 1120px) { @content; }
+		@media screen and (min-width: 1112px) { @content; }
 	}
 	@else if $zombie == flyer {
 		@media screen and (min-width: 1280px) { @content; }
@@ -306,7 +306,7 @@
 	}
 }
 
-@mixin gsap-visible {
+@mixin visible {
 	display: block !important;
 	height: auto !important;
 	opacity: 1 !important;
