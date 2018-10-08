@@ -1,41 +1,41 @@
-@at-root {
-	.site-container {
-		background-color: $white;
-		display: flex;
-		flex-direction: column;
-		min-height: 100%;
-		position: relative;
+.site-container {
+	background-color: $white;
+	display: flex;
+	flex-direction: column;
+	min-height: 100%;
+	position: relative;
 
-		&:before {
-			content: "";
-			background-color: $black;
-			height: 100%;
-			left: 0;
-			opacity: 0;
-			transition: opacity 0.2s ease-out;
-			position: absolute;
-			top: 0;
-			width: 100%;
-			z-index: -1;
-		}
-	}
-
-	.site-header {
-		background-color: $white;
-		border-bottom: 1px solid rgba($black, 0.1);
-		flex: 0 0 auto;
-		position: relative;
+	&:before {
+		content: "";
+		background-color: $black;
+		height: 100%;
+		left: 0;
+		opacity: 0;
+		transition: opacity 0.2s ease-out;
+		position: absolute;
+		top: 0;
 		width: 100%;
-		z-index: 8;
+		z-index: -1;
 	}
+}
 
-	.site-content {
-		display: flex;
-		flex: 1 0 auto;
-		flex-direction: column;
-		position: relative;
+.site-header {
+	background-color: $white;
+	border-bottom: 1px solid rgba($black, 0.1);
+	flex: 0 0 auto;
+	position: relative;
+	width: 100%;
+	z-index: 8;
+}
 
-		> .inner {
+.site-content {
+	display: flex;
+	flex: 1 0 auto;
+	flex-direction: column;
+	position: relative;
+
+	@at-root {
+		.site-content-inner {
 			display: flex;
 			flex: 1 1 auto;
 			flex-direction: column;
@@ -47,23 +47,21 @@
 				flex-direction: row;
 				justify-content: space-between;
 			}
-
-			&.inner-zero {
-				padding-top: 0;
-			}
 		}
 	}
+}
 
-	.site-footer {
-		background-color: $color-bg-dark;
-		color: $white;
-		flex: 0 0 auto;
-		position: relative;
-		transition: all 0.3s ease-out;
-		width: 100%;
-		z-index: 4;
+.site-footer {
+	background-color: $color-bg-dark;
+	color: $white;
+	flex: 0 0 auto;
+	position: relative;
+	transition: all 0.3s ease-out;
+	width: 100%;
+	z-index: 4;
 
-		> .inner {
+	@at-root {
+		.site-footer-inner {
 			padding-bottom: 24px;
 			padding-top: 24px;
 		}
@@ -71,11 +69,5 @@
 		a {
 			color: $white;
 		}
-	}
-}
-
-@at-root {
-	.site-logo {
-		color: $color-one-500;
 	}
 }

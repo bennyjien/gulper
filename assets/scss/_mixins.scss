@@ -135,43 +135,18 @@
 }
 
 @mixin font-size-h1 {
-	font-size: $font-size-h3;
-	line-height: $line-height-h3;
-
-	@include breakpoint(creeper) {
-		font-size: $font-size-h2;
-		line-height: $line-height-h2;
-	}
-
-	@include breakpoint(crawler) {
-		font-size: $font-size-h1;
-		line-height: $line-height-h1;
-	}
+	font-size: $font-size-h1;
+	line-height: $line-height-h1;
 }
 
 @mixin font-size-h2 {
-	font-size: $font-size-h4;
-	line-height: $line-height-h4;
-
-	@include breakpoint(creeper) {
-		font-size: $font-size-h3;
-		line-height: $line-height-h3;
-	}
-
-	@include breakpoint(crawler) {
-		font-size: $font-size-h2;
-		line-height: $line-height-h2;
-	}
+	font-size: $font-size-h2;
+	line-height: $line-height-h2;
 }
 
 @mixin font-size-h3 {
-	font-size: $font-size-h4;
-	line-height: $line-height-h4;
-
-	@include breakpoint(creeper) {
-		font-size: $font-size-h3;
-		line-height: $line-height-h3;
-	}
+	font-size: $font-size-h3;
+	line-height: $line-height-h3;
 }
 
 @mixin font-size-h4 {
@@ -258,51 +233,45 @@
 	width: 1px;
 }
 
-@mixin wrapper {
-	margin-left: auto;
-	margin-right: auto;
-	max-width: 1280px;
-	padding-left: 16px;
-	padding-right: 16px;
+@mixin column-items($margin) {
+	$length: length($margin);
+	$vertical: nth($margin, 1);
+	$horizontal: $vertical;
 
-	@include breakpoint(creeper) {
-		padding-left: 24px;
-		padding-right: 24px;
+	@if $length == 1 {
+		margin: -1%;
+		margin: calc(#{$vertical});
+		overflow: hidden;
 	}
-
-	@include breakpoint(crawler) {
-		padding-left: 32px;
-		padding-right: 32px;
-	}
-
-	@include breakpoint(runner) {
-		padding-left: 48px;
-		padding-right: 48px;
+	@else if $length == 2 {
+		$horizontal: nth($margin, 2);
+		margin: -1%;
+		margin: calc(#{$vertical}) calc(#{$horizontal});
+		overflow: hidden;
 	}
 }
 
-@mixin unwrapper {
-	margin-left: -16px;
-	margin-right: -16px;
+@mixin column-item($margin, $item: 0) {
+	$length: length($margin);
+	$vertical: nth($margin, 1);
+	$horizontal: $vertical;
 
-	@include breakpoint(creeper) {
-		margin-left: -24px;
-		margin-right: -24px;
+	@if $length == 1 {
+		margin: 1%;
+		margin: calc(#{$vertical});
+		@if $item != 0 {
+			width: #{(100% - (2% * $item)) / $item};
+			width: calc((100% - #{2 * $item * $vertical}) / #{$item});
+		}
 	}
-
-	@include breakpoint(crawler) {
-		margin-left: -32px;
-		margin-right: -32px;
-	}
-
-	@include breakpoint(runner) {
-		margin-left: -48px;
-		margin-right: -48px;
-	}
-
-	@include breakpoint(flyer) {
-		margin-left: calc(-50vw + (1280px - 80px) / 2);
-		margin-right: calc(-50vw + (1280px - 80px) / 2);
+	@else if $length == 2 {
+		$horizontal: nth($margin, 2);
+		margin: 1%;
+		margin: calc(#{$vertical}) calc(#{$horizontal});
+		@if $item != 0 {
+			width: #{(100% - (2% * $item)) / $item};
+			width: calc((100% - #{2 * $item * $horizontal}) / #{$item});
+		}
 	}
 }
 

@@ -1,15 +1,4 @@
-@at-root {
-	.popup-container {}
-	.popup-header {}
-	.popup-content {}
-	.popup-footer {}
-}
-
-@at-root {
-	.popup-inline-container {
-		background-color: $white;
-		padding: 32px;
-	}
-
-	.popup-inline-header {}
+.popup-inline {
+	background-color: $white;
+	padding: 32px;
 }

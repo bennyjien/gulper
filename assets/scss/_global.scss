@@ -20,7 +20,7 @@
 
 	&:hover,
 	&:focus {
-		background-color: $color-one-400;
+		background-color: $color-one-600;
 		color: $white;
 		outline: 0;
 		text-decoration: none;
@@ -46,7 +46,7 @@
 
 		&:hover,
 		&:focus {
-			border-color: $color-one-400;
+			border-color: $color-one-600;
 			color: $color-one-400;
 		}
 
@@ -60,7 +60,7 @@
 
 		&:hover,
 		&:focus {
-			background-color: $color-400;
+			background-color: $color-600;
 		}
 
 		&:active {
@@ -104,12 +104,12 @@
 	}
 }
 
-.list {
+.items {
 	list-style: none;
 	margin: 0;
 	padding: 0;
 
-	&.list-inline {
+	&.items-inline {
 		font-size: 0;
 		margin: 0 -8px -8px 0;
 
@@ -120,8 +120,8 @@
 		}
 	}
 
-	&.list-ordered,
-	&.list-unordered {
+	&.items-ordered,
+	&.items-unordered {
 		padding-left: 24px;
 		text-indent: -24px;
 
@@ -137,7 +137,7 @@
 		}
 	}
 
-	&.list-ordered {
+	&.items-ordered {
 
 		.item {
 			counter-increment: list-ordered;
@@ -305,17 +305,58 @@
 	}
 }
 
-.row {
+.wrapper {
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 1280px;
+	padding-left: 16px;
+	padding-right: 16px;
 
-	&:not(:last-child) {
-		margin-bottom: 24px;
+	@include breakpoint(creeper) {
+		padding-left: 24px;
+		padding-right: 24px;
+	}
+
+	@include breakpoint(crawler) {
+		padding-left: 32px;
+		padding-right: 32px;
+	}
+
+	@include breakpoint(runner) {
+		padding-left: 48px;
+		padding-right: 48px;
+	}
+
+	&.wrapper-medium {
+		max-width: 1120px;
+	}
+
+	&.wrapper-small {
+		max-width: 848px;
 	}
 }
 
-.wrapper {
-	@include wrapper;
-}
-
 .unwrapper {
-	@include unwrapper;
+	margin-left: -16px;
+	margin-right: -16px;
+
+	@include breakpoint(creeper) {
+		margin-left: -24px;
+		margin-right: -24px;
+	}
+
+	@include breakpoint(crawler) {
+		margin-left: -32px;
+		margin-right: -32px;
+	}
+
+	@include breakpoint(runner) {
+		margin-left: -48px;
+		margin-right: -48px;
+	}
+
+	@include breakpoint(flyer) {
+		margin-left: calc(-50vw + (1280px - 80px) / 2);
+		margin-right: calc(-50vw + (1280px - 80px) / 2);
+	}
 }

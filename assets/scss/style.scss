@@ -17,6 +17,7 @@ Tags: responsive-layout, mobile-first
 // plugins
 @import "plugins/normalize";
 @import "plugins/flickity";
+@import "plugins/flickity-custom";
 @import "plugins/magnific-popup";
 @import "plugins/magnific-popup-custom";
 @import "plugins/stickyfill";
@@ -31,15 +32,12 @@ Tags: responsive-layout, mobile-first
 
 // containers
 @import "site";
-@import "widget";
-@import "popup";
-
-// main
 @import "main";
 
 // modules
 @import "form";
-@import "pagination";
+@import "page";
+@import "popup";
 @import "search";
 @import "slider";
 @import "table";

@@ -7,9 +7,36 @@
 
 					<div class="main" role="main" itemscope itemprop="mainContentOfPage" itemtype="http://schema.org/Blog">
 						<header class="main-header js-scene">
-							<a href="http://placehold.it/480x480/" class="js-togglea" data-toggle-type="image" data-toggle-trigger="hover"><img src="http://placehold.it/240x240/eeeeee/111111"></a>
+							<a href="http://placehold.it/480x480/" class="js-toggle" data-toggle-type="image" data-toggle-trigger="hover"><img src="http://placehold.it/240x240/eeeeee/111111"></a>
 						</header>
 						<div class="main-content">
+							<div class="slider-gallery flickity-gallery js-slider-gallery">
+								<div class="slider-gallery-slide flickity-gallery-slide">
+									<div class="slide">
+										<div class="video">
+											<iframe class="js-fluidvids" width="560" height="315" src="https://www.youtube.com/embed/D_cBdleNWsk" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+										</div>
+									</div>
+									<div class="slide">
+										<img src="http://placehold.it/800x1200/eeeeee/111111">
+									</div>
+									<div class="slide">
+										<img src="http://placehold.it/1200x600/eeeeee/111111">
+									</div>
+								</div>
+								<div class="slider-gallery-nav flickity-gallery-nav">
+									<div class="bullet">
+										<img src="http://placehold.it/160x160/eeeeee/111111">
+									</div>
+									<div class="bullet">
+										<img src="http://placehold.it/160x160/eeeeee/111111">
+									</div>
+									<div class="bullet">
+										<img src="http://placehold.it/160x160/eeeeee/111111">
+									</div>
+								</div>
+							</div>
+
 							<div id="emaple" class="example js-mover" data-mover-breakpoint="600" data-mover-target="#example1">
 								<a href="#toggle-test" class="js-toggle" data-toggle-area="#emaple" data-toggle-method="auto" data-toggle-duration="1">Toggle It!</a>
 								<div id="toggle-test" class="doc-toggle-test toggle-target">
@@ -19,6 +46,13 @@
 										<div class="input">
 											<input type="text" class="input input-code" value="+62" readonly>
 											<input type="text" id="checkout-phone" class="input input-phone">
+										</div>
+									</div>
+									<div class="form-file js-form-file">
+										<label class="form-file-label">File</label>
+										<div class="form-file-input">
+											<input type="file" id="checkout-attachment" class="input" name="file-attachment" data-multiple-placeholder="{count} files selected" multiple>
+											<label for="file-attachment" class="label"><span class="button">Browse files</span> <span class="placeholder">No file selected&hellip;</span> <a href="#" class="remove" title="Remove attachment">&times;</a></label>
 										</div>
 									</div>
 								</div>
@@ -31,7 +65,7 @@
 							</div>
 							<div id="toggle-popup">
 								<a href="#popup" class="js-toggle" data-toggle-area="#about-popup" data-toggle-animation="slide" data-toggle-keyclose="true">Popup</a>
-								<div id="popup" class="toggle-popup-container">
+								<div id="popup" class="toggle-popup">
 									<div class="toggle-popup-content">
 										<div id="about-popup" class="section">
 											<p>THIS IS POPUP!</p>

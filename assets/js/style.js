@@ -1,7 +1,7 @@
 /* This file extends the limit of style.css
  * Style related scripts including polyfill should be written here
  */
-/* global window document history MouseEvent getParameterByName hasChild Stickyfill anime scrollMonitor svg4everybody */
+/* global window document history MouseEvent getParameterByName hasChild Stickyfill fluidvids anime scrollMonitor svg4everybody */
 
 (function() {
 
@@ -18,6 +18,12 @@
 	for (let i = stickyElements.length - 1; i >= 0; i -= 1) {
 		Stickyfill.add(stickyElements[i]);
 	}
+
+	// fluidvids
+	fluidvids.init({
+		selector: ['.js-fluidvids'],
+		players: ['www.youtube.com']
+	});
 
 	// anime.js animation
 	function animeSlide(target, duration, height, opacity, delay) {
@@ -96,48 +102,24 @@
 		$scrolls.forEach(scroll => scroll.addEventListener('click', function(event) { scrollTo(event, this); }));
 	}();
 
-	// unwrapper function: fixing calculation bug because of scrollbar
-	const unwrapperFunction = function(event) {
-		const $unwrapper = document.querySelectorAll('.js-unwrapper');
-		let math = `calc(50% - ${windowWidth}px/2)`;
-
-		function unwrapperInit() {
-			windowWidth = document.documentElement.clientWidth;
-
-			if (windowWidth >= 1152) {
-				math = `calc(50% - ${windowWidth}px/2)`;
-
-				$unwrapper.forEach(element => {
-					element.style.marginLeft = math;
-					element.style.marginRight = math;
-				});
-			} else {
-				$unwrapper.forEach(element => {
-					element.style.marginLeft = null;
-					element.style.marginRight = null;
-				});
-			}
-		}
-
-		unwrapperInit();
-		window.addEventListener('resize', unwrapperInit);
-	}();
-
 	// init scrollMonitor
 	const sceneFunction = function() {
 		const $scenes = document.querySelectorAll('.js-scene');
 
 		function sceneInit($this) {
-			const sceneOffset = parseInt($this.dataset.sceneOffset) || 0;
-			const sceneWatcher = scrollMonitor.create($this, sceneOffset);
+			const sceneOffset = parseInt($this.dataset.sceneOffset) || 0,
+				sceneRepeat = $this.dataset.sceneRepeat || false,
+				sceneWatcher = scrollMonitor.create($this, sceneOffset);
 
 			sceneWatcher.enterViewport(function() {
 				this.watchItem.classList.add('in-viewport');
 			});
 
-			sceneWatcher.exitViewport(function() {
-				this.watchItem.classList.remove('in-viewport');
-			});
+			if (sceneRepeat) {
+				sceneWatcher.exitViewport(function() {
+					this.watchItem.classList.remove('in-viewport');
+				});
+			}
 		}
 
 		$scenes.forEach(scene => sceneInit(scene));
@@ -232,19 +214,18 @@
 
 	// toggle function, can use scroll to function
 	/* data-toggle-trigger="click|hover" -> how will toggle be triggered
-	   data-toggle-target="[selector]" -> toggle target
-	   data-toggle-area="[selector]" -> toggle will end outside this area
-	   data-toggle-animation="slide|manual" -> how toggle is handled
-	   data-toggle-duration="[ms]" -> how long is toggle animation
-	   data-toggle-focus="[selector]" -> toggle will focus on targeted form
-	   data-toggle-iteration="infinite|once" -> once will only trigger toggle once
-	   data-toggle-state="undefined|toggled" -> toggle state on page load
-	   data-toggle-keyclose="false|true" -> toggle target can be closed by keydown
-	   data-scroll-target="[selector]" -> scroll to target
+			data-toggle-target="[selector]" -> toggle target
+			data-toggle-area="[selector]" -> toggle will end outside this area
+			data-toggle-animation="slide|manual" -> how toggle is handled
+			data-toggle-duration="[ms]" -> how long is toggle animation
+			data-toggle-focus="[selector]" -> toggle will focus on targeted form
+			data-toggle-iteration="infinite|once" -> once will only trigger toggle once
+			data-toggle-state="undefined|toggled" -> toggle state on page load
+			data-toggle-keyclose="false|true" -> toggle target can be closed by keydown
+			data-scroll-target="[selector]" -> scroll to target
 	*/
 	const toggleFunction = function() {
-		const $toggles = document.querySelectorAll('.js-toggle'),
-			$togglesImage = document.querySelectorAll('.js-toggle[data-toggle-type="image"]');
+		const $toggles = $body.querySelectorAll('.js-toggle');
 
 		function toggleInit($this) {
 			const eventClick = new MouseEvent('click'),
@@ -269,6 +250,10 @@
 				toggleKeyclose = $this.dataset.toggleKeyclose || false,
 				bodyClass = toggleTarget.substring(1),
 				preventDefault = $this.dataset.toggleTarget ? false : true;
+
+			let clickPrevent = false;
+
+			if (toggleTarget === $this.hash) clickPrevent = true;
 
 			if (!$toggleTarget) return false;
 
@@ -324,20 +309,31 @@
 					});
 				}
 			} else if (event.type === 'click') {
-				if (toggleTrigger === 'click') {
+				if (toggleTrigger === 'hover' && clickPrevent === true) {
+					event.preventDefault();
+				}
+				else if (toggleTrigger === 'click') {
 					if (toggleIteration === 'once') {
-						$this.classList.remove('js-toggle');
+						$this.classList.replace('js-toggle', 'js-toggle-inactive');
 					}
 
-					if ($this.classList.contains('is-toggled') || $toggleTarget.classList.contains('is-toggled')) {
+					if ($this.classList.contains('is-toggled') || $toggleTarget.classList.contains('is-toggled') || window.getComputedStyle($toggleTarget).getPropertyValue('display') !== 'none') {
 						if (!hasChild($this, $toggleArea)) {
-							$this.classList.remove('is-toggled');
-							$this.classList.add('is-untoggling');
+							var $toggler = document.querySelectorAll('.'+bodyClass+'-toggler');
+
+							$toggler.forEach(element => {
+								element.classList.replace('js-toggle-inactive', 'js-toggle');
+								element.classList.remove('is-toggled');
+								element.classList.remove(bodyClass+'-toggler');
+								element.classList.add('is-untoggling');
+							});
 							$toggleTarget.classList.remove('is-toggled');
 							$toggleTarget.classList.add('is-untoggling');
 							$body.classList.add(bodyClass+'-is-untoggling');
 							setTimeout(function() {
-								$this.classList.remove('is-untoggling');
+								$toggler.forEach(element => {
+									element.classList.remove('is-untoggling');
+								});
 								$toggleTarget.classList.remove('is-untoggling');
 								$body.classList.remove(bodyClass+'-is-toggled', bodyClass+'-is-untoggling');
 							}, toggleDuration);
@@ -353,6 +349,7 @@
 						setTimeout(function() {
 							$this.classList.remove('is-toggling');
 							$this.classList.add('is-toggled');
+							$this.classList.add(bodyClass+'-toggler');
 							$toggleTarget.classList.remove('is-toggling');
 							$toggleTarget.classList.add('is-toggled');
 							$body.classList.remove(bodyClass+'-is-toggling');
@@ -361,7 +358,7 @@
 							if ($toggleFocus) {
 								$toggleFocus.focus();
 							}
-						}, toggleAnimation === 'manual' ? 1 : toggleDuration);
+						}, toggleDuration);
 
 						if (toggleScrollTarget) {
 							scrollTo(event, $this);
@@ -379,7 +376,9 @@
 
 						if (toggleKeyclose === 'true') {
 							document.addEventListener('keydown', function(event) {
-								toggleClose(event, $this, toggleTrigger, $toggleTarget, $toggleArea, toggleAnimation, toggleDuration, bodyClass);
+								if (event.keyCode === 27) {
+									toggleClose(event, $this, toggleTrigger, $toggleTarget, $toggleArea, toggleAnimation, toggleDuration, bodyClass);
+								}
 							});
 						}
 					}
@@ -472,14 +471,40 @@
 		$movers.forEach(mover => moverStart(mover));
 	}();
 
+	// unwrapper function: fixing calculation bug because of scrollbar
+	const unwrapperFunction = function(event) {
+		const $unwrapper = document.querySelectorAll('.js-unwrapper');
+		let math = `calc(50% - ${windowWidth}px/2)`;
+
+		function unwrapperInit() {
+			windowWidth = document.documentElement.clientWidth;
+
+			if (windowWidth >= 1152) {
+				math = `calc(50% - ${windowWidth}px/2)`;
+
+				$unwrapper.forEach(element => {
+					element.style.marginLeft = math;
+					element.style.marginRight = math;
+				});
+			} else {
+				$unwrapper.forEach(element => {
+					element.style.marginLeft = null;
+					element.style.marginRight = null;
+				});
+			}
+		}
+
+		unwrapperInit();
+		window.addEventListener('resize', unwrapperInit);
+	}();
+
 	// form file function
 	/* EXAMPLE
 		<div class="form-file js-form-file">
-			<label class="label">File</label>
-			<div class="input">
-				<input type="file" id="checkout-attachment" class="form-file-input" name="checkout-attachment" data-multiple-placeholder="{count} files selected" multiple>
-				<label for="checkout-attachment" class="form-file-label"><span class="button">Browse files</span> <span class="placeholder">No file selected&hellip;</span></label>
-				<a href="#" class="form-file-remove" title="Remove attachment">&times;</a>
+			<label class="form-file-label">File</label>
+			<div class="form-file-input">
+				<input type="file" id="checkout-attachment" class="input" name="file-attachment" data-multiple-placeholder="{count} files selected" multiple>
+				<label for="file-attachment" class="label"><span class="button">Browse files</span> <span class="placeholder">No file selected&hellip;</span> <a href="#" class="remove" title="Remove attachment">&times;</a></label>
 			</div>
 		</div>
 	*/
@@ -487,9 +512,10 @@
 		const $formFile = document.querySelectorAll('.js-form-file');
 
 		$formFile.forEach(element => {
-			const $input = element.querySelector('.form-file-input'),
-				$label = element.querySelector('.form-file-label'),
-				$remove = element.querySelector('.form-file-remove'),
+			const $fileInput = element.querySelector('.form-file-input'),
+				$input = $fileInput.querySelector('.input'),
+				$label = $fileInput.querySelector('.label'),
+				$remove = $fileInput.querySelector('.remove'),
 				labelDefault = $label.innerHTML;
 
 			function addFile($this, event) {
@@ -505,7 +531,7 @@
 				if ($this.files && $this.files.length > 1) {
 					fileName = `${($this.getAttribute('data-multiple-placeholder') || '').replace('{count}', $this.files.length)} (${fileSize}MB)`;
 				} else if (event.target.value) {
-					fileName = `${event.target.value.split('\\').pop()} (${fileSize}MB)`;
+					fileName = `${event.target.value.split('\\').pop()} <span class="filesize">(${fileSize}MB)</span>`;
 				}
 
 				if (fileName) {

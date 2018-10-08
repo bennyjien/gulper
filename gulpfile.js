@@ -1,7 +1,6 @@
 var gulp = require('gulp');
 var gulpIf = require('gulp-if');
 var notify = require('gulp-notify');
-var rename = require('gulp-rename');
 var kit = require('gulp-kit');
 var prettify = require('gulp-prettify');
 var sass = require('gulp-sass');
@@ -10,7 +9,6 @@ var jshint = require('gulp-jshint');
 var useref = require('gulp-useref');
 var babel = require('gulp-babel');
 var uglify = require('gulp-uglify');
-var svg2png = require('gulp-svg2png');
 var svgSymbols = require('gulp-svg-symbols');
 var svgmin = require('gulp-svgmin');
 var del = require('del');
