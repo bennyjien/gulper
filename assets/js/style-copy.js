@@ -32,34 +32,25 @@
 
 	// tween
 	class Animate {
-		constructor(element, duration = 0.2, delay = 0) {
-			this.element = element,
+		constructor(target, duration, delay) {
+			this.target = target,
 			this.duration = duration,
-			this.delay = delay;
-		}
-
-		fadeIn() {
-			TweenMax.to(this.element, this.duration, { display: 'block', autoAlpha: 1 });
-		}
-
-		fadeOut() {
-			TweenMax.to(this.element, this.duration, { display: 'none', autoAlpha: 0 });
-		}
-
-		slideDown() {
-			TweenMax.set(this.element, { display: 'block', overflow: 'visible', autoAlpha: 1, height: 'auto' });
-			TweenMax.from(this.element, this.duration, { overflow: 'hidden', autoAlpha: 0, height: 0, delay: this.delay });
+			this.delay = delay || 0;
 		}
 
 		slideUp() {
-			TweenMax.to(this.element, this.duration, { display: 'none', overflow: 'hidden', autoAlpha: 0, height: 0 });
+			TweenMax.to(this.target, this.duration, { display: 'none', overflow: 'hidden', autoAlpha: 0, height: 0 });
+		}
+
+		slideDown() {
+			TweenMax.set(this.target, { display: 'block', overflow: 'visible', autoAlpha: 1, height: 'auto' });
+			TweenMax.from(this.target, this.duration, { overflow: 'hidden', autoAlpha: 0, height: 0, delay: this.delay });
 		}
 	}
 
 	// scroll to targeted id
 	class ScrollTo {
 		constructor(event, element) {
-			this.event = event;
 			this.target = element.dataset.scrollTarget || element.hash || '',
 			this.$target = document.querySelector(`[id='${this.target.substring(1)}']`),
 			this.duration = element.dataset.scrollDuration || 0.4,
@@ -72,7 +63,7 @@
 		scroll() {
 			if (this.$target) {
 				TweenMax.to(window, this.duration, { scrollTo:{ y: this.target, offsetY: this.offset } });
-				this.event.preventDefault();
+				event.preventDefault();
 			}
 		}
 	}
@@ -93,7 +84,7 @@
 		$scenes = document.querySelectorAll('.js-scene');
 
 	$scenes.forEach(scene => {
-		new ScrollMagic.Scene({ triggerElement: scene, reverse: false })
+		var sceneElement = new ScrollMagic.Scene({ triggerElement: scene, reverse: false })
 			.setClassToggle(scene, 'in-viewport')
 			.addIndicators()
 			.addTo(sceneController);
@@ -141,7 +132,6 @@
 					tabTarget = $this.hash.substring(1),
 					tabDuration = $this.dataset.tabDuration || 0.2,
 					tabScrollTarget = $this.dataset.scrollTarget;
-					event = event;
 
 				if (!$tabTarget.classList.contains('is-tabbed')) {
 					let closeDuration = 0;
@@ -152,11 +142,9 @@
 						}
 					});
 
-					new Animate($tabTargetGroup, closeDuration).slideDown(onComplete);
-
-					TweenMax.to($tabTargetGroup, closeDuration, { display: 'none', height: 0, overflow: 'hidden', autoAlpha: 0, onComplete:
-					function() {
-						new Animate($tabTarget, tabDuration).slideDown();
+					TweenMax.to($tabTargetGroup, closeDuration, { display: 'none', height: 0, overflow: 'hidden', autoAlpha: 0, onComplete: function() {
+						TweenMax.set($tabTarget, { display: 'block', height: 'auto', overflow: 'visible', autoAlpha: 1 });
+						TweenMax.from($tabTarget, tabDuration, { height: 0, overflow: 'hidden', autoAlpha: 0 });
 					}});
 					$tabGroup.forEach(element => element.classList.remove('is-tabbed'));
 					$this.classList.add('is-tabbed');
@@ -165,7 +153,7 @@
 					if (tabScrollTarget) {
 						setTimeout(function() {
 							new ScrollTo(event, $this);
-						}, closeDuration + tabDuration);
+						}, closeDuration);
 					}
 
 					if (window.history && history.pushState) {
@@ -174,7 +162,8 @@
 				} else {
 					if (tabType === 'collapse') {
 						$tabTargetGroup.forEach(element => {
-							new Animate(element, tabDuration).slideUp();
+							const animate = new Animate(element, tabDuration);
+							animate.slideUp(element, tabDuration);
 						});
 						$this.classList.remove('is-tabbed');
 						$tabTarget.classList.remove('is-tabbed');
@@ -267,7 +256,8 @@
 
 					if (toggleAnimation === 'slide') {
 						$toggleCurrentToggled.forEach(toggle => {
-							new Animate(toggle, toggleDuration/2).slideUp();
+							const animate = new Animate(toggle, toggleDuration/2);
+							animate.slideUp(toggle, toggleDuration/2);
 						});
 					}
 
@@ -277,7 +267,8 @@
 						$this.classList.add('is-toggled');
 						$toggleTarget.classList.add('is-toggled');
 						if (toggleAnimation === 'slide') {
-							new Animate($toggleTarget, toggleDuration, toggleDuration/2).slideDown();
+							const animate = new Animate($toggleTarget, toggleDuration, toggleDuration/2);
+							animate.slideDown();
 						}
 					}
 
@@ -321,7 +312,8 @@
 								$body.classList.remove(bodyClass+'-is-toggled', bodyClass+'-is-untoggling');
 							}, toggleDuration);
 							if (toggleAnimation === 'slide') {
-								new Animate($toggleTarget, toggleDuration/2).slideUp();
+								const animate = new Animate($toggleTarget, toggleDuration/2);
+								animate.slideUp();
 							}
 						}
 					} else {
@@ -347,7 +339,8 @@
 							new ScrollTo(event, $this);
 						}
 						if (toggleAnimation === 'slide') {
-							new Animate($toggleTarget, toggleDuration, 0).slideDown();
+							const animate = new Animate($toggleTarget, toggleDuration, 0);
+							animate.slideDown();
 						}
 
 						$body.addEventListener('click', function(event) {
@@ -385,7 +378,8 @@
 						$toggleTarget.classList.remove('is-untoggling');
 					}, toggleDuration);
 					if (toggleAnimation === 'slide') {
-						new Animate($toggleTarget, toggleDuration/2).slideUp();
+						const animate = new Animate($toggleTarget, toggleDuration/2);
+						animate.slideUp();
 					}
 				} else {
 					if ($this !== event.target && !hasChild($this, event.target) && $toggleArea !== event.target && !hasChild($toggleArea, event.target)) {
@@ -400,7 +394,8 @@
 							$body.classList.remove(bodyClass+'-is-toggled', bodyClass+'-is-untoggling');
 						}, toggleDuration);
 						if (toggleAnimation === 'slide') {
-							new Animate($toggleTarget, toggleDuration/2).slideUp();
+							const animate = new Animate($toggleTarget, toggleDuration/2);
+							animate.slideUp();
 						}
 					}
 				}

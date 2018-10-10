@@ -77,7 +77,7 @@ gulp.task('js-hint', function() {
 });
 
 gulp.task('js', function() {
-	gulp.run('js-hint');
+	// gulp.run('js-hint');
 
 	return gulp.src('assets/js/**/*')
 		.pipe(gulp.dest('dist/assets/js/'));

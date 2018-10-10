@@ -31,6 +31,10 @@ Have fun! :)
 + to review _doc/_, run `gulp build` since _doc/_ needs bundle.js
 
 ## CHANGELOG
+1.5 (Oct 9, 2018)
++ rollback from anime.js to GSAP (more robust and 3rd party plugins)
++ rollback from scrollMonitor to ScrollMagic (more robust)
+
 1.3 (Jan 8, 2018)
 + remove GSAP independency
 + changes on file structure

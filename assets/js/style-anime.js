@@ -1,7 +1,8 @@
 /* This file extends the limit of style.css
  * Style related scripts including polyfill should be written here
+ * Last update: 9 Oct 2018
  */
-/* global window document history MouseEvent getParameterByName hasChild svg4everybody Stickyfill fluidvids TweenMax ScrollMagic */
+/* global window document history MouseEvent getParameterByName hasChild svg4everybody Stickyfill fluidvids anime scrollMonitor */
 
 (function() {
 
@@ -11,11 +12,6 @@
 
 	// svg polyfill
 	svg4everybody();
-
-	// preload images
-	imagesLoaded(document.querySelector('#site-container'), function() {
-		document.body.classList.remove('is-loading');
-	});
 
 	// sticky polyfill
 	const stickyElements = document.getElementsByClassName('js-sticky');
@@ -30,50 +26,69 @@
 		players: ['www.youtube.com']
 	});
 
-	// tween
-	class Animate {
-		constructor(element, duration = 0.2, delay = 0) {
-			this.element = element,
-			this.duration = duration,
-			this.delay = delay;
+	// anime.js animation
+	function animeSlide(target, duration, height, opacity, delay) {
+		anime.remove(target);
+		target.style.overflow = 'hidden';
+
+		const animation = anime({
+			targets: target,
+			height,
+			opacity,
+			duration,
+			delay,
+			easing: 'easeOutQuad'
+		});
+
+		function hideElement() {
+			if (height === 0) {
+				target.style.display = 'none';
+			}
 		}
 
-		fadeIn() {
-			TweenMax.to(this.element, this.duration, { display: 'block', autoAlpha: 1 });
-		}
+		animation.finished.then(hideElement);
+	}
 
-		fadeOut() {
-			TweenMax.to(this.element, this.duration, { display: 'none', autoAlpha: 0 });
-		}
+	function animeSlideDown(target, duration, delay) {
+		let targetHeight;
 
-		slideDown() {
-			TweenMax.set(this.element, { display: 'block', overflow: 'visible', autoAlpha: 1, height: 'auto' });
-			TweenMax.from(this.element, this.duration, { overflow: 'hidden', autoAlpha: 0, height: 0, delay: this.delay });
-		}
+		target.style.display = 'block';
+		target.style.height = 'auto';
+		targetHeight = target.offsetHeight;
+		target.style.height = 0;
+		animeSlide(target, duration, targetHeight, 1, delay);
+	}
 
-		slideUp() {
-			TweenMax.to(this.element, this.duration, { display: 'none', overflow: 'hidden', autoAlpha: 0, height: 0 });
-		}
+	function animeSlideUp(target, duration, delay) {
+		animeSlide(target, duration, 0, 0, delay);
 	}
 
 	// scroll to targeted id
-	class ScrollTo {
-		constructor(event, element) {
-			this.event = event;
-			this.target = element.dataset.scrollTarget || element.hash || '',
-			this.$target = document.querySelector(`[id='${this.target.substring(1)}']`),
-			this.duration = element.dataset.scrollDuration || 0.4,
-			this.$offset = document.querySelector(element.dataset.scrollOffset) || '',
-			this.offset = this.$offset.offsetHeight || 0;
+	function scrollTo(event, element) {
+		const scrollY = window.scrollY,
+			scrollTarget = element.dataset.scrollTarget || element.hash || '',
+			$scrollTarget = document.querySelector(`[id='${scrollTarget.substring(1)}']`),
+			scrollTargetY = $scrollTarget.getBoundingClientRect().top,
+			scrollDuration = element.dataset.scrollDuration || 200,
+			$offset = document.querySelector(element.dataset.scrollOffset) || '',
+			offsetY = $offset.offsetHeight || 0;
 
-			this.scroll();
-		}
+		const prop = {
+			y: 0
+		};
 
-		scroll() {
-			if (this.$target) {
-				TweenMax.to(window, this.duration, { scrollTo:{ y: this.target, offsetY: this.offset } });
-				this.event.preventDefault();
-			}
+		if ($scrollTarget) {
+			const animation = anime({
+				targets: prop,
+				y: scrollTargetY + scrollY - offsetY,
+				round: 1,
+				duration: scrollDuration,
+				easing: 'easeOutQuad',
+				update: function() {
+					window.scrollTo(0, prop.y);
+				}
+			});
+			event.preventDefault();
 		}
 	}
 
@@ -85,24 +100,36 @@
 	const scrollFunction = function(event) {
 		const $scrolls = document.querySelectorAll('.js-scroll');
 
-		$scrolls.forEach(scroll => scroll.addEventListener('click', function(event) { new ScrollTo(event, this); }));
+		$scrolls.forEach(scroll => scroll.addEventListener('click', function(event) { scrollTo(event, this); }));
 	}();
 
-	// init ScrollMagic
-	const sceneController = new ScrollMagic.Controller(),
-		$scenes = document.querySelectorAll('.js-scene');
+	// init scrollMonitor
+	const sceneFunction = function() {
+		const $scenes = document.querySelectorAll('.js-scene');
 
-	$scenes.forEach(scene => {
-		new ScrollMagic.Scene({ triggerElement: scene, reverse: false })
-			.setClassToggle(scene, 'in-viewport')
-			.addIndicators()
-			.addTo(sceneController);
-	});
+		function sceneInit($this) {
+			const sceneOffset = parseInt($this.dataset.sceneOffset) || 0,
+				sceneRepeat = $this.dataset.sceneRepeat || false,
+				sceneWatcher = scrollMonitor.create($this, sceneOffset);
+
+			sceneWatcher.enterViewport(function() {
+				this.watchItem.classList.add('in-viewport');
+			});
+
+			if (sceneRepeat) {
+				sceneWatcher.exitViewport(function() {
+					this.watchItem.classList.remove('in-viewport');
+				});
+			}
+		}
+
+		$scenes.forEach(scene => sceneInit(scene));
+	}();
 
 	// tab function, can use scroll to function
 	/* data-tab-type="normal|collapse" -> collapse tab can be closed individually
 	   data-tab-group="[name]" -> tab grouping
-	   data-tab-duration="[second]" -> how long is tab animation if tab method is auto
+	   data-tab-duration="[ms]" -> how long is tab animation if tab method is auto
 	*/
 	const tabFunction = function() {
 		const $tabs = document.querySelectorAll('.js-tab');
@@ -139,9 +166,8 @@
 					$tabTargetGroup = document.querySelectorAll(`.js-tab-target[data-tab-group="${$tabTarget.dataset.tabGroup}"]`),
 					tabType = $this.dataset.tabType || 'tab',
 					tabTarget = $this.hash.substring(1),
-					tabDuration = $this.dataset.tabDuration || 0.2,
+					tabDuration = $this.dataset.tabDuration || 200,
 					tabScrollTarget = $this.dataset.scrollTarget;
-					event = event;
 
 				if (!$tabTarget.classList.contains('is-tabbed')) {
 					let closeDuration = 0;
@@ -152,20 +178,16 @@
 						}
 					});
 
-					new Animate($tabTargetGroup, closeDuration).slideDown(onComplete);
-
-					TweenMax.to($tabTargetGroup, closeDuration, { display: 'none', height: 0, overflow: 'hidden', autoAlpha: 0, onComplete:
-					function() {
-						new Animate($tabTarget, tabDuration).slideDown();
-					}});
+					$tabTargetGroup.forEach(element => animeSlideUp(element, closeDuration, 0));
+					animeSlideDown($tabTarget, tabDuration, 0);
 					$tabGroup.forEach(element => element.classList.remove('is-tabbed'));
 					$this.classList.add('is-tabbed');
 					$tabTarget.classList.add('is-tabbed');
 
 					if (tabScrollTarget) {
 						setTimeout(function() {
-							new ScrollTo(event, $this);
-						}, closeDuration + tabDuration);
+							scrollTo(event, $this);
+						}, closeDuration);
 					}
 
 					if (window.history && history.pushState) {
@@ -173,9 +195,7 @@
 					}
 				} else {
 					if (tabType === 'collapse') {
-						$tabTargetGroup.forEach(element => {
-							new Animate(element, tabDuration).slideUp();
-						});
+						$tabTargetGroup.forEach(element => animeSlideUp(element, tabDuration, 0));
 						$this.classList.remove('is-tabbed');
 						$tabTarget.classList.remove('is-tabbed');
 
@@ -198,7 +218,7 @@
 			data-toggle-target="[selector]" -> toggle target
 			data-toggle-area="[selector]" -> toggle will end outside this area
 			data-toggle-animation="slide|manual" -> how toggle is handled
-			data-toggle-duration="[second]" -> how long is toggle animation
+			data-toggle-duration="[ms]" -> how long is toggle animation
 			data-toggle-focus="[selector]" -> toggle will focus on targeted form
 			data-toggle-iteration="infinite|once" -> once will only trigger toggle once
 			data-toggle-state="undefined|toggled" -> toggle state on page load
@@ -225,7 +245,7 @@
 				$toggleArea = document.querySelector($this.dataset.toggleArea) || $this,
 				$toggleFocus = document.querySelector($this.dataset.toggleFocus),
 				toggleAnimation = $this.dataset.toggleAnimation || 'slide',
-				toggleDuration = $this.dataset.toggleDuration || 0.2,
+				toggleDuration = $this.dataset.toggleDuration || 200,
 				toggleIteration = $this.dataset.toggleIteration || 'infinite',
 				toggleScrollTarget = $this.dataset.scrollTarget,
 				toggleKeyclose = $this.dataset.toggleKeyclose || false,
@@ -266,9 +286,7 @@
 					});
 
 					if (toggleAnimation === 'slide') {
-						$toggleCurrentToggled.forEach(toggle => {
-							new Animate(toggle, toggleDuration/2).slideUp();
-						});
+						$toggleCurrentToggled.forEach(toggle => animeSlideUp(toggle, toggleDuration/2, 0));
 					}
 
 					$toggleCurrentToggled.forEach(toggle => toggle.classList.remove('is-toggled'));
@@ -277,7 +295,7 @@
 						$this.classList.add('is-toggled');
 						$toggleTarget.classList.add('is-toggled');
 						if (toggleAnimation === 'slide') {
-							new Animate($toggleTarget, toggleDuration, toggleDuration/2).slideDown();
+							animeSlideDown($toggleTarget, toggleDuration, toggleDuration/2);
 						}
 					}
 
@@ -321,7 +339,7 @@
 								$body.classList.remove(bodyClass+'-is-toggled', bodyClass+'-is-untoggling');
 							}, toggleDuration);
 							if (toggleAnimation === 'slide') {
-								new Animate($toggleTarget, toggleDuration/2).slideUp();
+								animeSlideUp($toggleTarget, toggleDuration/2, 0);
 							}
 						}
 					} else {
@@ -344,10 +362,10 @@
 						}, toggleDuration);
 
 						if (toggleScrollTarget) {
-							new ScrollTo(event, $this);
+							scrollTo(event, $this);
 						}
 						if (toggleAnimation === 'slide') {
-							new Animate($toggleTarget, toggleDuration, 0).slideDown();
+							animeSlideDown($toggleTarget, toggleDuration, 0);
 						}
 
 						$body.addEventListener('click', function(event) {
@@ -385,7 +403,7 @@
 						$toggleTarget.classList.remove('is-untoggling');
 					}, toggleDuration);
 					if (toggleAnimation === 'slide') {
-						new Animate($toggleTarget, toggleDuration/2).slideUp();
+						animeSlideUp($toggleTarget, toggleDuration/2, 0);
 					}
 				} else {
 					if ($this !== event.target && !hasChild($this, event.target) && $toggleArea !== event.target && !hasChild($toggleArea, event.target)) {
@@ -400,7 +418,7 @@
 							$body.classList.remove(bodyClass+'-is-toggled', bodyClass+'-is-untoggling');
 						}, toggleDuration);
 						if (toggleAnimation === 'slide') {
-							new Animate($toggleTarget, toggleDuration/2).slideUp();
+							animeSlideUp($toggleTarget, toggleDuration/2, 0);
 						}
 					}
 				}
