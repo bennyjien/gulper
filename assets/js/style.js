@@ -30,50 +30,35 @@
 		players: ['www.youtube.com']
 	});
 
-	// tween
-	class Animate {
-		constructor(element, duration = 0.2, delay = 0) {
-			this.element = element,
-			this.duration = duration,
-			this.delay = delay;
-		}
-
-		fadeIn() {
-			TweenMax.to(this.element, this.duration, { display: 'block', autoAlpha: 1 });
-		}
-
-		fadeOut() {
-			TweenMax.to(this.element, this.duration, { display: 'none', autoAlpha: 0 });
-		}
-
-		slideDown() {
-			TweenMax.set(this.element, { display: 'block', overflow: 'visible', autoAlpha: 1, height: 'auto' });
-			TweenMax.from(this.element, this.duration, { overflow: 'hidden', autoAlpha: 0, height: 0, delay: this.delay });
-		}
-
-		slideUp() {
-			TweenMax.to(this.element, this.duration, { display: 'none', overflow: 'hidden', autoAlpha: 0, height: 0 });
+	// tween animation
+	const Animate = {
+		fadeIn: (element, duration, delay = 0) => {
+			TweenMax.to(element, duration, { display: 'block', autoAlpha: 1, delay: delay });
+		},
+		fadeOut: (element, duration, delay = 0) => {
+			TweenMax.to(element, duration, { display: 'none', autoAlpha: 0, delay: delay });
+		},
+		slideDown: (element, duration, delay = 0) => {
+			TweenMax.set(element, { display: 'block', overflow: 'visible', autoAlpha: 1, height: 'auto' });
+			TweenMax.from(element, duration, { overflow: 'hidden', autoAlpha: 0, height: 0, delay: delay });
+		},
+		slideUp: (element, duration, delay = 0) => {
+			TweenMax.to(element, duration, { display: 'none', overflow: 'hidden', autoAlpha: 0, height: 0, delay: delay });
 		}
 	}
+	const animate = Object.create(Animate);
 
 	// scroll to targeted id
-	class ScrollTo {
-		constructor(event, element) {
-			this.event = event;
-			this.target = element.dataset.scrollTarget || element.hash || '',
-			this.$target = document.querySelector(`[id='${this.target.substring(1)}']`),
-			this.duration = element.dataset.scrollDuration || 0.4,
-			this.$offset = document.querySelector(element.dataset.scrollOffset) || '',
-			this.offset = this.$offset.offsetHeight || 0;
+	function scrollTo(event, element) {
+		const scrollTarget = element.dataset.scrollTarget || element.hash || '',
+			$scrollTarget = document.querySelector(`[id='${scrollTarget.substring(1)}']`),
+			scrollDuration = element.dataset.scrollDuration || 0.4,
+			$offset = document.querySelector(element.dataset.scrollOffset) || '',
+			offsetY = $offset.offsetHeight || 0;
 
-			this.scroll();
-		}
-
-		scroll() {
-			if (this.$target) {
-				TweenMax.to(window, this.duration, { scrollTo:{ y: this.target, offsetY: this.offset } });
-				this.event.preventDefault();
-			}
+		if ($scrollTarget) {
+			TweenMax.to(window, scrollDuration, { scrollTo:{ y: scrollTarget, offsetY: offsetY } });
+			event.preventDefault();
 		}
 	}
 
@@ -85,7 +70,7 @@
 	const scrollFunction = function(event) {
 		const $scrolls = document.querySelectorAll('.js-scroll');
 
-		$scrolls.forEach(scroll => scroll.addEventListener('click', function(event) { new ScrollTo(event, this); }));
+		$scrolls.forEach(scroll => scroll.addEventListener('click', function(event) { scrollTo(event, this); }));
 	}();
 
 	// init ScrollMagic
@@ -141,7 +126,6 @@
 					tabTarget = $this.hash.substring(1),
 					tabDuration = $this.dataset.tabDuration || 0.2,
 					tabScrollTarget = $this.dataset.scrollTarget;
-					event = event;
 
 				if (!$tabTarget.classList.contains('is-tabbed')) {
 					let closeDuration = 0;
@@ -152,11 +136,9 @@
 						}
 					});
 
-					new Animate($tabTargetGroup, closeDuration).slideDown(onComplete);
-
 					TweenMax.to($tabTargetGroup, closeDuration, { display: 'none', height: 0, overflow: 'hidden', autoAlpha: 0, onComplete:
 					function() {
-						new Animate($tabTarget, tabDuration).slideDown();
+						animate.slideDown($tabTarget, tabDuration);
 					}});
 					$tabGroup.forEach(element => element.classList.remove('is-tabbed'));
 					$this.classList.add('is-tabbed');
@@ -164,7 +146,7 @@
 
 					if (tabScrollTarget) {
 						setTimeout(function() {
-							new ScrollTo(event, $this);
+							scrollTo(event, $this);
 						}, closeDuration + tabDuration);
 					}
 
@@ -174,7 +156,7 @@
 				} else {
 					if (tabType === 'collapse') {
 						$tabTargetGroup.forEach(element => {
-							new Animate(element, tabDuration).slideUp();
+							animate.slideUp(element, tabDuration);
 						});
 						$this.classList.remove('is-tabbed');
 						$tabTarget.classList.remove('is-tabbed');
@@ -235,9 +217,7 @@
 			let clickPrevent = false;
 
 			if (toggleTarget === $this.hash) clickPrevent = true;
-
 			if (!$toggleTarget) return false;
-
 			if (!$this.classList.contains('js-toggle')){
 				return false;
 			}
@@ -267,7 +247,7 @@
 
 					if (toggleAnimation === 'slide') {
 						$toggleCurrentToggled.forEach(toggle => {
-							new Animate(toggle, toggleDuration/2).slideUp();
+							animate.slideUp(toggle, toggleDuration/2);
 						});
 					}
 
@@ -277,7 +257,7 @@
 						$this.classList.add('is-toggled');
 						$toggleTarget.classList.add('is-toggled');
 						if (toggleAnimation === 'slide') {
-							new Animate($toggleTarget, toggleDuration, toggleDuration/2).slideDown();
+							animate.slideDown($toggleTarget, toggleDuration, toggleDuration/2);
 						}
 					}
 
@@ -321,7 +301,7 @@
 								$body.classList.remove(bodyClass+'-is-toggled', bodyClass+'-is-untoggling');
 							}, toggleDuration);
 							if (toggleAnimation === 'slide') {
-								new Animate($toggleTarget, toggleDuration/2).slideUp();
+								animate.slideUp($toggleTarget, toggleDuration/2);
 							}
 						}
 					} else {
@@ -344,10 +324,10 @@
 						}, toggleDuration);
 
 						if (toggleScrollTarget) {
-							new ScrollTo(event, $this);
+							scrollTo(event, $this);
 						}
 						if (toggleAnimation === 'slide') {
-							new Animate($toggleTarget, toggleDuration, 0).slideDown();
+							animate.slideDown($toggleTarget, toggleDuration);
 						}
 
 						$body.addEventListener('click', function(event) {
@@ -385,7 +365,7 @@
 						$toggleTarget.classList.remove('is-untoggling');
 					}, toggleDuration);
 					if (toggleAnimation === 'slide') {
-						new Animate($toggleTarget, toggleDuration/2).slideUp();
+						animate.slideUp($toggleTarget, toggleDuration/2);
 					}
 				} else {
 					if ($this !== event.target && !hasChild($this, event.target) && $toggleArea !== event.target && !hasChild($toggleArea, event.target)) {
@@ -400,7 +380,7 @@
 							$body.classList.remove(bodyClass+'-is-toggled', bodyClass+'-is-untoggling');
 						}, toggleDuration);
 						if (toggleAnimation === 'slide') {
-							new Animate($toggleTarget, toggleDuration/2).slideUp();
+							animate.slideUp($toggleTarget, toggleDuration/2);
 						}
 					}
 				}

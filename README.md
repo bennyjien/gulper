@@ -30,10 +30,16 @@ Have fun! :)
 + always use useref for script, un-useref-ed script will not included in _dist/_
 + to review _doc/_, run `gulp build` since _doc/_ needs bundle.js
 
+## ROADMAP
++ Replace magnific popup with vanilla alternative
++ Demo page to showcase what gulper can do with prepackaged code
++ Documentation refresh
+
 ## CHANGELOG
 1.5 (Oct 9, 2018)
 + rollback from anime.js to GSAP (more robust and 3rd party plugins)
 + rollback from scrollMonitor to ScrollMagic (more robust)
++ update gulp-autoprefixer, gulp-sass
 
 1.3 (Jan 8, 2018)
 + remove GSAP independency

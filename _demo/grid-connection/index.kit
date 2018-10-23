@@ -1,0 +1,68 @@
+<!-- @import ../header -->
+
+<div id="site-content" class="site-content">
+	<div class="site-content-inner wrapper">
+		<div class="main-content" role="main" itemscope itemprop="mainContentOfPage">
+			<div class="demo-page-container">
+				<div class="demo-page-content">
+					<div class="grid-connection">
+						<div class="grid-connection-boxes">
+							<div class="grid-connection-box" data-image-full="http://placehold.it/1232x600/886666/111111">
+								<a href="#" class="link">
+									<div class="photo">
+										<div class="bg"></div>
+										<img class="img" src="http://placehold.it/400x600/888888/111111">
+									</div>
+									<div class="text">
+										<p class="title">Deluxe Suite</p>
+									</div>
+								</a>
+							</div>
+							<div class="grid-connection-box" data-image-full="http://placehold.it/1232x600/668866/111111">
+								<a href="#" class="link">
+									<div class="photo">
+										<div class="bg"></div>
+										<img class="img" src="http://placehold.it/400x600/888888/111111">
+									</div>
+									<div class="text">
+										<p class="title">Deluxe Twin</p>
+									</div>
+								</a>
+							</div>
+							<div class="grid-connection-box" data-image-full="http://placehold.it/1232x600/666688/111111">
+								<a href="#" class="link">
+									<div class="photo">
+										<div class="bg"></div>
+										<img class="img" src="http://placehold.it/400x600/888888/111111">
+									</div>
+									<div class="text">
+										<p class="title">Pool Villa</p>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+var $grid = document.querySelector('.grid-connection'),
+	$gridBox = $grid.querySelectorAll('.grid-connection-box');
+
+	$gridBox.forEach(element => {
+		var image = element.dataset.imageFull,
+			$gridBg = $grid.querySelectorAll('.bg');
+
+		element.addEventListener('mouseenter', function(){
+			$gridBg.forEach(bg => {
+				bg.style.backgroundImage = `url(${image})`;
+			})
+		});
+	});
+
+</script>
+
+<!-- @import ../footer -->

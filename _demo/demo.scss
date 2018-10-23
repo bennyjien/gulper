@@ -1,0 +1,23 @@
+/*!
+Theme Name: Gulper Demo
+Author: Benny Jien
+Author URI: http://bennyjien.com/
+*/
+
+@import "../assets/scss/variables";
+@import "../assets/scss/mixins";
+@import "dimension-hover/_style";
+@import "grid-connection/_style";
+
+.demo-container {
+	background-color: $white;
+	display: flex;
+	flex-direction: column;
+	min-height: 100%;
+
+	@at-root {
+		.demo-content {
+			flex: 1 1 auto;
+		}
+	}
+}
