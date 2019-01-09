@@ -306,34 +306,7 @@
 }
 
 .wrapper {
-	margin-left: auto;
-	margin-right: auto;
-	max-width: 1280px;
-	padding-left: 16px;
-	padding-right: 16px;
-
-	@include breakpoint(creeper) {
-		padding-left: 24px;
-		padding-right: 24px;
-	}
-
-	@include breakpoint(crawler) {
-		padding-left: 32px;
-		padding-right: 32px;
-	}
-
-	@include breakpoint(runner) {
-		padding-left: 48px;
-		padding-right: 48px;
-	}
-
-	&.wrapper-medium {
-		max-width: 1120px;
-	}
-
-	&.wrapper-small {
-		max-width: 848px;
-	}
+	@include wrapper-x;
 }
 
 .unwrapper {

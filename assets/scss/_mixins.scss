@@ -178,6 +178,91 @@
 
 // LAYOUT
 
+@mixin wrapper-x {
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 1280px;
+	padding-left: 16px;
+	padding-right: 16px;
+
+	@include breakpoint(creeper) {
+		padding-left: 24px;
+		padding-right: 24px;
+	}
+
+	@include breakpoint(crawler) {
+		padding-left: 32px;
+		padding-right: 32px;
+	}
+
+	@include breakpoint(runner) {
+		padding-left: 48px;
+		padding-right: 48px;
+	}
+}
+
+@mixin wrapper-x-big {
+	max-width: 1366px;
+}
+
+@mixin wrapper-x-small {
+	max-width: 1112px;
+}
+
+@mixin wrapper-x-smaller {
+	max-width: 848px;
+}
+
+@mixin wrapper-y {
+	padding-bottom: 32px;
+	padding-top: 24px;
+
+	@include breakpoint(creeper) {
+		padding-bottom: 48px;
+		padding-top: 32px;
+	}
+
+	@include breakpoint(crawler) {
+		padding-top: 48px;
+	}
+
+	@include breakpoint(walker) {
+		padding-bottom: 64px;
+	}
+
+	@include breakpoint(runner) {
+		padding-top: 64px;
+	}
+}
+
+@mixin wrapper-y-bottom {
+	padding-top: 0;
+}
+
+@mixin wrapper-y-top {
+	padding-bottom: 0;
+}
+
+@mixin wrapper-xy {
+	padding: 32px;
+}
+
+@mixin wrapper-xy-bigger {
+	padding: 64px;
+}
+
+@mixin wrapper-xy-big {
+	padding: 48px;
+}
+
+@mixin wrapper-xy-small {
+	padding: 16px;
+}
+
+@mixin wrapper-xy-smaller {
+	padding: 8px;
+}
+
 @mixin aside {
 	flex: 1 1 auto;
 	width: 100%;

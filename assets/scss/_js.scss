@@ -1,0 +1,12 @@
+.js-unwrapper {
+	opacity: 0;
+	transition: opacity 0.2s ease;
+
+	.no-js & {
+		opacity: 1;
+	}
+
+	&.is-unwrapped {
+		opacity: 1;
+	}
+}

@@ -147,7 +147,7 @@
 					if (tabScrollTarget) {
 						setTimeout(function() {
 							scrollTo(event, $this);
-						}, closeDuration + tabDuration);
+						}, (closeDuration + tabDuration) * 1000);
 					}
 
 					if (window.history && history.pushState) {
@@ -299,7 +299,7 @@
 								});
 								$toggleTarget.classList.remove('is-untoggling');
 								$body.classList.remove(bodyClass+'-is-toggled', bodyClass+'-is-untoggling');
-							}, toggleDuration);
+							}, toggleDuration * 1000);
 							if (toggleAnimation === 'slide') {
 								animate.slideUp($toggleTarget, toggleDuration/2);
 							}
@@ -321,7 +321,7 @@
 							if ($toggleFocus) {
 								$toggleFocus.focus();
 							}
-						}, toggleDuration);
+						}, toggleDuration * 1000);
 
 						if (toggleScrollTarget) {
 							scrollTo(event, $this);
@@ -363,7 +363,7 @@
 					setTimeout(function() {
 						$this.classList.remove('is-untoggling');
 						$toggleTarget.classList.remove('is-untoggling');
-					}, toggleDuration);
+					}, toggleDuration * 1000);
 					if (toggleAnimation === 'slide') {
 						animate.slideUp($toggleTarget, toggleDuration/2);
 					}
@@ -378,7 +378,7 @@
 							$this.classList.remove('is-untoggling');
 							$toggleTarget.classList.remove('is-untoggling');
 							$body.classList.remove(bodyClass+'-is-toggled', bodyClass+'-is-untoggling');
-						}, toggleDuration);
+						}, toggleDuration * 1000);
 						if (toggleAnimation === 'slide') {
 							animate.slideUp($toggleTarget, toggleDuration/2);
 						}
