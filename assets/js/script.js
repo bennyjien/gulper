@@ -7,7 +7,7 @@
 jQuery(document).ready(function($) {
 
 	// initialize magnificPopup
-	$('.js-popup-link').magnificPopup({
+	$('.js-mfp-link').magnificPopup({
 		type: 'inline',
 		mainClass: 'mfp-animation',
 		removalDelay: 200

@@ -13,9 +13,9 @@
 	svg4everybody();
 
 	// preload images
-	imagesLoaded(document.querySelector('#site-container'), function() {
-		document.body.classList.remove('is-loading');
-	});
+	// imagesLoaded(document.querySelector('#site-container'), function() {
+	// 	document.body.classList.remove('is-loading');
+	// });
 
 	// sticky polyfill
 	const stickyElements = document.getElementsByClassName('js-sticky');
@@ -45,7 +45,7 @@
 		slideUp: (element, duration, delay = 0) => {
 			TweenMax.to(element, duration, { display: 'none', overflow: 'hidden', autoAlpha: 0, height: 0, delay: delay });
 		}
-	}
+	};
 	const animate = Object.create(Animate);
 
 	// scroll to targeted id
@@ -90,7 +90,7 @@
 	   data-tab-duration="[second]" -> how long is tab animation if tab method is auto
 	*/
 	const tabFunction = function() {
-		const $tabs = document.querySelectorAll('.js-tab');
+		const $tabs = document.querySelectorAll('.js-tab-link');
 
 		function tabInit() {
 			const $tabTargets = document.querySelectorAll('.js-tab-target'),
@@ -124,7 +124,7 @@
 					$tabTargetGroup = document.querySelectorAll(`.js-tab-target[data-tab-group="${$tabTarget.dataset.tabGroup}"]`),
 					tabType = $this.dataset.tabType || 'tab',
 					tabTarget = $this.hash.substring(1),
-					tabDuration = $this.dataset.tabDuration || 0.2,
+					tabDuration = $this.dataset.tabDuration || 0,
 					tabScrollTarget = $this.dataset.scrollTarget;
 
 				if (!$tabTarget.classList.contains('is-tabbed')) {
@@ -136,9 +136,9 @@
 						}
 					});
 
-					TweenMax.to($tabTargetGroup, closeDuration, { display: 'none', height: 0, overflow: 'hidden', autoAlpha: 0, onComplete:
+					TweenMax.to($tabTargetGroup, closeDuration, { display: 'none', overflow: 'hidden', autoAlpha: 0, onComplete:
 					function() {
-						animate.slideDown($tabTarget, tabDuration);
+						animate.fadeIn($tabTarget, tabDuration);
 					}});
 					$tabGroup.forEach(element => element.classList.remove('is-tabbed'));
 					$this.classList.add('is-tabbed');
@@ -461,6 +461,46 @@
 		window.addEventListener('resize', unwrapperInit);
 	}();
 
+	// form input animation
+	const formLabelAnimation = function() {
+		const $formLabel = document.querySelectorAll('.js-form-input');
+
+		$formLabel.forEach( element => {
+			let $input = element.querySelectorAll('.input');
+
+			$input.forEach(input => {
+				input.addEventListener('focus', function() {
+					this.parentNode.classList.add('is-filled');
+				});
+
+				input.addEventListener('blur', function() {
+					var input = this;
+					setTimeout(function() {
+						if (input.value === '') input.parentNode.classList.remove('is-filled');
+					}, 100);
+				});
+
+				window.addEventListener('load', function() {
+					input.parentNode.classList.add('is-loaded');
+					if (input.value) {
+						input.parentNode.classList.add('is-filled');
+					}
+				});
+
+				// pikaday support
+				const $inputDate = element.querySelector('.form-input-date');
+
+				if ($inputDate) {
+					new Pikaday({
+						field: $inputDate.querySelector('.input'),
+						format: 'DD[-]MM[-]YYYY'
+					});
+				}
+			});
+
+		});
+	}();
+
 	// form file function
 	/* EXAMPLE
 		<div class="form-file js-form-file">
@@ -475,11 +515,17 @@
 		const $formFile = document.querySelectorAll('.js-form-file');
 
 		$formFile.forEach(element => {
-			const $fileInput = element.querySelector('.form-file-input'),
+			const $fileInput = element.querySelector('.form-file-field'),
 				$input = $fileInput.querySelector('.input'),
 				$label = $fileInput.querySelector('.label'),
-				$remove = $fileInput.querySelector('.remove'),
-				labelDefault = $label.innerHTML;
+				$remove = $fileInput.querySelector('.remove');
+
+			if (!$fileInput || !$input || !$label || !$remove) {
+				return false;
+			}
+
+			const $labelPlaceholder = $label.querySelector('.placeholder'),
+				labelPlaceholderDefault = $labelPlaceholder.innerHTML;
 
 			function addFile($this, event) {
 				let $files = $this.files,
@@ -498,8 +544,7 @@
 				}
 
 				if (fileName) {
-					const $labelCaption = $label.querySelector('.placeholder');
-					$labelCaption.innerHTML = fileName;
+					$labelPlaceholder.innerHTML = fileName;
 					$label.classList.add('has-placeholder');
 				} else {
 					removeFile(event);
@@ -508,7 +553,7 @@
 
 			function removeFile(event) {
 				$input.value = '';
-				$label.innerHTML = labelDefault;
+				$labelPlaceholder.innerHTML = labelPlaceholderDefault;
 				$label.classList.remove('has-placeholder');
 				event.preventDefault();
 			}
