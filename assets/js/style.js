@@ -1,63 +1,116 @@
 /* This file extends the limit of style.css
  * Style related scripts including polyfill should be written here
  */
-/* global window document history MouseEvent getParameterByName hasChild svg4everybody Stickyfill fluidvids TweenMax ScrollMagic */
+/* global window document history MouseEvent getParameterByName hasChild equalheight anime ScrollMagic imagesLoaded Pikaday */
 
 (function() {
-
-	const $body = document.querySelector('body');
+	const $body = document.querySelector('body'),
+		$site = document.querySelector('#site-container'),
+		sceneController = new ScrollMagic.Controller({
+			refreshInterval: 0 // if 100 has bug on parallax, 0 has better performance, must recalculate on resize
+		});
 
 	let windowWidth = document.documentElement.clientWidth;
 
-	// svg polyfill
-	svg4everybody();
-
 	// preload images
-	// imagesLoaded(document.querySelector('#site-container'), function() {
-	// 	document.body.classList.remove('is-loading');
-	// });
-
-	// sticky polyfill
-	const stickyElements = document.getElementsByClassName('js-sticky');
-
-	for (let i = stickyElements.length - 1; i >= 0; i -= 1) {
-		Stickyfill.add(stickyElements[i]);
-	}
-
-	// fluidvids
-	fluidvids.init({
-		selector: ['.js-fluidvids'],
-		players: ['www.youtube.com']
+	imagesLoaded($site, function() {
+		document.body.classList.remove('site-loading');
 	});
 
-	// tween animation
-	const Animate = {
+	// anime stock animation
+	const animate = {
 		fadeIn: (element, duration, delay = 0) => {
-			TweenMax.to(element, duration, { display: 'block', autoAlpha: 1, delay: delay });
+			anime.remove(element);
+			element.style.display = 'block';
+			element.style.opacity = 0;
+
+			anime({
+				targets: element,
+				duration,
+				delay,
+				opacity: 1,
+				easing: 'easeOutQuad'
+			});
 		},
 		fadeOut: (element, duration, delay = 0) => {
-			TweenMax.to(element, duration, { display: 'none', autoAlpha: 0, delay: delay });
+			anime.remove(element);
+
+			anime({
+				targets: element,
+				duration,
+				delay,
+				opacity: 0,
+				easing: 'easeOutQuad',
+				complete: function() {
+					anime.set(element, {
+						display: 'none'
+					});
+				}
+			});
 		},
 		slideDown: (element, duration, delay = 0) => {
-			TweenMax.set(element, { display: 'block', overflow: 'visible', autoAlpha: 1, height: 'auto' });
-			TweenMax.from(element, duration, { overflow: 'hidden', autoAlpha: 0, height: 0, delay: delay });
+			anime.remove(element);
+			element.style.display = 'block';
+			element.style.height = 'auto';
+			const targetHeight = element.offsetHeight;
+			element.style.height = 0;
+			element.style.overflow = 'hidden';
+			element.style.opacity = 0;
+
+			anime({
+				targets: element,
+				duration,
+				delay,
+				height: targetHeight,
+				opacity: 1,
+				easing: 'easeOutQuad'
+			});
 		},
 		slideUp: (element, duration, delay = 0) => {
-			TweenMax.to(element, duration, { display: 'none', overflow: 'hidden', autoAlpha: 0, height: 0, delay: delay });
+			anime.remove(element);
+			element.style.overflow = 'hidden';
+
+			anime({
+				targets: element,
+				duration,
+				delay,
+				height: 0,
+				opacity: 0,
+				easing: 'easeOutQuad',
+				complete: function() {
+					anime.set(element, {
+						display: 'none'
+					});
+				}
+			});
 		}
 	};
-	const animate = Object.create(Animate);
 
 	// scroll to targeted id
 	function scrollTo(event, element) {
-		const scrollTarget = element.dataset.scrollTarget || element.hash || '',
+		const scrollY = window.scrollY,
+			scrollTarget = element.dataset.scrollTarget || element.hash || '',
 			$scrollTarget = document.querySelector(`[id='${scrollTarget.substring(1)}']`),
-			scrollDuration = element.dataset.scrollDuration || 0.4,
+			scrollTargetY = $scrollTarget.getBoundingClientRect().top,
+			scrollDuration = element.dataset.scrollDuration || 400,
 			$offset = document.querySelector(element.dataset.scrollOffset) || '',
 			offsetY = $offset.offsetHeight || 0;
 
+		const prop = {
+			y: 0
+		};
+
 		if ($scrollTarget) {
-			TweenMax.to(window, scrollDuration, { scrollTo:{ y: scrollTarget, offsetY: offsetY } });
+			anime({
+				targets: prop,
+				y: scrollTargetY + scrollY - offsetY,
+				round: 1,
+				duration: scrollDuration,
+				easing: 'easeOutQuad',
+				update: function() {
+					window.scrollTo(0, prop.y);
+				}
+			});
 			event.preventDefault();
 		}
 	}
@@ -67,22 +120,114 @@
 	   data-scroll-offset="[selector]" -> offset of selector height
 	   data-scroll-duration="[duration]" -> how long is scrolling animation
 	*/
-	const scrollFunction = function(event) {
+	const scrollFunction = function() {
 		const $scrolls = document.querySelectorAll('.js-scroll');
 
-		$scrolls.forEach(scroll => scroll.addEventListener('click', function(event) { scrollTo(event, this); }));
-	}();
+		// add .in-viewport for .js-scroll links (too mark current selected)
+		function elementClass(scroll) {
+			const scrollTarget = scroll.dataset.scrollTarget || scroll.hash || '',
+				$scrollTarget = document.querySelector(`[id='${scrollTarget.substring(1)}']`);
+			let scrollTargetHeight = $scrollTarget.offsetHeight;
 
-	// init ScrollMagic
-	const sceneController = new ScrollMagic.Controller(),
-		$scenes = document.querySelectorAll('.js-scene');
+			function updateDuration() {
+				scrollTargetHeight = $scrollTarget.offsetHeight;
+				return scrollTargetHeight;
+			}
 
-	$scenes.forEach(scene => {
-		new ScrollMagic.Scene({ triggerElement: scene, reverse: false })
-			.setClassToggle(scene, 'in-viewport')
-			.addIndicators()
-			.addTo(sceneController);
-	});
+			imagesLoaded($scrollTarget, function() {
+				const scene = new ScrollMagic.Scene({ triggerElement: $scrollTarget, triggerHook: 0.5, duration: scrollTargetHeight, reverse: true })
+					.setClassToggle([scroll, $scrollTarget], 'in-viewport')
+					// .addIndicators()
+					.addTo(sceneController);
+
+				window.addEventListener('resize', updateDuration);
+				scene.duration(updateDuration);
+			});
+		}
+
+		$scrolls.forEach(scroll => {
+			scroll.addEventListener('click', function(event) {
+				scrollTo(event, this);
+			});
+
+			elementClass(scroll);
+		});
+	};
+
+	// init ScrollMagic Scene
+	/* data-scene-stagger="[second]" -> staggering children duration
+	/* data-scene-parallax="[percent]" -> how much does the element will be shifted
+	/* data-scene-parallax-speed="[number]" -> how fast does the element will be shifted
+	/* data-scene-parallax-type="[tranform|background]" -> what to shift
+	*/
+	function scrollAnimation(element) {
+		const $scenes = document.querySelectorAll(element);
+
+		$scenes.forEach(scene => {
+			const sceneChild = scene.children,
+				stagger = scene.dataset.sceneStagger || 0,
+				parallax = scene.dataset.sceneParallax || 0,
+				parallaxSpeed = scene.dataset.sceneParallaxSpeed || 1,
+				parallaxType = scene.dataset.sceneParallaxType || 'transform',
+				parallaxDuration = parallax ? scene.offsetHeight/parallaxSpeed : 0,
+				reverse = stagger ? false : true,
+				triggerHook = 0.8;
+
+			let parallaxAnimation;
+
+			imagesLoaded($site, function() {
+				scene.magic = new ScrollMagic.Scene({ triggerElement: scene, triggerHook: triggerHook, duration: parallaxDuration, reverse: reverse })
+					.setClassToggle(scene, 'in-viewport')
+					.addIndicators()
+					.addTo(sceneController);
+
+				scene.magic.on('start', function() {
+					if (stagger) {
+						anime({
+							targets: sceneChild,
+							display: 'block',
+							delay: (el, i) => {
+								setTimeout(function() {
+									el.classList.add('in-viewport');
+								}, i * stagger);
+								return i * stagger;
+							}
+						});
+					}
+
+					if (parallax) {
+						if (parallaxType === 'transform') {
+							anime.set(scene, {
+								translateY: `${parallax}%`
+							});
+						} else if (parallaxType === 'background') {
+							anime.set(scene, {
+								backgroundPositionY: `${parallax}%`
+							});
+						}
+
+						parallaxAnimation = anime({
+							targets: scene,
+							backgroundPositionY: 0,
+							translateY: 0,
+							duration: parallaxDuration,
+							easing: 'linear',
+							autoplay: false
+						});
+					}
+				});
+
+				scene.magic.on('progress', function(event) {
+					if (parallax) {
+						parallaxAnimation.seek(parallaxDuration * event.progress);
+					}
+				});
+			});
+
+		});
+	}
+
+	scrollAnimation('.js-scene');
 
 	// tab function, can use scroll to function
 	/* data-tab-type="normal|collapse" -> collapse tab can be closed individually
@@ -128,18 +273,19 @@
 					tabScrollTarget = $this.dataset.scrollTarget;
 
 				if (!$tabTarget.classList.contains('is-tabbed')) {
-					let closeDuration = 0;
-
-					$tabTargetGroup.forEach(element => {
-						if (element.classList.contains('is-tabbed')) {
-							closeDuration = tabDuration/2;
+					anime({
+						targets: $tabTargetGroup,
+						duration: 0,
+						opacity: 0,
+						complete: function() {
+							anime.set($tabTargetGroup, {
+								display: 'none',
+								overflow: 'hidden'
+							});
+							animate.slideDown($tabTarget, tabDuration);
 						}
 					});
 
-					TweenMax.to($tabTargetGroup, closeDuration, { display: 'none', overflow: 'hidden', autoAlpha: 0, onComplete:
-					function() {
-						animate.fadeIn($tabTarget, tabDuration);
-					}});
 					$tabGroup.forEach(element => element.classList.remove('is-tabbed'));
 					$this.classList.add('is-tabbed');
 					$tabTarget.classList.add('is-tabbed');
@@ -147,7 +293,7 @@
 					if (tabScrollTarget) {
 						setTimeout(function() {
 							scrollTo(event, $this);
-						}, (closeDuration + tabDuration) * 1000);
+						}, tabDuration);
 					}
 
 					if (window.history && history.pushState) {
@@ -187,8 +333,9 @@
 			data-toggle-keyclose="false|true" -> toggle target can be closed by keydown
 			data-scroll-target="[selector]" -> scroll to target
 	*/
-	const toggleFunction = function() {
-		const $toggles = $body.querySelectorAll('.js-toggle');
+	const toggleFunction = function(element) {
+		const $toggles = $body.querySelectorAll(element),
+			togglesClass = element.substring(1);
 
 		function toggleInit($this) {
 			const eventClick = new MouseEvent('click'),
@@ -207,7 +354,7 @@
 				$toggleArea = document.querySelector($this.dataset.toggleArea) || $this,
 				$toggleFocus = document.querySelector($this.dataset.toggleFocus),
 				toggleAnimation = $this.dataset.toggleAnimation || 'slide',
-				toggleDuration = $this.dataset.toggleDuration || 0.2,
+				toggleDuration = $this.dataset.toggleDuration || 200,
 				toggleIteration = $this.dataset.toggleIteration || 'infinite',
 				toggleScrollTarget = $this.dataset.scrollTarget,
 				toggleKeyclose = $this.dataset.toggleKeyclose || false,
@@ -218,16 +365,16 @@
 
 			if (toggleTarget === $this.hash) clickPrevent = true;
 			if (!$toggleTarget) return false;
-			if (!$this.classList.contains('js-toggle')){
+			if (!$this.classList.contains(togglesClass)){
 				return false;
 			}
 
 			if (event.type === 'mouseenter' || event.type === 'touchstart') {
 				if (toggleTrigger === 'hover') {
-					const $toggleLinkToggled = $toggleArea.querySelectorAll('.js-toggle.is-toggled');
+					const $toggleLinkToggled = $toggleArea.querySelectorAll(`${element}.is-toggled`);
 
 					if (toggleIteration === 'once') {
-						$this.classList.remove('js-toggle');
+						$this.classList.remove(togglesClass);
 					}
 
 					$toggleLinkToggled.forEach(toggle => {
@@ -249,6 +396,10 @@
 						$toggleCurrentToggled.forEach(toggle => {
 							animate.slideUp(toggle, toggleDuration/2);
 						});
+					} else if (toggleAnimation === 'fade') {
+						$toggleCurrentToggled.forEach(toggle => {
+							animate.fadeOut(toggle, toggleDuration/2);
+						});
 					}
 
 					$toggleCurrentToggled.forEach(toggle => toggle.classList.remove('is-toggled'));
@@ -258,6 +409,8 @@
 						$toggleTarget.classList.add('is-toggled');
 						if (toggleAnimation === 'slide') {
 							animate.slideDown($toggleTarget, toggleDuration, toggleDuration/2);
+						} else if (toggleAnimation === 'fade') {
+							animate.fadeIn($toggleTarget, toggleDuration, toggleDuration/2);
 						}
 					}
 
@@ -277,7 +430,7 @@
 				}
 				else if (toggleTrigger === 'click') {
 					if (toggleIteration === 'once') {
-						$this.classList.replace('js-toggle', 'js-toggle-inactive');
+						$this.classList.replace(togglesClass, `${togglesClass}-inactive`);
 					}
 
 					if ($this.classList.contains('is-toggled') || $toggleTarget.classList.contains('is-toggled') || window.getComputedStyle($toggleTarget).getPropertyValue('display') !== 'none') {
@@ -285,7 +438,7 @@
 							var $toggler = document.querySelectorAll('.'+bodyClass+'-toggler');
 
 							$toggler.forEach(element => {
-								element.classList.replace('js-toggle-inactive', 'js-toggle');
+								element.classList.replace(`${togglesClass}-inactive`, togglesClass);
 								element.classList.remove('is-toggled');
 								element.classList.remove(bodyClass+'-toggler');
 								element.classList.add('is-untoggling');
@@ -299,9 +452,11 @@
 								});
 								$toggleTarget.classList.remove('is-untoggling');
 								$body.classList.remove(bodyClass+'-is-toggled', bodyClass+'-is-untoggling');
-							}, toggleDuration * 1000);
+							}, toggleDuration);
 							if (toggleAnimation === 'slide') {
 								animate.slideUp($toggleTarget, toggleDuration/2);
+							} else if (toggleAnimation === 'fade') {
+								animate.fadeOut($toggleTarget, toggleDuration/2);
 							}
 						}
 					} else {
@@ -321,13 +476,16 @@
 							if ($toggleFocus) {
 								$toggleFocus.focus();
 							}
-						}, toggleDuration * 1000);
+						}, toggleDuration);
 
 						if (toggleScrollTarget) {
 							scrollTo(event, $this);
 						}
+
 						if (toggleAnimation === 'slide') {
 							animate.slideDown($toggleTarget, toggleDuration);
+						} else if (toggleAnimation === 'fade') {
+							animate.fadeIn($toggleTarget, toggleDuration);
 						}
 
 						$body.addEventListener('click', function(event) {
@@ -360,12 +518,16 @@
 					$this.classList.add('is-untoggling');
 					$toggleTarget.classList.remove('is-toggled');
 					$toggleTarget.classList.add('is-untoggling');
+
 					setTimeout(function() {
 						$this.classList.remove('is-untoggling');
 						$toggleTarget.classList.remove('is-untoggling');
-					}, toggleDuration * 1000);
+					}, toggleDuration);
+
 					if (toggleAnimation === 'slide') {
 						animate.slideUp($toggleTarget, toggleDuration/2);
+					} else if (toggleAnimation === 'fade') {
+						animate.fadeOut($toggleTarget, toggleDuration/2);
 					}
 				} else {
 					if ($this !== event.target && !hasChild($this, event.target) && $toggleArea !== event.target && !hasChild($toggleArea, event.target)) {
@@ -378,9 +540,11 @@
 							$this.classList.remove('is-untoggling');
 							$toggleTarget.classList.remove('is-untoggling');
 							$body.classList.remove(bodyClass+'-is-toggled', bodyClass+'-is-untoggling');
-						}, toggleDuration * 1000);
+						}, toggleDuration);
 						if (toggleAnimation === 'slide') {
 							animate.slideUp($toggleTarget, toggleDuration/2);
+						} else if (toggleAnimation === 'fade') {
+							animate.fadeOut($toggleTarget, toggleDuration/2);
 						}
 					}
 				}
@@ -393,14 +557,22 @@
 			toggle.addEventListener('mouseenter', function(event) { toggleOpen(event, this); });
 			toggle.addEventListener('touchstart', function(event) { toggleOpen(event, this); });
 		});
-	}();
+	};
+
+	toggleFunction('.js-toggle');
+	// note: require more research
+	// toggleFunction('.js-popup', {
+	// 	animation: 'fade',
+	// 	keyclose: true
+	// });
+
 
 	// mover function (will move elements depending of breakpoints)
 	/* data-mover-breakpoint="[width]" -> mover breakpoint width
 	   data-mover-target="[selector]" -> mover will append selected element to this selector
 	*/
-	const moverFunction = function() {
-		const $movers = document.querySelectorAll('.js-mover');
+	const moverFunction = function(element) {
+		const $movers = document.querySelectorAll(element);
 
 		function moverStart(element) {
 			const $this = element;
@@ -432,11 +604,13 @@
 		}
 
 		$movers.forEach(mover => moverStart(mover));
-	}();
+	};
+
+	moverFunction('.js-mover');
 
 	// unwrapper function: fixing calculation bug because of scrollbar
-	const unwrapperFunction = function(event) {
-		const $unwrapper = document.querySelectorAll('.js-unwrapper');
+	const unwrapperFunction = function(element) {
+		const $unwrapper = document.querySelectorAll(element);
 		let math = `calc(50% - ${windowWidth}px/2)`;
 
 		function unwrapperInit() {
@@ -459,10 +633,12 @@
 
 		unwrapperInit();
 		window.addEventListener('resize', unwrapperInit);
-	}();
+	};
 
-	// form input animation
-	const formLabelAnimation = function() {
+	unwrapperFunction('.js-unwrapper');
+
+	// form interaction
+	const formInteraction = function() {
 		const $formLabel = document.querySelectorAll('.js-form-input');
 
 		$formLabel.forEach( element => {
@@ -481,19 +657,47 @@
 				});
 
 				window.addEventListener('load', function() {
-					input.parentNode.classList.add('is-loaded');
-					if (input.value) {
-						input.parentNode.classList.add('is-filled');
+					const parent = input.closest('.form-input-field');
+
+					if (parent) {
+						parent.classList.add('is-loaded');
+						if (input.value) {
+							parent.classList.add('is-filled');
+						}
 					}
 				});
+
+				// show password
+				const $passwordInput = element.querySelector('.form-input-password .input'),
+					$passwordShower = element.querySelector('.form-input-password .action');
+
+				function showPassword() {
+					if ($passwordInput.type === 'password') {
+						$passwordInput.type = 'text';
+					} else {
+						$passwordInput.type = 'password';
+					}
+				}
+
+				if ($passwordShower) {
+
+					$passwordShower.addEventListener('click', function(event) {
+						showPassword();
+						event.preventDefault();
+					});
+				}
 
 				// pikaday support
 				const $inputDate = element.querySelector('.form-input-date');
 
 				if ($inputDate) {
+					const $fieldInput = $inputDate.querySelector('.input');
+					let $dateFormat = $fieldInput.dataset.dateFormat ? $fieldInput.dataset.dateFormat : 'DD-MM-YYYY';
+					let $minDate = $fieldInput.dataset.minDate;
 					new Pikaday({
-						field: $inputDate.querySelector('.input'),
-						format: 'DD[-]MM[-]YYYY'
+						field: $fieldInput,
+						format: $dateFormat,
+						minDate: $minDate ? new Date($minDate) : new Date()
 					});
 				}
 			});
@@ -504,9 +708,9 @@
 	// form file function
 	/* EXAMPLE
 		<div class="form-file js-form-file">
-			<label class="form-file-label">File</label>
-			<div class="form-file-input">
-				<input type="file" id="checkout-attachment" class="input" name="file-attachment" data-multiple-placeholder="{count} files selected" multiple>
+			<label class="form-file-heading" for="file-attachment">File</label>
+			<div class="form-file-field">
+				<input type="file" id="file-attachment" class="input" name="file-attachment" data-multiple-placeholder="{count} files selected" multiple>
 				<label for="file-attachment" class="label"><span class="button">Browse files</span> <span class="placeholder">No file selected&hellip;</span> <a href="#" class="remove" title="Remove attachment">&times;</a></label>
 			</div>
 		</div>
@@ -515,17 +719,12 @@
 		const $formFile = document.querySelectorAll('.js-form-file');
 
 		$formFile.forEach(element => {
-			const $fileInput = element.querySelector('.form-file-field'),
-				$input = $fileInput.querySelector('.input'),
-				$label = $fileInput.querySelector('.label'),
-				$remove = $fileInput.querySelector('.remove');
-
-			if (!$fileInput || !$input || !$label || !$remove) {
-				return false;
-			}
-
-			const $labelPlaceholder = $label.querySelector('.placeholder'),
-				labelPlaceholderDefault = $labelPlaceholder.innerHTML;
+			const $fileField = element.querySelector('.form-file-field'),
+				$input = $fileField.querySelector('.input'),
+				$label = $fileField.querySelector('.label'),
+				$remove = $fileField.querySelector('.remove'),
+				$placeholder = $label.querySelector('.placeholder'),
+				labelDefault = $placeholder.innerHTML;
 
 			function addFile($this, event) {
 				let $files = $this.files,
@@ -544,7 +743,7 @@
 				}
 
 				if (fileName) {
-					$labelPlaceholder.innerHTML = fileName;
+					$placeholder.innerHTML = fileName;
 					$label.classList.add('has-placeholder');
 				} else {
 					removeFile(event);
@@ -553,7 +752,7 @@
 
 			function removeFile(event) {
 				$input.value = '';
-				$labelPlaceholder.innerHTML = labelPlaceholderDefault;
+				$placeholder.innerHTML = labelDefault;
 				$label.classList.remove('has-placeholder');
 				event.preventDefault();
 			}
@@ -567,7 +766,6 @@
 					removeFile(event);
 				});
 			}
-
 		});
 	}();
 

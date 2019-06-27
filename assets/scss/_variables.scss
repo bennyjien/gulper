@@ -1,34 +1,51 @@
-// COLOR
+// LAYOUT
+$width-max: 					1280px;
+$width-origin: 				320px;
+$width-creeper: 			414px;
+$width-crawler: 			640px;
+$width-walker: 				768px;
+$width-runner: 				1024px;
+$width-jumper: 				1112px;
+$width-flyer: 				1280px;
+$width-teleporter: 		1440px;
+$width-demigod: 			1600px;
+$width-god: 					1920px;
+$padding-origin: 			16px;
+$padding-creeper: 		24px;
+$padding-crawler: 		32px;
+$padding-walker: 			48px;
+$padding-runner: 			48px;
+$padding-jumper: 			48px;
+$padding-flyer: 			48px;
+$padding-teleporter: 	48px;
+$padding-demigod: 		48px;
+$padding-god: 				48px;
 
+// COLOR
 $white: 							#FFFFFF;
 $black: 							#000000;
 
 $color-100: 					#FAFAFA;
-$color-200: 					#EBEBEB;
-$color-300: 					#D6D6D6;
-$color-400: 					#A3A3A3;
-$color-500: 					#858585;
-$color-600: 					#3D3D3D;
-$color-700: 					#1F1F1F;
-$color-800: 					#141414;
+$color-200: 					#E5E5E4;
+$color-300: 					#D1D0CE;
+$color-400: 					#A8A7A3;
+$color-500: 					#7F7D78;
+$color-600: 					#6A6864;
+$color-700: 					#555450;
+$color-800: 					#403F3D;
+$color-900: 					#2B2B29;
 
-$color-one-100: 			#2bad29;
-$color-one-200: 			#259b24;
-$color-one-300: 			#056f00;
-$color-one-400: 			#2bad29;
-$color-one-500: 			#259b24;
-$color-one-600: 			#056f00;
-$color-one-700: 			#2bad29;
-$color-one-800: 			#259b24;
+$color-one-100: 			#D5EFDC;
+$color-one-200: 			#ADDDBD;
+$color-one-300: 			#87CAA0;
+$color-one-400: 			#63B485;
+$color-one-500: 			#409D6C;
+$color-one-600: 			#2C8A5D;
+$color-one-700: 			#1B724D;
+$color-one-800: 			#0F573C;
+$color-one-900: 			#063828;
 
-$color-two-100: 			#f20e3c;
-$color-two-200: 			#e00032;
-$color-two-300: 			#c00010;
-$color-two-400: 			#f20e3c;
-$color-two-500: 			#e00032;
-$color-two-600: 			#c00010;
-$color-two-700: 			#f20e3c;
-$color-two-800: 			#e00032;
+$color-two-500: 			#65E087;
 
 $color-info-light: 		#CEE1F5;
 $color-info: 					#9FC3EC;
@@ -47,14 +64,13 @@ $color-alert: 				#FAA4A6;
 $color-alert-dark: 		#F4474A;
 
 $color-text-lighter: 	$color-400;
-$color-text-light: 		$color-500;
-$color-text: 					$color-600;
-$color-text-dark: 		$color-800;
+$color-text-light: 		$color-600;
+$color-text: 					$color-800;
+$color-text-dark: 		$color-900;
 
 $color-bg-light: 			$color-100;
 $color-bg: 						$color-700;
-$color-bg-dark: 			$color-800;
-$color-bg-gradient: 	linear-gradient(to right, $color-one-100, $color-two-100);
+$color-bg-dark: 			$color-900;
 
 $color-border-light: 	$color-200;
 $color-border: 				$color-300;
@@ -73,7 +89,6 @@ $color-whatsapp: 			#33D16B;
 $color-youtube: 			#cd201f;
 
 // SHADOW
-
 $box-shadow-100: 			none;
 $box-shadow-200: 			0 0 1px rgba($color-800, 0.04), 0 1px 2px 0 rgba($color-800, 0.08);
 $box-shadow-300: 			0 0 2px rgba($color-800, 0.04), 0 2px 4px 0 rgba($color-800, 0.08);
@@ -93,10 +108,9 @@ $text-shadow-700: 		0 0 10px rgba($color-800, 0.04), 0 10px 20px 0 rgba($color-8
 $text-shadow-800: 		0 0 12px rgba($color-800, 0.04), 0 12px 24px 0 rgba($color-800, 0.08);
 
 // TYPOGRAPHY
-
-$sans-serif: 					"Helvetica Neue", sans-serif;
+$sans-serif: 					"IBM Plex Sans", sans-serif;
 $serif: 							Georgia, serif;
-$monospace: 					Menlo, Monaco, Consolas, "Courier New", monospace;
+$monospace: 					"IBM Plex Mono", monospace;
 
 $font-size-100: 			11px;
 $line-height-100: 		1.45455;
@@ -113,44 +127,28 @@ $line-height-400: 		1.42858;
 $font-size-500: 			16px;
 $line-height-500: 		1.5;
 
-$font-size-600: 			18px;
-$line-height-600: 		1.44445;
+$font-size-600: 			20px;
+$line-height-600: 		1.4;
 
 $font-size-700:	 			24px;
 $line-height-700: 		1.33334;
 
 $font-size-800: 			32px;
-$line-height-800: 		1.125;
+$line-height-800: 		1.25;
 
-$font-size-900: 			48px;
-$line-height-900: 		1.16667;
+$font-size-900: 			40px;
+$line-height-900: 		1.2;
 
-$font-size-display: 	64px;
-$line-height-display: 1.125;
+$font-size-1000: 			48px;
+$line-height-1000: 		1.16667;
 
-$font-size-jumbo: 		96px;
-$line-height-jumbo: 	1.16667;
+$font-size-1100: 			72px;
+$line-height-1100: 		1.11111;
 
-$font-size-h1: 				32px;
-$line-height-h1: 			1.125;
-
-$font-size-h2: 				24px;
-$line-height-h2: 			1.16667;
-
-$font-size-h3: 				20px;
-$line-height-h3: 			1.2;
-
-$font-size-h4: 				18px;
-$line-height-h4: 			1.33334;
-
-$font-size-h5: 				16px;
-$line-height-h5: 			1.25;
-
-$font-size-h6: 				14px;
-$line-height-h6: 			1.14286;
+$font-size-1200: 			96px;
+$line-height-1200: 		1.16667;
 
 // TRANSITION
-
 $ease-in-quad: 				cubic-bezier(0.550, 0.085, 0.680, 0.530);
 $ease-in-cubic: 			cubic-bezier(0.550, 0.055, 0.675, 0.190);
 $ease-in-quart: 			cubic-bezier(0.895, 0.030, 0.685, 0.220);

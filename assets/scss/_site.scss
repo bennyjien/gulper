@@ -34,19 +34,17 @@
 	flex-direction: column;
 	position: relative;
 
-	@at-root {
-		.site-content-inner {
-			display: flex;
-			flex: 1 1 auto;
-			flex-direction: column;
-			padding-bottom: 48px;
-			padding-top: 48px;
-			width: 100%;
+	&-inner {
+		display: flex;
+		flex: 1 1 auto;
+		flex-direction: column;
+		padding-bottom: 48px;
+		padding-top: 48px;
+		width: 100%;
 
-			@include breakpoint(runner) {
-				flex-direction: row;
-				justify-content: space-between;
-			}
+		@include breakpoint(runner) {
+			flex-direction: row;
+			justify-content: space-between;
 		}
 	}
 }
@@ -60,10 +58,8 @@
 	width: 100%;
 	z-index: 4;
 
-	@at-root {
-		.site-footer-inner {
-			padding-bottom: 24px;
-			padding-top: 24px;
-		}
+	&-inner {
+		padding-bottom: 24px;
+		padding-top: 24px;
 	}
 }

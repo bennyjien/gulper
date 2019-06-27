@@ -11,14 +11,12 @@
 		margin-bottom: -8px;
 	}
 
-	@at-root {
-		.form-group-item {
-			margin-bottom: 0;
-			padding: 8px 8px;
+	&-item {
+		margin-bottom: 0;
+		padding: 8px 8px;
 
-			@include breakpoint(crawler) {
-				flex: 0 1 50%;
-			}
+		@include breakpoint(crawler) {
+			flex: 0 1 50%;
 		}
 	}
 }
@@ -29,96 +27,88 @@
 		margin-bottom: 16px;
 	}
 
-	.js & {
+	&-label {
+		display: inline-block;
+		font-weight: 700;
+		margin-bottom: 2px;
+	}
 
-		.form-file-input {
+	&-field {
+
+		.js & {
 
 			.input {
 				@include hidden;
 			}
 		}
-	}
 
-	.no-js & {
-
-		.form-file-input {
+		.no-js & {
 
 			.input,
 			.remove {
 				display: none;
 			}
 		}
-	}
 
-	@at-root {
-		.form-file-label {
+		.label {
+			cursor: pointer;
 			display: inline-block;
-			font-weight: 700;
-			margin-bottom: 2px;
+			max-width: 100%;
+			overflow: hidden;
+			position: relative;
+			text-overflow: ellipsis;
+			vertical-align: middle;
+			white-space: nowrap;
+
+			&.has-placeholder {
+				padding-right: 12px;
+
+				.placeholder {
+					color: $color-text;
+				}
+
+				.remove {
+					display: block;
+				}
+			}
+
+			&:hover {
+
+				.button {}
+			}
+
+			> * {
+				// pointer-events: none;
+			}
 		}
 
-		.form-file-input {
+		.button {
+			cursor: pointer;
+			margin-right: 4px;
+		}
 
-			.label {
-				cursor: pointer;
-				display: inline-block;
-				max-width: 100%;
-				overflow: hidden;
-				position: relative;
-				text-overflow: ellipsis;
-				vertical-align: middle;
-				white-space: nowrap;
+		.placeholder {
+			@include font-size-400;
+			color: $color-text-light;
+			cursor: pointer;
+			display: inline-block;
+			vertical-align: middle;
+		}
 
-				&.has-placeholder {
-					padding-right: 12px;
+		.remove {
+			color: $color-text-light;
+			display: none;
+			position: absolute;
+			right: 0;
+			top: 50%;
+			transform: translateY(-50%);
+			transition: all 0.2s ease-out;
+			vertical-align: middle;
 
-					.placeholder {
-						color: $color-text;
-					}
-
-					.remove {
-						display: block;
-					}
-				}
-
-				&:hover {
-
-					.button {}
-				}
-
-				> * {
-					// pointer-events: none;
-				}
-			}
-
-			.button {
-				cursor: pointer;
-				margin-right: 4px;
-			}
-
-			.placeholder {
-				@include font-size-400;
-				color: $color-text-light;
-				cursor: pointer;
-				display: inline-block;
-				vertical-align: middle;
-			}
-
-			.remove {
-				color: $color-text-light;
-				display: none;
-				position: absolute;
-				right: 0;
-				top: 50%;
-				transform: translateY(-50%);
-				transition: all 0.2s ease-out;
-				vertical-align: middle;
-
-				&:hover,
-				&:focus {
-					color: $color-alert-dark;
-					text-decoration: none;
-				}
+			&:hover,
+			&:focus {
+				color: $color-alert-dark;
+				text-decoration: none;
 			}
 		}
 	}

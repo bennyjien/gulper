@@ -1,16 +1,13 @@
 /* This file contains main script for website
  * Style related scripts is located in style.js
  */
-/* global document jQuery */
+/* global document Flickity equalheight scrollFunction fluidvids */
 
-// initialize when document is ready
-jQuery(document).ready(function($) {
-
-	// initialize magnificPopup
-	$('.js-mfp-link').magnificPopup({
-		type: 'inline',
-		mainClass: 'mfp-animation',
-		removalDelay: 200
+(function() {
+	// fluidvids
+	fluidvids.init({
+		selector: ['.js-video'],
+		players: ['www.youtube.com']
 	});
 
-});
+})();
