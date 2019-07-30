@@ -32,29 +32,11 @@
 	@else if $zombie == god {
 		@media screen and (min-width: $width-god) { @content; }
 	}
-	@else if $zombie == creeper-crawler {
-		@media screen and (min-width: $width-creeper) and (max-width: #{$width-crawler - 1}) { @content; }
-	}
-	@else if $zombie == crawler-walker {
-		@media screen and (min-width: $width-crawler) and (max-width: #{$width-walker - 1}) { @content; }
+	@else if $zombie == origin-walker {
+		@media screen and (max-width: #{$width-walker - 1}) { @content; }
 	}
 	@else if $zombie == walker-runner {
 		@media screen and (min-width: $width-walker) and (max-width: #{$width-runner - 1}) { @content; }
-	}
-	@else if $zombie == runner-jumper {
-		@media screen and (min-width: $width-jumper) and (max-width: #{$width-jumper - 1}) { @content; }
-	}
-	@else if $zombie == jumper-flyer {
-		@media screen and (min-width: $width-jumper) and (max-width: #{$width-flyer - 1}) { @content; }
-	}
-	@else if $zombie == flyer-teleporter {
-		@media screen and (min-width: $width-flyer) and (max-width: #{$width-teleporter - 1}) { @content; }
-	}
-	@else if $zombie == teleporter-demigod {
-		@media screen and (min-width: $width-teleporter) and (max-width: #{$width-demigod - 1}) { @content; }
-	}
-	@else if $zombie == demigod-god {
-		@media screen and (min-width: $width-demigod) and (max-width: #{$width-god - 1}) { @content; }
 	}
 	@else if $zombie == watcher {
 		@media screen and (-o-min-device-pixel-ratio: 1.5),
@@ -118,37 +100,31 @@
 
 @mixin font-size-900 {
 	font-size: $font-size-900;
-	letter-spacing: -0.04em;
 	line-height: $line-height-900;
 }
 
 @mixin font-size-1000 {
 	font-size: $font-size-1000;
-	letter-spacing: -0.04em;
 	line-height: $line-height-1000;
 }
 
 @mixin font-size-1100 {
 	font-size: $font-size-1100;
-	letter-spacing: -0.04em;
 	line-height: $line-height-1100;
 }
 
 @mixin font-size-1200 {
 	font-size: $font-size-1200;
-	letter-spacing: -0.04em;
 	line-height: $line-height-1200;
 }
 
 @mixin font-size-h1 {
 	font-size: $font-size-1000;
-	letter-spacing: -0.04em;
 	line-height: $line-height-1000;
 }
 
 @mixin font-size-h2 {
 	font-size: $font-size-800;
-	letter-spacing: -0.04em;
 	line-height: $line-height-800;
 }
 
@@ -184,14 +160,45 @@
 	//hyphens: auto;
 }
 
+@mixin flatlist {
+
+	ol,
+	ul {
+		list-style: none;
+		padding-left: 24px;
+		text-indent: -24px;
+
+		li {
+
+			&:before {
+				content: "\2022";
+				display: inline-block;
+				min-width: 24px;
+				text-indent: 0;
+				padding-right: 4px;
+			}
+		}
+	}
+
+	ol {
+
+		li {
+			counter-increment: list-ordered;
+
+			&:before {
+				content: counter(list-ordered) ". ";
+				text-indent: 0;
+			}
+		}
+	}
+}
+
 // BUTTON
-@mixin button($style: solid, $size: 500) {
+@mixin button($style: solid) {
 	border: 1px solid transparent;
 	border-radius: 0;
-	color: $white;
 	display: inline-block;
 	font-weight: 700;
-	padding: 15px 24px;
 	text-align: center;
 	transition: all 0.2s ease-out;
 	vertical-align: middle;
@@ -205,7 +212,8 @@
 
 	@if $style == solid {
 		background-color: $color-one-500;
-		padding: 15px 24px;
+		color: $white;
+		padding: 11px 24px;
 
 		&:visited {
 			color: $white;
@@ -218,10 +226,9 @@
 	}
 
 	@if $style == line {
-		background-color: transparent;
 		border-color: $color-one-500;
 		color: $color-one-500;
-		padding: 15px 24px;
+		padding: 11px 24px;
 
 		&:visited {
 			color: $color-one-500;
@@ -236,7 +243,11 @@
 
 	@if $style == link {
 		color: $color-text;
-		padding: 15px 0;
+		padding: 11px 0;
+
+		&:visited {
+			color: $color-text;
+		}
 
 		&:hover,
 		&:focus {
@@ -247,10 +258,9 @@
 	@if $style == gray {
 		background-color: $color-500;
 		color: $white;
-		padding: 15px 24px;
+		padding: 11px 24px;
 
 		&:visited {
-			background-color: $color-500;
 			color: $white;
 		}
 
@@ -261,192 +271,217 @@
 		}
 	}
 
-	@if $style == disable {
+	@if $style == disabled {
 		background-color: $color-400;
+		color: $white;
+		padding: 11px 24px;
 		pointer-events: none;
 
-		&:hover,
-		&:focus {
-			background-color: $color-400;
+		&:visited {
+			color: $white;
 		}
-	}
-
-	@if $size == 400 {
-		@include font-size-400;
-	}
-
-	@if $size == 600 {
-		@include font-size-600;
 	}
 }
 
 // LAYOUT
-@mixin column-1 {
-	width: 25%;
-
-	@include breakpoint(walker) {
-		width: 12.5%;
-	}
-}
-
-@mixin column-2 {
-	width: 50%;
-
-	@include breakpoint(walker) {
-		width: 25%;
-	}
-}
-
-@mixin column-3 {
-	width: 50%;
-
-	@include breakpoint(walker) {
-		width: 37.5%;
-	}
-}
-
-@mixin column-4 {
-	width: 50%;
-}
-
-@mixin column-5 {
-	width: 100%;
-
-	@include breakpoint(walker) {
-		width: 62.5%;
-	}
-}
-
-@mixin column-6 {
-	width: 100%;
-
-	@include breakpoint(walker) {
-		width: 75%;
-	}
-}
-
-@mixin column-7 {
-	width: 100%;
-
-	@include breakpoint(walker) {
-		width: 87.5%;
-	}
-}
-
-@mixin column-8 {
-	width: 100%;
-}
-
-@mixin wrapper-x {
+@mixin wrapper-x($width: $width-max, $padding: 1) {
 	margin-left: auto;
 	margin-right: auto;
-	max-width: $width-max;
-	padding-left: $padding-origin;
-	padding-right: $padding-origin;
+	max-width: $width;
 
-	@include breakpoint(creeper) {
-		padding-left: $padding-creeper;
-		padding-right: $padding-creeper;
-	}
+	@if $padding == 1 {
+		padding-left: $padding-origin;
+		padding-right: $padding-origin;
 
-	@include breakpoint(crawler) {
-		padding-left: $padding-crawler;
-		padding-right: $padding-crawler;
-	}
-
-	@include breakpoint(walker) {
-		padding-left: $padding-walker;
-		padding-right: $padding-walker;
-	}
-}
-
-@mixin wrapper-y {
-	padding-bottom: $padding-origin * 2;
-	padding-top: $padding-origin * 1.5;
-
-	@include breakpoint(creeper) {
-		padding-bottom: $padding-creeper * 2;
-		padding-top: $padding-creeper * 1.5;
-	}
-
-	@include breakpoint(crawler) {
-		padding-bottom: $padding-crawler * 1.5;
-		padding-top: $padding-crawler * 1.5;
-	}
-
-	@include breakpoint(walker) {
-		padding-bottom: $padding-walker * 1.5;
-		padding-top: $padding-walker * 1.5;
-	}
-}
-
-@mixin wrapper-y-bottom {
-	padding-top: 0;
-}
-
-@mixin wrapper-y-top {
-	padding-bottom: 0;
-}
-
-@mixin wrapper-xy {
-	padding: $padding-origin * 2;
-}
-
-@mixin wrapper-xy-bigger {
-	padding: $padding-origin * 4;
-}
-
-@mixin wrapper-xy-big {
-	padding: $padding-origin * 3;
-}
-
-@mixin wrapper-xy-small {
-	padding: $padding-origin;
-}
-
-@mixin wrapper-xy-smaller {
-	padding: $padding-origin / 2;
-}
-
-@mixin unwrapper-x {
-	margin-left: -$padding-origin;
-	margin-right: -$padding-origin;
-
-	.js-unwrapper {
-		opacity: 0;
-		transition: opacity 0.2s ease;
-
-		.no-js & {
-			opacity: 1;
+		@include breakpoint(creeper) {
+			padding-left: $padding-creeper;
+			padding-right: $padding-creeper;
 		}
 
-		&.is-unwrapped {
-			opacity: 1;
+		@include breakpoint(crawler) {
+			padding-left: $padding-crawler;
+			padding-right: $padding-crawler;
+		}
+
+		@include breakpoint(walker) {
+			padding-left: $padding-walker;
+			padding-right: $padding-walker;
+		}
+
+		@include breakpoint(flyer) {
+			padding-left: $padding-flyer;
+			padding-right: $padding-flyer;
+		}
+	}
+}
+
+@mixin wrapper-x-span($count) {
+
+	@if $count == 1 {
+		width: 50%;
+
+		@include breakpoint(crawler) {
+			width: 25%;
+		}
+
+		@include breakpoint(runner) {
+			width: 12.5%;
 		}
 	}
 
+	@if $count == 2 {
+		width: 50%;
+
+		@include breakpoint(crawler) {
+			width: 25%;
+		}
+	}
+
+	@if $count == 3 {
+		width: 50%;
+
+		@include breakpoint(crawler) {
+			width: 50%;
+		}
+
+		@include breakpoint(runner) {
+			width: 37.5%;
+		}
+	}
+
+	@if $count == 4 {
+		width: 50%;
+	}
+
+	@if $count == 5 {
+		width: 100%;
+
+		@include breakpoint(crawler) {
+			width: 75%;
+		}
+
+		@include breakpoint(runner) {
+			width: 62.5%;
+		}
+	}
+
+	@if $count == 6 {
+		width: 100%;
+
+		@include breakpoint(crawler) {
+			width: 75%;
+		}
+	}
+
+	@if $count == 7 {
+		width: 100%;
+
+		@include breakpoint(crawler) {
+			width: 100%;
+		}
+
+		@include breakpoint(runner) {
+			width: 87.5%;
+		}
+	}
+
+	@if $count == 8 {
+		width: 100%;
+	}
+}
+
+@mixin wrapper-y($top: 1, $bottom: 1) {
+	@if $bottom == 1 { padding-bottom: $padding-origin * 2; }
+	@if $top == 1 { padding-top: $padding-origin * 1.5; }
+
 	@include breakpoint(creeper) {
-		margin-left: -$padding-creeper;
-		margin-right: -$padding-creeper;
+		@if $bottom == 1 { padding-bottom: $padding-creeper * 2; }
+		@if $top == 1 { padding-top: $padding-creeper * 1.5; }
 	}
 
 	@include breakpoint(crawler) {
-		margin-left: -$padding-crawler;
-		margin-right: -$padding-crawler;
+		@if $bottom == 1 { padding-bottom: $padding-crawler * 1.5; }
+		@if $top == 1 { padding-top: $padding-crawler * 1.5; }
 	}
 
 	@include breakpoint(walker) {
-		margin-left: -$padding-walker;
-		margin-right: -$padding-walker;
+		@if $bottom == 1 { padding-bottom: $padding-walker * 1.5; }
+		@if $top == 1 { padding-top: $padding-walker * 1.5; }
 	}
 
 	@include breakpoint(flyer) {
-		margin-left: calc(-50vw + (#{$width-max} - #{$padding-walker * 2}) / 2);
-		margin-right: calc(-50vw + (#{$width-max} - #{$padding-walker * 2}) / 2);
+		@if $bottom == 1 { padding-bottom: $padding-flyer * 1.5; }
+		@if $top == 1 { padding-top: $padding-flyer * 1.5; }
 	}
 }
 
-@mixin aside {
+@mixin wrapper-xy($multiplier: 2) {
+	padding: $padding-origin * $multiplier;
+
+	@include breakpoint(creeper) {
+		padding: $padding-creeper * $multiplier;
+	}
+
+	@include breakpoint(crawler) {
+		padding: $padding-crawler * $multiplier;
+	}
+
+	@include breakpoint(walker) {
+		padding: $padding-walker * $multiplier;
+	}
+
+	@include breakpoint(flyer) {
+		padding: $padding-flyer * $multiplier;
+	}
+}
+
+@mixin unwrapper-x($breakpoint: 3) {
+	margin-left: $padding-origin * -1;
+	margin-right: $padding-origin * -1;
+
+	@if $breakpoint == 1 {
+		@include breakpoint(creeper) {
+			margin-left: $padding-creeper * -1;
+			margin-right: $padding-creeper * -1;
+		}
+	}
+
+	@if $breakpoint == 2 {
+		@include breakpoint(crawler) {
+			margin-left: $padding-crawler * -1;
+			margin-right: $padding-crawler * -1;
+		}
+	}
+
+	@if $breakpoint == 3 {
+		@include breakpoint(walker) {
+			margin-left: $padding-walker * -1;
+			margin-right: $padding-walker * -1;
+		}
+	}
+
+	@if $breakpoint == 4 {
+		.js-unwrapper {
+			opacity: 0;
+			transition: opacity 0.2s ease;
+
+			.no-js & {
+				opacity: 1;
+			}
+
+			&.is-unwrapped {
+				opacity: 1;
+			}
+		}
+
+		@include breakpoint(flyer) {
+			margin-left: calc(-50vw + (#{$width-max} - #{$padding-flyer * 2}) / 2);
+			margin-right: calc(-50vw + (#{$width-max} - #{$padding-flyer * 2}) / 2);
+		}
+	}
+}
+
+@mixin aside($side: right) {
 	flex: 1 1 auto;
 	width: 100%;
 
@@ -455,20 +490,20 @@
 		margin-left: $padding-runner / 1.5;
 		width: 25%;
 	}
-}
 
-@mixin aside-left {
-	margin-bottom: $padding-origin * 1.5;
-	order: -1;
+	@if $side == left {
+		margin-bottom: $padding-origin * 1.5;
+		order: -1;
 
-	@include breakpoint(runner) {
-		margin-bottom: 0;
-		margin-left: 0;
-		margin-right: $padding-runner / 1.5;
-	}
+		@include breakpoint(runner) {
+			margin-bottom: 0;
+			margin-left: 0;
+			margin-right: $padding-runner / 1.5;
+		}
 
-	@include breakpoint(jumper) {
-		margin-right: $padding-jumper;
+		@include breakpoint(flyer) {
+			margin-right: $padding-flyer;
+		}
 	}
 }
 
@@ -502,6 +537,7 @@
 	$horizontal: $vertical;
 
 	margin: -1%;
+
 	@if $length == 1 {
 		margin: calc(#{$vertical} * -1);
 	}
@@ -517,6 +553,7 @@
 	$horizontal: $vertical;
 
 	margin: 1%;
+
 	@if $length == 1 {
 		margin: calc(#{$vertical});
 		@if $item != 0 {

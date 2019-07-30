@@ -20,6 +20,7 @@ Tags: responsive-layout, mobile-first
 @import "plugins/flickity-custom";
 @import "plugins/magnific-popup";
 @import "plugins/magnific-popup-custom";
+@import "plugins/pikaday";
 @import "plugins/stickyfill";
 // @import "plugins/wordpress";
 // @import "plugins/woocommerce";
@@ -42,7 +43,10 @@ Tags: responsive-layout, mobile-first
 @import "search";
 @import "slider";
 @import "table";
-@import "toggle";
+
+// pages
+@import "single";
+@import "home";
 
 // media
 @import "mobile";

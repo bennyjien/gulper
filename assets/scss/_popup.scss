@@ -1,4 +1,25 @@
 .popup-inline {
+	@include wrapper-xy(1.5);
 	background-color: $white;
-	padding: 32px;
+	margin: 32px auto;
+	max-width: $width-runner;
+	position: relative;
+
+	&.popup-inline-small {
+		max-width: $width-crawler;
+	}
+
+	&-head {
+		margin-bottom: 32px;
+		padding-bottom: 32px;
+
+		.heading {
+			@include font-size-h2;
+			color: $color-one-500;
+
+			&:not(:last-child) {
+				margin-bottom: 8px;
+			}
+		}
+	}
 }

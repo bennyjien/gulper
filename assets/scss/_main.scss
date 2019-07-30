@@ -8,6 +8,6 @@
 	@include aside;
 
 	&.main-aside-left {
-		@include aside-left;
+		@include aside(left);
 	}
 }

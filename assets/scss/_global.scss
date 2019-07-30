@@ -6,12 +6,17 @@
 		@include button;
 	}
 
-	&.button-alt {
-		@include button(line, 500);
+	&.button-line {
+		@include button(line);
 	}
 
 	&.button-small {
-		@include button(solid, 400);
+		@include button;
+		@include font-size-400;
+	}
+
+	&.button-disabled {
+		@include button(disabled);
 	}
 }
 
@@ -72,59 +77,83 @@
 	}
 }
 
+.table {
+	background-color: $white;
+	border-style: hidden;
+	box-shadow: 0 0 0 1px $color-border;
+	margin: 1px 1px 24px;
+	width: calc(100% - 1px * 2);
+
+	&:last-child {
+		margin-bottom: 2px;
+	}
+
+	caption {
+		color: $color-text-light;
+		padding-top: 4px;
+		padding-bottom: 4px;
+		text-align: left;
+
+		strong {
+			color: $color-text;
+		}
+	}
+
+	th,
+	td {
+		@include font-size-400;
+
+		@include breakpoint(walker) {
+			@include font-size-500;
+		}
+	}
+
+	> thead {
+		background-color: $color-100;
+
+		> tr {
+
+			> th {
+				border: 1px solid $color-border;
+				border-bottom: 1px solid $color-border;
+				border-top: 0;
+				color: $color-text-light;
+				padding: 6px 8px;
+				font-weight: 400;
+				vertical-align: top;
+				text-align: left;
+			}
+		}
+	}
+
+	> tbody {
+
+		+ tbody {
+			border-top: 2px solid $color-border;
+		}
+
+		> tr {
+
+			&:nth-child(2n+1) {
+				background-color: $color-100;
+			}
+
+			> td {
+				border: 1px solid $color-border;
+				padding: 16px 8px;
+				text-align: left;
+				vertical-align: middle;
+			}
+		}
+	}
+}
+
 .nowrap {
 	white-space: nowrap;
 }
 
 .required {
 	color: $color-alert;
-}
-
-.thumbnail {
-	background-color: $white;
-	display: block;
-	overflow: hidden;
-	padding-bottom: 100%;
-	position: relative;
-
-	&:before {
-		content: "";
-		border: 1px solid rgba($color-800, 0.1);
-		bottom: 0;
-		left: 0;
-		position: absolute;
-		right: 0;
-		top: 0;
-		transition: all 0.2s ease-out;
-		z-index: 3;
-	}
-
-	&:after {
-		content: "";
-		animation: walker-spin 1.5s infinite linear;
-		border-left: 3px solid rgba($color-800, 0.2);
-		border-bottom: 3px solid rgba($color-800, 0.2);
-		border-right: 3px solid rgba($color-800, 0.2);
-		border-top: 3px solid $color-one-500;
-		border-radius: 100%;
-		display: block;
-		height: 16px;
-		left: 50%;
-		margin: -8px 0 0 -8px;
-		outline: 1px solid transparent;
-		position: absolute;
-		top: 50%;
-		width: 16px;
-		z-index: 1;
-	}
-
-	img {
-		left: 0;
-		position: absolute;
-		top: 0;
-		width: 100%;
-		z-index: 2;
-	}
 }
 
 .tooltip {
