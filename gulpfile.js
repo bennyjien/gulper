@@ -42,7 +42,7 @@ gulp.task('browserSync', function() {
 
 // Compiling stuffs
 gulp.task('kit-js-dist', function() {
-	return gulp.src('kit/**/*.kit')
+	return gulp.src(['**/*.kit', '!_demo/*.kit', '!_doc/*.kit'])
 		.pipe(kit())
 		.pipe(prettify({indent_char: '\t', indent_size: 1, preserve_newlines: true, unformatted: ['a', 'span', 'img', 'code', 'pre', 'sub', 'sup', 'em', 'strong', 'b', 'i', 'u', 'strike', 'big', 'small', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'svg','br', 'label', 'input', 'script', 'time'], wrap_line_length: 0}))
 		.pipe(useref({ searchPath: './' }))
@@ -52,7 +52,7 @@ gulp.task('kit-js-dist', function() {
 });
 
 gulp.task('kit', function() {
-	return gulp.src('kit/**/*.kit')
+	return gulp.src(['**/*.kit', '!_demo/*.kit', '!_doc/*.kit'])
 		.pipe(kit().on('error', handleErrors))
 		.pipe(gulp.dest('dist/'));
 });
@@ -173,7 +173,7 @@ gulp.task('uploads', function() {
 
 // Watching for changes
 gulp.task('watch', function() {
-	gulp.watch('kit/**/*.kit', ['kit-reload']);
+	gulp.watch(['**/*.kit', '!_demo/*.kit', '!_doc/*.kit'], ['kit-reload']);
 	gulp.watch('_demo/*.kit', ['demo-kit-reload']);
 	gulp.watch('_demo/*.scss', ['demo-sass']);
 	gulp.watch('_doc/*.kit', ['doc-kit-reload']);
