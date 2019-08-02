@@ -1,7 +1,7 @@
 var gulp = require('gulp');
 var gulpIf = require('gulp-if');
 var notify = require('gulp-notify');
-var kit = require('gulp-kit');
+var kit = require('gulp-kit-2');
 var prettify = require('gulp-prettify');
 var sass = require('gulp-sass');
 var autoprefixer = require('gulp-autoprefixer');
@@ -12,10 +12,9 @@ var uglify = require('gulp-uglify');
 var svgSymbols = require('gulp-svg-symbols');
 var svgmin = require('gulp-svgmin');
 var del = require('del');
-var runSequence = require('run-sequence');
 var browserSync = require('browser-sync').create();
 
-function handleErrors() {
+function HandleErrors() {
 	var args = Array.prototype.slice.call(arguments);
 	notify.onError({
 		title: 'Compile Error',
@@ -25,7 +24,7 @@ function handleErrors() {
 }
 
 // Starting browserSync server
-gulp.task('browserSync', function() {
+function BrowserSync(done) {
 	browserSync.init({
 		server: {
 			baseDir: 'dist/',
@@ -38,93 +37,54 @@ gulp.task('browserSync', function() {
 			}
 		}
 	});
-});
+	done();
+}
 
-// Compiling stuffs
-gulp.task('kit-js-dist', function() {
-	return gulp.src(['**/*.kit', '!_demo/*.kit', '!_doc/*.kit'])
-		.pipe(kit())
-		.pipe(prettify({indent_char: '\t', indent_size: 1, preserve_newlines: true, unformatted: ['a', 'span', 'img', 'code', 'pre', 'sub', 'sup', 'em', 'strong', 'b', 'i', 'u', 'strike', 'big', 'small', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'svg','br', 'label', 'input', 'script', 'time'], wrap_line_length: 0}))
-		.pipe(useref({ searchPath: './' }))
-		.pipe(gulpIf('assets/js/bundle.js', babel({ presets: ['env'] })))
-		.pipe(gulpIf('assets/js/bundle.js', uglify()))
-		.pipe(gulp.dest('dist/'));
-});
-
-gulp.task('kit', function() {
-	return gulp.src(['**/*.kit', '!_demo/*.kit', '!_doc/*.kit'])
-		.pipe(kit().on('error', handleErrors))
-		.pipe(gulp.dest('dist/'));
-});
-
-gulp.task('kit-reload', ['kit'], function() {
+function BrowserReload(done) {
 	browserSync.reload();
-});
+	done();
+}
 
-gulp.task('sass', function() {
-	return gulp.src('assets/scss/**/*.scss')
-		.pipe(sass({ outputStyle: 'compressed' }).on('error', handleErrors))
-		.pipe(autoprefixer({ browsers: ['last 2 versions'], cascade: false }))
-		.pipe(gulp.dest('dist/assets/css/'))
+function Kit(done) {
+	gulp.src('**/*.kit')
+		.pipe(kit().on('error', HandleErrors))
+		.pipe(gulp.dest('dist/'));
+	done();
+}
+
+function Sass(done) {
+	gulp.src(['**/*.scss', '!node_modules/**/*.scss'])
+		.pipe(sass({ outputStyle: 'compressed' }).on('error', HandleErrors))
+		.pipe(autoprefixer({ cascade: false }))
+		.pipe(gulp.dest('dist/'))
 		.pipe(browserSync.stream());
-});
+	done();
+}
 
-gulp.task('js-hint', function() {
-	gulp.src(['assets/js/style.js', 'assets/js/script.js'])
-		.pipe(jshint({ esnext: true }))
-		.pipe(jshint.reporter('default'))
-		.pipe(jshint.reporter('fail')).on('error', handleErrors);
-});
-
-gulp.task('js', function() {
+function Js(done) {
 	// gulp.run('js-hint');
-
-	return gulp.src('assets/js/**/*')
+	gulp.src('assets/js/**/*')
 		.pipe(gulp.dest('dist/assets/js/'));
-});
+	done();
+}
 
-gulp.task('js-reload', ['js'], function() {
-	browserSync.reload();
-});
-
-gulp.task('demo-kit', function() {
-	return gulp.src('_demo/**/*.kit')
-		.pipe(kit())
-		.pipe(gulp.dest('dist/_demo/'));
-});
-
-gulp.task('demo-kit-reload', ['demo-kit'], function() {
-	browserSync.reload();
-});
-
-gulp.task('demo-sass', function() {
-	return gulp.src('_demo/*.scss')
-		.pipe(sass({ outputStyle: 'compressed' }).on('error', handleErrors))
-		.pipe(autoprefixer({ browsers: ['last 2 versions'], cascade: false }))
-		.pipe(gulp.dest('dist/_demo/'))
+// Copying assets & uploads
+function Root(done) {
+	gulp.src(['root/**/*', 'root/**/.*'])
+		.pipe(gulp.dest('dist/'))
 		.pipe(browserSync.stream());
-});
+	done();
+}
 
-gulp.task('doc-kit', function() {
-	return gulp.src('_doc/*.kit')
-		.pipe(kit())
-		.pipe(gulp.dest('dist/_doc/'));
-});
-
-gulp.task('doc-kit-reload', ['doc-kit'], function() {
-	browserSync.reload();
-});
-
-gulp.task('doc-sass', function() {
-	return gulp.src('_doc/*.scss')
-		.pipe(sass({ outputStyle: 'compressed' }).on('error', handleErrors))
-		.pipe(autoprefixer({ browsers: ['last 2 versions'], cascade: false }))
-		.pipe(gulp.dest('dist/_doc/'))
+function Assets(done) {
+	gulp.src(['assets/**/*', '!assets/images/**/*.svg', '!assets/js/**/*', '!assets/{css,css/**}'])
+		.pipe(gulp.dest('dist/assets/'))
 		.pipe(browserSync.stream());
-});
+	done();
+}
 
-gulp.task('svg', function() {
-	return gulp.src('assets/images/**/*.svg')
+function Svg(done) {
+	gulp.src('assets/images/**/*.svg')
 		.pipe(svgmin({
 			plugins: [{
 				cleanupIDs: false
@@ -134,10 +94,11 @@ gulp.task('svg', function() {
 		}))
 		.pipe(gulp.dest('dist/assets/images/'))
 		.pipe(browserSync.stream());
-});
+	done();
+}
 
-gulp.task('svg-sprite', ['svg'], function() {
-	return gulp.src('assets/images/symbols/**/*.svg')
+function SvgSprite(done) {
+	gulp.src('assets/images/symbols/**/*.svg')
 		.pipe(svgmin({
 			plugins: [{
 				removeViewBox: false
@@ -150,52 +111,47 @@ gulp.task('svg-sprite', ['svg'], function() {
 		.pipe(svgSymbols())
 		.pipe(gulp.dest('dist/assets/images/'))
 		.pipe(browserSync.stream());
-});
+	done();
+}
 
-// Copying assets & uploads
-gulp.task('root', function() {
-	return gulp.src(['root/**/*', 'root/**/.*'])
-		.pipe(gulp.dest('dist/'))
-		.pipe(browserSync.stream());
-});
-
-gulp.task('assets', function() {
-	return gulp.src(['assets/**/*', '!assets/images/**/*.svg', '!assets/js/**/*', '!assets/{scss,scss/**}'])
-		.pipe(gulp.dest('dist/assets/'))
-		.pipe(browserSync.stream());
-});
-
-gulp.task('uploads', function() {
-	return gulp.src('uploads/**/*')
+function Uploads(done) {
+	gulp.src('uploads/**/*')
 		.pipe(gulp.dest('dist/uploads/'))
 		.pipe(browserSync.stream());
-});
+	done();
+}
 
-// Watching for changes
-gulp.task('watch', function() {
-	gulp.watch(['**/*.kit', '!_demo/*.kit', '!_doc/*.kit'], ['kit-reload']);
-	gulp.watch('_demo/*.kit', ['demo-kit-reload']);
-	gulp.watch('_demo/*.scss', ['demo-sass']);
-	gulp.watch('_doc/*.kit', ['doc-kit-reload']);
-	gulp.watch('_doc/*.scss', ['doc-sass']);
-	gulp.watch('root/**/*', ['root']);
-	gulp.watch(['assets/**/*', '!assets/images/**/*.svg', '!assets/{js,js/**}', '!assets/{scss,scss/**}'], ['assets']);
-	gulp.watch('assets/images/**/*.svg', ['svg', 'svg-sprite']);
-	gulp.watch('assets/js/**/*.js', ['js-reload']);
-	gulp.watch('assets/scss/**/*.scss', ['sass' , 'demo-sass', 'doc-sass']);
-	gulp.watch('uploads/**/*', ['uploads']);
-});
+function Watch(done) {
+	gulp.watch('**/*.kit', gulp.series(Kit, BrowserReload));
+	gulp.watch(['**/*.scss', '!node_modules/**/*.scss'], Sass);
+	gulp.watch('assets/js/**/*.js', gulp.series(Js, BrowserReload));
+	gulp.watch('root/**/*', Root);
+	gulp.watch(['assets/**/*', '!assets/images/**/*.svg', '!assets/{js,js/**}', '!assets/{css,css/**}'], Assets);
+	gulp.watch('assets/images/**/*.svg', gulp.series(Svg, SvgSprite));
+	gulp.watch('uploads/**/*', Uploads);
+	done();
+}
 
-// Cleaning unused assets
-gulp.task('clean', function() {
-	return del.sync('dist/');
-});
+// Cleaning dist
+function Clean(done) {
+	del.sync('dist/');
+	done();
+}
 
-// Building Sequence
-gulp.task('default', function() {
-	runSequence(['kit', 'sass', 'js', 'demo-kit', 'demo-sass', 'doc-kit', 'doc-sass', 'root', 'assets', 'svg-sprite', 'uploads', 'browserSync', 'watch']);
-});
+// Compiling stuffs
+function Compile(done) {
+	gulp.src('**/*.kit')
+		.pipe(kit())
+		.pipe(prettify({indent_char: '\t', indent_size: 1, preserve_newlines: true, unformatted: ['a', 'span', 'img', 'code', 'pre', 'sub', 'sup', 'em', 'strong', 'b', 'i', 'u', 'strike', 'big', 'small', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'svg','br', 'label', 'input', 'script', 'time'], wrap_line_length: 0}))
+		.pipe(useref({ searchPath: './' }))
+		.pipe(gulpIf('assets/js/bundle.js', babel({ presets: ['@babel/env'] })))
+		.pipe(gulpIf('assets/js/bundle.js', uglify()))
+		.pipe(gulp.dest('dist/'));
+	done();
+}
 
-gulp.task('build', function() {
-	runSequence('clean', 'kit-js-dist', ['sass', 'demo-kit', 'demo-sass', 'doc-kit', 'doc-sass', 'root', 'assets', 'svg-sprite', 'uploads']);
-});
+const dev = gulp.series(Kit, Sass, Js, Root, Assets, SvgSprite, Uploads, BrowserSync, Watch);
+const build = gulp.series(Clean, Compile, gulp.parallel(Sass, Root, Assets, SvgSprite, Uploads));
+
+exports.build = build;
+exports.default = dev;

@@ -7,7 +7,7 @@
 	const $body = document.querySelector('body'),
 		$site = document.querySelector('#site-container'),
 		sceneController = new ScrollMagic.Controller({
-			refreshInterval: 0 // if 100 has bug on parallax, 0 has better performance, must recalculate on resize
+			refreshInterval: 0 // if 100 has bug on parallax, 0 has better performance but must recalculate on resize
 		});
 
 	let windowWidth = document.documentElement.clientWidth;
@@ -17,7 +17,7 @@
 		document.body.classList.remove('site-loading');
 	});
 
-	// anime stock animation
+	// anime default animation
 	const animate = {
 		fadeIn: (element, duration, delay = 0) => {
 			anime.remove(element);

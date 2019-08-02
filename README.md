@@ -36,6 +36,9 @@ Have fun! :)
 + Documentation refresh
 
 ## CHANGELOG
+2.1.0 (Aug 2, 2019)
++ update to Gulp 4.0.2
+
 2.0 (Jul 31, 2019)
 + relocate kit files (to support image url fuzzy search)
 + rollback to anime.js (smaller footprint, can be hacked to work with ScrollMagic)
