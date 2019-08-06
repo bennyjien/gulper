@@ -150,8 +150,8 @@ function Compile(done) {
 	done();
 }
 
-const dev = gulp.series(Kit, Sass, Js, Root, Assets, SvgSprite, Uploads, BrowserSync, Watch);
-const build = gulp.series(Clean, Compile, gulp.parallel(Sass, Root, Assets, SvgSprite, Uploads));
+const dev = gulp.series(Kit, Sass, Js, Root, Assets, Svg, SvgSprite, Uploads, BrowserSync, Watch);
+const build = gulp.series(Clean, Compile, gulp.parallel(Sass, Root, Assets, Svg, SvgSprite, Uploads));
 
 exports.build = build;
 exports.default = dev;
