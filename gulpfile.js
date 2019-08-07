@@ -49,7 +49,10 @@ function Kit(done) {
 	gulp.src('**/*.kit')
 		.pipe(kit().on('error', HandleErrors))
 		.pipe(gulp.dest('dist/'));
-	done();
+	// NOTE: kit slow, need timeout to sync properly
+	setTimeout(function() {
+		done();
+	}, 400);
 }
 
 function Sass(done) {
