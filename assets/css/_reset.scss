@@ -291,8 +291,7 @@ input[type="text"],
 input[type="url"],
 select,
 textarea {
-	-moz-appearance: none;
-	-webkit-appearance: none;
+	appearance: none;
 	border: 1px solid $color-border;
 	border-radius: 3px;
 	box-shadow: none;

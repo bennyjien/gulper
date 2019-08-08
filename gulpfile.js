@@ -1,18 +1,23 @@
-var gulp = require('gulp');
-var gulpIf = require('gulp-if');
-var notify = require('gulp-notify');
-var kit = require('gulp-kit-2');
-var prettify = require('gulp-prettify');
-var sass = require('gulp-sass');
-var autoprefixer = require('gulp-autoprefixer');
-var jshint = require('gulp-jshint');
-var useref = require('gulp-useref');
-var babel = require('gulp-babel');
-var uglify = require('gulp-uglify');
-var svgSymbols = require('gulp-svg-symbols');
-var svgmin = require('gulp-svgmin');
-var del = require('del');
-var browserSync = require('browser-sync').create();
+const gulp = require('gulp');
+const gulpIf = require('gulp-if');
+const rename = require('gulp-rename');
+const notify = require('gulp-notify');
+const kit = require('gulp-kit-2');
+const prettify = require('gulp-prettify');
+const sass = require('gulp-sass');
+const postcss = require('gulp-postcss');
+const autoprefixer = require('autoprefixer');
+const cssnano = require('cssnano');
+const jshint = require('gulp-jshint');
+const useref = require('gulp-useref');
+const babel = require('gulp-babel');
+const uglify = require('gulp-uglify');
+const svgSymbols = require('gulp-svg-symbols');
+const svgmin = require('gulp-svgmin');
+const del = require('del');
+const browserSync = require('browser-sync').create();
+
+const prod = (process.title === 'gulp test') ? true : false;
 
 function HandleErrors() {
 	var args = Array.prototype.slice.call(arguments);
@@ -27,7 +32,7 @@ function HandleErrors() {
 function BrowserSync(done) {
 	browserSync.init({
 		server: {
-			baseDir: 'dist/',
+			baseDir: 'dev/',
 		},
 		notify: {
 			styles: {
@@ -48,7 +53,7 @@ function BrowserReload(done) {
 function Kit(done) {
 	gulp.src('**/*.kit')
 		.pipe(kit().on('error', HandleErrors))
-		.pipe(gulp.dest('dist/'));
+		.pipe(gulp.dest('dev/'));
 	// NOTE: kit slow, need timeout to sync properly
 	setTimeout(function() {
 		done();
@@ -57,9 +62,14 @@ function Kit(done) {
 
 function Sass(done) {
 	gulp.src(['**/*.scss', '!node_modules/**/*.scss'])
-		.pipe(sass({ outputStyle: 'compressed' }).on('error', HandleErrors))
-		.pipe(autoprefixer({ cascade: false }))
-		.pipe(gulp.dest('dist/'))
+		.pipe(sass({ outputStyle: 'expanded' }).on('error', HandleErrors))
+		.pipe(postcss([autoprefixer({ cascade: false })]))
+		.pipe(gulp.dest('dev/'))
+		.pipe(gulpIf(prod, gulp.dest('dist/')))
+		.pipe(rename({suffix: '.min'}))
+		.pipe(postcss([cssnano()]))
+		.pipe(gulp.dest('dev/'))
+		.pipe(gulpIf(prod, gulp.dest('dist/')))
 		.pipe(browserSync.stream());
 	done();
 }
@@ -67,21 +77,23 @@ function Sass(done) {
 function Js(done) {
 	// gulp.run('js-hint');
 	gulp.src('assets/js/**/*')
-		.pipe(gulp.dest('dist/assets/js/'));
+		.pipe(gulp.dest('dev/assets/js/'));
 	done();
 }
 
 // Copying assets & uploads
 function Root(done) {
 	gulp.src(['root/**/*', 'root/**/.*'])
-		.pipe(gulp.dest('dist/'))
+		.pipe(gulp.dest('dev/'))
+		.pipe(gulpIf(prod, gulp.dest('dist/')))
 		.pipe(browserSync.stream());
 	done();
 }
 
 function Assets(done) {
 	gulp.src(['assets/**/*', '!assets/images/**/*.svg', '!assets/js/**/*', '!assets/{css,css/**}'])
-		.pipe(gulp.dest('dist/assets/'))
+		.pipe(gulp.dest('dev/assets/'))
+		.pipe(gulpIf(prod, gulp.dest('dist/assets/')))
 		.pipe(browserSync.stream());
 	done();
 }
@@ -95,7 +107,8 @@ function Svg(done) {
 				removeViewBox: false
 			}]
 		}))
-		.pipe(gulp.dest('dist/assets/images/'))
+		.pipe(gulp.dest('dev/assets/images/'))
+		.pipe(gulpIf(prod, gulp.dest('dist/assets/images/')))
 		.pipe(browserSync.stream());
 	done();
 }
@@ -112,14 +125,16 @@ function SvgSprite(done) {
 			}]
 		}))
 		.pipe(svgSymbols())
-		.pipe(gulp.dest('dist/assets/images/'))
+		.pipe(gulp.dest('dev/assets/images/'))
+		.pipe(gulpIf(prod, gulp.dest('dist/assets/images')))
 		.pipe(browserSync.stream());
 	done();
 }
 
 function Uploads(done) {
 	gulp.src('uploads/**/*')
-		.pipe(gulp.dest('dist/uploads/'))
+		.pipe(gulp.dest('dev/uploads/'))
+		.pipe(gulpIf(prod, gulp.dest('dist/uploads/')))
 		.pipe(browserSync.stream());
 	done();
 }
@@ -153,7 +168,7 @@ function Compile(done) {
 	done();
 }
 
-const dev = gulp.series(Kit, Sass, Js, Root, Assets, Svg, SvgSprite, Uploads, BrowserSync, Watch);
+const dev = gulp.series(Clean, Kit, Sass, Js, Root, Assets, Svg, SvgSprite, Uploads, BrowserSync, Watch);
 const build = gulp.series(Clean, Compile, gulp.parallel(Sass, Root, Assets, Svg, SvgSprite, Uploads));
 
 exports.build = build;

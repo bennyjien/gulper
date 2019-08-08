@@ -36,6 +36,10 @@ Have fun! :)
 + Documentation refresh
 
 ## CHANGELOG
+2.2.0 (Aug 8, 2019)
++ add dev/ for development folder
++ sync dist/ to git
+
 2.1.0 (Aug 2, 2019)
 + update to Gulp 4.0.2
 
