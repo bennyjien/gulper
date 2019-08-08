@@ -17,7 +17,7 @@ const svgmin = require('gulp-svgmin');
 const del = require('del');
 const browserSync = require('browser-sync').create();
 
-const prod = (process.title === 'gulp test') ? true : false;
+const prod = (process.title === 'gulp build') ? true : false;
 
 function HandleErrors() {
 	var args = Array.prototype.slice.call(arguments);
