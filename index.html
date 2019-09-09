@@ -1,6 +1,6 @@
-<!-- @import variables -->
-<!-- $home-nav: item item-current -->
-<!-- @import header -->
+<!-- @include('_header.html', {
+	"nav-home": "item-current"
+}) -->
 
 			<div id="site-content" class="site-content">
 				<div class="site-content-inner">
@@ -8,15 +8,17 @@
 						<div class="page-single">
 							<header class="page-single-header"></header>
 							<div class="page-single-content">
-								<section class="section"></section>
+								<section class="section">
+									<h1>Page Title</h1>
+								</section>
 							</div>
 							<footer class="page-single-footer"></footer>
 						</div>
 					</main>
 
-					<!-- @import sidebar -->
+					<!-- @include('_sidebar.html') -->
 
 				</div>
 			</div>
 
-<!-- @import footer -->
+<!-- @include('_footer.html') -->

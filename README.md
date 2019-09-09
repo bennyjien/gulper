@@ -36,6 +36,9 @@ Have fun! :)
 + Documentation refresh
 
 ## CHANGELOG
+2.2.2 (Sep 9, 2019)
++ replace kit with gulp-file-include
+
 2.2.0 (Aug 8, 2019)
 + add dev/ for development folder
 + sync dist/ to git

@@ -1,8 +1,8 @@
 const gulp = require('gulp');
+const fileInclude = require('gulp-file-include');
 const gulpIf = require('gulp-if');
 const rename = require('gulp-rename');
 const notify = require('gulp-notify');
-const kit = require('gulp-kit-2');
 const prettify = require('gulp-prettify');
 const sass = require('gulp-sass');
 const postcss = require('gulp-postcss');
@@ -50,14 +50,15 @@ function BrowserReload(done) {
 	done();
 }
 
-function Kit(done) {
-	gulp.src('**/*.kit')
-		.pipe(kit().on('error', HandleErrors))
+function FileInclude(done) {
+	gulp.src('[^_]*.html')
+		.pipe(fileInclude({
+			prefix: '<!-- @',
+			suffix: ' -->',
+			basepath: '@file'
+		}))
 		.pipe(gulp.dest('dev/'));
-	// NOTE: kit slow, need timeout to sync properly
-	setTimeout(function() {
-		done();
-	}, 400);
+	done();
 }
 
 function Sass(done) {
@@ -140,7 +141,7 @@ function Uploads(done) {
 }
 
 function Watch(done) {
-	gulp.watch('**/*.kit', gulp.series(Kit, BrowserReload));
+	gulp.watch('*.html', gulp.series(FileInclude, BrowserReload));
 	gulp.watch(['**/*.scss', '!node_modules/**/*.scss'], Sass);
 	gulp.watch('assets/js/**/*.js', gulp.series(Js, BrowserReload));
 	gulp.watch('root/**/*', Root);
@@ -158,8 +159,12 @@ function Clean(done) {
 
 // Compiling stuffs
 function Compile(done) {
-	gulp.src('**/*.kit')
-		.pipe(kit())
+	gulp.src(['[^_]*.html', '_doc/[^_]*.html'])
+		.pipe(fileInclude({
+			prefix: '<!-- @',
+			suffix: ' -->',
+			basepath: '@file'
+		}))
 		.pipe(prettify({indent_char: '\t', indent_size: 1, preserve_newlines: true, unformatted: ['a', 'span', 'img', 'code', 'pre', 'sub', 'sup', 'em', 'strong', 'b', 'i', 'u', 'strike', 'big', 'small', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'svg','br', 'label', 'input', 'script', 'time'], wrap_line_length: 0}))
 		.pipe(useref({ searchPath: './' }))
 		.pipe(gulpIf('assets/js/bundle.js', babel({ presets: ['@babel/env'] })))
@@ -168,7 +173,7 @@ function Compile(done) {
 	done();
 }
 
-const dev = gulp.series(Clean, Kit, Sass, Js, Root, Assets, Svg, SvgSprite, Uploads, BrowserSync, Watch);
+const dev = gulp.series(Clean, FileInclude, Sass, Js, Root, Assets, Svg, SvgSprite, Uploads, BrowserSync, Watch);
 const build = gulp.series(Clean, Compile, gulp.parallel(Sass, Root, Assets, Svg, SvgSprite, Uploads));
 
 exports.build = build;
