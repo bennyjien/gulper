@@ -4,7 +4,7 @@
 
 Gulper does:
 + Live reloading browser
-+ Compile kit (http://incident57.com/codekit/help.html#kit) to HTML
++ Ability to include HTML file in HTML file
 + Compile SCSS to CSS
 + Autoprefix CSS to support last 2 versions
 + Lint, babelify, concatenate and uglify JavaScript

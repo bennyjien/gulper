@@ -245,11 +245,20 @@
 				$this = document.querySelector(`a[href="#${queryString}"]`),
 				$tabTarget = $this && document.querySelector($this.hash);
 
-			$tabTargets.forEach(element => element.style.display = 'none');
-			$firstTabTargets.forEach(element => element.style.display = 'block');
-			$firstTabs.forEach(element => element.classList.add('is-tabbed'));
+			let $preloadTarget;
 
-			if (queryString && $tabTarget) {
+			$tabTargets.forEach(element => element.style.display = 'none');
+
+			$tabs.forEach(element => {
+				if (element.classList.contains('is-tabbed')) {
+					$preloadTarget = document.querySelector(element.hash);
+				}
+			});
+
+			if ($preloadTarget) {
+				$preloadTarget.style.display = 'block';
+				$preloadTarget.classList.add('is-tabbed');
+			} else if (queryString && $tabTarget) {
 				const $tabGroup = document.querySelectorAll(`[data-tab-group="${$tabTarget.dataset.tabGroup}"]`),
 					$tabTargetGroup = document.querySelectorAll(`[data-tab-group="${$tabTarget.dataset.tabGroup}"].js-tab-target`);
 
@@ -258,6 +267,9 @@
 				$this.classList.add('is-tabbed');
 				$tabTarget.style.display = 'block';
 				$tabTarget.classList.add('is-tabbed');
+			} else {
+				$firstTabTargets.forEach(element => element.style.display = 'block');
+				$firstTabs.forEach(element => element.classList.add('is-tabbed'));
 			}
 		}
 

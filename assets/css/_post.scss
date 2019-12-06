@@ -1,0 +1,19 @@
+.post-single {
+
+	&-head {
+		margin: 0;
+
+		.title {
+			font-size: 40px;
+		}
+	}
+
+	&-content {
+
+		p {
+			font-size: 16px;
+		}
+	}
+}
+
+.post-element {}
