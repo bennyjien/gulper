@@ -1,9 +1,23 @@
 .site-container {
 	background-color: $white;
-	display: flex;
-	flex-direction: column;
-	min-height: 100%;
+	display: grid;
+	grid-auto-rows: auto;
+	grid-template-columns: min-content 1fr;
+	grid-template-rows: auto 1fr auto;
+	min-height: 100vh;
 	position: relative;
+	grid-template-areas:
+		'head head'
+		'main main'
+		'side side'
+		'foot foot';
+
+	@include breakpoint(runner) {
+		grid-template-areas:
+			'side head'
+			'side main'
+			'side foot';
+	}
 
 	&:before {
 		content: "";
@@ -20,8 +34,7 @@
 }
 
 .site-header {
-	background-color: $white;
-	flex: 0 0 auto;
+	grid-area: head;
 	position: relative;
 	width: 100%;
 	z-index: 8;
@@ -32,31 +45,31 @@
 }
 
 .site-content {
-	display: flex;
-	flex: 1 0 auto;
-	flex-direction: column;
+	grid-area: main;
 	position: relative;
 
 	&-inner {
-		@include wrapper-x;
-		display: flex;
-		flex: 1 1 auto;
-		flex-direction: column;
-		padding-bottom: 48px;
-		padding-top: 48px;
-		width: 100%;
+		display: grid;
+		grid-template-columns: 1fr min-content;
+		height: 100%;
+		grid-template-areas: 'main side';
+	}
+}
 
-		@include breakpoint(runner) {
-			flex-direction: row;
-			justify-content: space-between;
-		}
+.site-sidebar {
+	@include wrapper-xy(0.5);
+	background-color: $color-200;
+	grid-area: side;
+
+	@include breakpoint(runner) {
+		width: 256px;
 	}
 }
 
 .site-footer {
 	background-color: $color-bg-dark;
 	color: $white;
-	flex: 0 0 auto;
+	grid-area: foot;
 	position: relative;
 	transition: all 0.3s ease-out;
 	width: 100%;

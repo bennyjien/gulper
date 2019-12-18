@@ -155,28 +155,37 @@
 	};
 
 	// init ScrollMagic Scene
+	/* data-scene-hook="[0-1]" -> where the trigger hook is located on y axis (0 = top, 1 = bottom)
+	/* data-scene-offset="[px]" -> offset from top of scene element
 	/* data-scene-stagger="[second]" -> staggering children duration
 	/* data-scene-parallax="[percent]" -> how much does the element will be shifted
 	/* data-scene-parallax-speed="[number]" -> how fast does the element will be shifted
-	/* data-scene-parallax-type="[tranform|background]" -> what to shift
+	/* data-scene-parallax-type="[transform|background]" -> what to shift
 	*/
 	function scrollAnimation(element) {
 		const $scenes = document.querySelectorAll(element);
 
 		$scenes.forEach(scene => {
 			const sceneChild = scene.children,
+				triggerHook = scene.dataset.sceneHook || 0.8,
+				triggerOffset = scene.dataset.sceneOffset || 0,
 				stagger = scene.dataset.sceneStagger || 0,
 				parallax = scene.dataset.sceneParallax || 0,
 				parallaxSpeed = scene.dataset.sceneParallaxSpeed || 1,
 				parallaxType = scene.dataset.sceneParallaxType || 'transform',
-				parallaxDuration = parallax ? scene.offsetHeight/parallaxSpeed : 0,
-				reverse = stagger ? false : true,
-				triggerHook = 0.8;
+				parallaxDuration = parallax ? scene.offsetHeight / parallaxSpeed : 0,
+				reverse = stagger ? false : true;
 
 			let parallaxAnimation;
 
 			imagesLoaded($site, function() {
-				scene.magic = new ScrollMagic.Scene({ triggerElement: scene, triggerHook: triggerHook, duration: parallaxDuration, reverse: reverse })
+				scene.magic = new ScrollMagic.Scene({
+					triggerElement: scene,
+					triggerHook: triggerHook,
+					duration: parallaxDuration,
+					offset: triggerOffset,
+					reverse: reverse
+				})
 					.setClassToggle(scene, 'in-viewport')
 					.addIndicators()
 					.addTo(sceneController);
@@ -229,109 +238,79 @@
 
 	scrollAnimation('.js-scene');
 
-	// tab function, can use scroll to function
-	/* data-tab-type="normal|collapse" -> collapse tab can be closed individually
-	   data-tab-group="[name]" -> tab grouping
-	   data-tab-duration="[second]" -> how long is tab animation if tab method is auto
+	// tab function
+	// TODO: need to make this run even after called by ajax
+	// TODO: add animation after converting to GSAP3
+	/*
+		data-tab-deeplink="false|true" -> whether to support deeplink or not
 	*/
-	const tabFunction = function() {
-		const $tabs = document.querySelectorAll('.js-tab-link');
+	const tabFunction = function(selector) {
+		const $tabs = document.querySelectorAll(selector);
+		if (!$tabs.length) return;
 
-		function tabInit() {
-			const $tabTargets = document.querySelectorAll('.js-tab-target'),
-				$firstTabs = document.querySelectorAll('[data-tab-group]:first-child'),
-				$firstTabTargets = document.querySelectorAll('[data-tab-group].js-tab-target:first-child'),
-				queryString = getParameterByName('tab'),
-				$this = document.querySelector(`a[href="#${queryString}"]`),
-				$tabTarget = $this && document.querySelector($this.hash);
+		function init(tab, $tabButtons, $tabPanels, tabDeeplink, queryString) {
+			// unselect all buttons and panels
+			let $selectedButton;
+			let $selectedPanel;
 
-			let $preloadTarget;
+			unselectTab($tabButtons, $tabPanels);
 
-			$tabTargets.forEach(element => element.style.display = 'none');
-
-			$tabs.forEach(element => {
-				if (element.classList.contains('is-tabbed')) {
-					$preloadTarget = document.querySelector(element.hash);
-				}
-			});
-
-			if ($preloadTarget) {
-				$preloadTarget.style.display = 'block';
-				$preloadTarget.classList.add('is-tabbed');
-			} else if (queryString && $tabTarget) {
-				const $tabGroup = document.querySelectorAll(`[data-tab-group="${$tabTarget.dataset.tabGroup}"]`),
-					$tabTargetGroup = document.querySelectorAll(`[data-tab-group="${$tabTarget.dataset.tabGroup}"].js-tab-target`);
-
-				$tabTargetGroup.forEach(element => element.style.display = 'none');
-				$tabGroup.forEach(element => element.classList.remove('is-tabbed'));
-				$this.classList.add('is-tabbed');
-				$tabTarget.style.display = 'block';
-				$tabTarget.classList.add('is-tabbed');
+			// if querystring, then select the corresponding button and panel
+			if (tabDeeplink && queryString) {
+				$selectedButton = tab.querySelector(`#${queryString}`);
+				$selectedPanel = tab.querySelector(`[aria-labelledby=${queryString}]`);
 			} else {
-				$firstTabTargets.forEach(element => element.style.display = 'block');
-				$firstTabs.forEach(element => element.classList.add('is-tabbed'));
+				// select first button and panel
+				$selectedButton = tab.querySelector('[role="tab"]');
+				$selectedPanel = tab.querySelector('[role="tabpanel"]');
+			}
+
+			$selectedButton.setAttribute('aria-selected', true);
+			$selectedPanel.hidden = false;
+		}
+
+		function unselectTab($tabButtons, $tabPanels) {
+			// hide all panel
+			$tabPanels.forEach(panel => {
+				panel.hidden = true;
+			});
+			// mark all button as unselected
+			$tabButtons.forEach(button => {
+				button.setAttribute('aria-selected', false);
+			});
+		}
+
+		function handleButtonClick(event, $tabButtons, $tabPanels, tabDeeplink) {
+			unselectTab($tabButtons, $tabPanels);
+			// mark clicked button as selected
+			event.currentTarget.setAttribute('aria-selected', true);
+			// show selected panel
+			const id = event.currentTarget.id;
+
+			$tabPanels = Array.from($tabPanels);
+			const $selectedPanel = $tabPanels.find(panel => panel.getAttribute('aria-labelledby') === id);
+			$selectedPanel.hidden = false;
+			// push tab to window URL
+			if (tabDeeplink && window.history && history.pushState) {
+				history.replaceState('', '', `?tab=${id}`);
 			}
 		}
 
-		function tabSwitch(event, $this) {
-			const $tabTarget = document.querySelector($this.hash);
+		$tabs.forEach(tab => {
+			const $tabButtons = tab.querySelectorAll('[role="tab"]');
+			const $tabPanels = tab.querySelectorAll('[role="tabpanel"]');
+			const tabDeeplink = tab.dataset.tabDeeplink === 'true' ? true : false || false;
+			const queryString = getParameterByName('tab');
 
-			if ($tabTarget) {
-				const $tabGroup =  document.querySelectorAll(`[data-tab-group="${$tabTarget.dataset.tabGroup}"]`),
-					$tabTargetGroup = document.querySelectorAll(`.js-tab-target[data-tab-group="${$tabTarget.dataset.tabGroup}"]`),
-					tabType = $this.dataset.tabType || 'tab',
-					tabTarget = $this.hash.substring(1),
-					tabDuration = $this.dataset.tabDuration || 0,
-					tabScrollTarget = $this.dataset.scrollTarget;
+			$tabButtons.forEach(button => button.addEventListener('click', function() {
+				handleButtonClick(event, $tabButtons, $tabPanels, tabDeeplink);
+			}));
 
-				if (!$tabTarget.classList.contains('is-tabbed')) {
-					anime({
-						targets: $tabTargetGroup,
-						duration: 0,
-						opacity: 0,
-						complete: function() {
-							anime.set($tabTargetGroup, {
-								display: 'none',
-								overflow: 'hidden'
-							});
-							animate.slideDown($tabTarget, tabDuration);
-						}
-					});
+			init(tab, $tabButtons, $tabPanels, tabDeeplink, queryString);
+		});
+	};
 
-					$tabGroup.forEach(element => element.classList.remove('is-tabbed'));
-					$this.classList.add('is-tabbed');
-					$tabTarget.classList.add('is-tabbed');
-
-					if (tabScrollTarget) {
-						setTimeout(function() {
-							scrollTo(event, $this);
-						}, tabDuration);
-					}
-
-					if (window.history && history.pushState) {
-						history.replaceState('', '', '?tab' + '=' + tabTarget);
-					}
-				} else {
-					if (tabType === 'collapse') {
-						$tabTargetGroup.forEach(element => {
-							animate.slideUp(element, tabDuration);
-						});
-						$this.classList.remove('is-tabbed');
-						$tabTarget.classList.remove('is-tabbed');
-
-						if (window.history && history.pushState) {
-							history.replaceState('', '', '?');
-						}
-					}
-				}
-
-				event.preventDefault();
-			}
-		}
-
-		tabInit();
-		$tabs.forEach(tab => tab.addEventListener('click', function(event) { tabSwitch(event, this); }));
-	}();
+	tabFunction('.js-tab');
 
 	// toggle function, can use scroll to function
 	/* data-toggle-trigger="click|hover" -> how will toggle be triggered

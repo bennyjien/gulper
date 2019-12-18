@@ -1,14 +1,12 @@
 .main-content {
-	background-color: $white;
-	flex: 1 1 auto;
-	min-width: 0;
-	width: 100%;
+	@include wrapper-y;
+	height: 100%;
+	grid-area: main;
 }
 
-.main-aside {
-	@include aside;
-
-	&.main-aside-left {
-		@include aside(left);
-	}
+.main-sidebar {
+	@include wrapper-xy(0.5);
+	background-color: $color-100;
+	grid-area: side;
+	width: 256px;
 }

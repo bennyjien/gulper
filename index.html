@@ -2,21 +2,69 @@
 	"nav-home": "item-current"
 }) -->
 
-			<div id="site-content" class="site-content">
-				<div class="site-content-inner">
-					<main class="main-content" role="main" itemscope itemprop="mainContentOfPage" itemtype="http://schema.org/Blog">
-						<div class="home-page">
-							<header class="home-page-header"></header>
-							<div class="home-page-content">
-								<section class="section"></section>
-							</div>
-							<footer class="home-page-footer"></footer>
+<div id="site-content" class="site-content">
+	<div class="site-content-inner">
+		<main class="main-content" role="main">
+			<div class="home-page page-single">
+				<header class="home-page-header page-single-header">
+					<div class="page-header">
+						<div class="page-header-text">
+							<h1 class="heading">Page Single Title</h1>
 						</div>
-					</main>
-
-					<!-- @include('_sidebar.html') -->
-
+					</div>
+				</header>
+				<div class="home-page-content page-single-content">
+					<section class="section">This section is limited to certain max width.</section>
+					<section class="section section-full"><img class="image" src="http://placehold.it/2400x240/eeeeee/111111?text=This+is+not"></section>
+					<section class="section">
+						<div class="js-tab" data-tab-deeplink="true">
+							<div role="tablist" aria-label="Programming Languages">
+								<button id="js" role="tab">JavaScript</button>
+								<button id="ruby" role="tab">Ruby</button>
+								<button id="php" role="tab">PHP</button>
+							</div>
+							<div>
+								<div aria-labelledby="js" role="tabpanel">
+									<p>JavaScript is great!</p>
+								</div>
+								<div aria-labelledby="ruby" role="tabpanel">
+									<p>Ruby is great!</p>
+								</div>
+								<div aria-labelledby="php" role="tabpanel">
+									<p>PHP is great!</p>
+								</div>
+							</div>
+						</div>
+						<div class="js-tab">
+							<div role="tablist" aria-label="Programming Languages">
+								<button id="js1" role="tab">JavaScript</button>
+								<button id="ruby1" role="tab">Ruby</button>
+								<button id="php1" role="tab">PHP</button>
+							</div>
+							<div>
+								<div aria-labelledby="js1" role="tabpanel">
+									<p>JavaScript is awesome!!</p>
+								</div>
+								<div aria-labelledby="ruby1" role="tabpanel">
+									<p>Ruby is awesome!!</p>
+								</div>
+								<div aria-labelledby="php1" role="tabpanel">
+									<p>PHP is awesome!!</p>
+								</div>
+							</div>
+						</div>
+					</section>
 				</div>
+				<footer class="home-page-footer page-single-footer">
+					<div class="page-footer">
+						<div class="page-footer-links">
+							<a href="#" class="link">Back to Home</a>
+						</div>
+					</div>
+				</footer>
 			</div>
+		</main>
+	</div>
+</div>
 
 <!-- @include('_footer.html') -->

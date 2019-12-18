@@ -36,6 +36,13 @@ Have fun! :)
 + Documentation refresh
 
 ## CHANGELOG
+2.2.3 (Dec 17, 2019)
++ Update _template.html to showcase predefined layout
++ Many changes to css utilizing CSS Grid
++ Add .site-sidebar
++ Update .js-scene
++ Update how .js-tab work
+
 2.2.2 (Sep 9, 2019)
 + replace kit with gulp-file-include
 

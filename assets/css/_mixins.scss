@@ -315,103 +315,28 @@
 	}
 }
 
-@mixin wrapper-x-span($count) {
-
-	@if $count == 1 {
-		width: 50%;
-
-		@include breakpoint(crawler) {
-			width: 25%;
-		}
-
-		@include breakpoint(runner) {
-			width: 12.5%;
-		}
-	}
-
-	@if $count == 2 {
-		width: 50%;
-
-		@include breakpoint(crawler) {
-			width: 25%;
-		}
-	}
-
-	@if $count == 3 {
-		width: 50%;
-
-		@include breakpoint(crawler) {
-			width: 50%;
-		}
-
-		@include breakpoint(runner) {
-			width: 37.5%;
-		}
-	}
-
-	@if $count == 4 {
-		width: 50%;
-	}
-
-	@if $count == 5 {
-		width: 100%;
-
-		@include breakpoint(crawler) {
-			width: 75%;
-		}
-
-		@include breakpoint(runner) {
-			width: 62.5%;
-		}
-	}
-
-	@if $count == 6 {
-		width: 100%;
-
-		@include breakpoint(crawler) {
-			width: 75%;
-		}
-	}
-
-	@if $count == 7 {
-		width: 100%;
-
-		@include breakpoint(crawler) {
-			width: 100%;
-		}
-
-		@include breakpoint(runner) {
-			width: 87.5%;
-		}
-	}
-
-	@if $count == 8 {
-		width: 100%;
-	}
-}
-
-@mixin wrapper-y($top: 1, $bottom: 1) {
-	@if $bottom == 1 { padding-bottom: $padding-origin * 2; }
-	@if $top == 1 { padding-top: $padding-origin * 1.5; }
+@mixin wrapper-y($top: 1.5, $bottom: 1.5) {
+	@if $bottom != 0 { padding-bottom: $padding-origin * $bottom; }
+	@if $top != 0 { padding-top: $padding-origin * $top; }
 
 	@include breakpoint(creeper) {
-		@if $bottom == 1 { padding-bottom: $padding-creeper * 2; }
-		@if $top == 1 { padding-top: $padding-creeper * 1.5; }
+		@if $bottom != 0 { padding-bottom: $padding-creeper * $bottom; }
+		@if $top != 0 { padding-top: $padding-creeper * $top; }
 	}
 
 	@include breakpoint(crawler) {
-		@if $bottom == 1 { padding-bottom: $padding-crawler * 1.5; }
-		@if $top == 1 { padding-top: $padding-crawler * 1.5; }
+		@if $bottom != 0 { padding-bottom: $padding-crawler * $bottom; }
+		@if $top != 0 { padding-top: $padding-crawler * $top; }
 	}
 
 	@include breakpoint(walker) {
-		@if $bottom == 1 { padding-bottom: $padding-walker * 1.5; }
-		@if $top == 1 { padding-top: $padding-walker * 1.5; }
+		@if $bottom != 0 { padding-bottom: $padding-walker * $bottom; }
+		@if $top != 0 { padding-top: $padding-walker * $top; }
 	}
 
 	@include breakpoint(flyer) {
-		@if $bottom == 1 { padding-bottom: $padding-flyer * 1.5; }
-		@if $top == 1 { padding-top: $padding-flyer * 1.5; }
+		@if $bottom != 0 { padding-bottom: $padding-flyer * $bottom; }
+		@if $top != 0 { padding-top: $padding-flyer * $top; }
 	}
 }
 
@@ -435,74 +360,34 @@
 	}
 }
 
-@mixin unwrapper-x($breakpoint: 3) {
-	margin-left: $padding-origin * -1;
-	margin-right: $padding-origin * -1;
+@mixin gridder-x($width: $width-max, $padding: 1) {
+	display: grid;
+	grid-auto-rows: min-content;
 
-	@if $breakpoint == 1 {
+	> * {
+		grid-column: wrap;
+	}
+
+	@if $padding == 0 {
+		grid-template-columns: [full-start] minmax(0, 1fr) [wrap-start] minmax(0, $width-max) [wrap-end] minmax(0, 1fr) [full-end];
+	}
+	@if $padding == 1 {
+		grid-template-columns: [full-start] minmax($padding-origin, 1fr) [wrap-start] minmax(0, #{$width-max - ($padding-origin * 2)}) [wrap-end] minmax($padding-origin, 1fr) [full-end];
+
 		@include breakpoint(creeper) {
-			margin-left: $padding-creeper * -1;
-			margin-right: $padding-creeper * -1;
+			grid-template-columns: [full-start] minmax($padding-creeper, 1fr) [wrap-start] minmax(0, #{$width-max - ($padding-creeper * 2)}) [wrap-end] minmax($padding-creeper, 1fr) [full-end];
 		}
-	}
 
-	@if $breakpoint == 2 {
 		@include breakpoint(crawler) {
-			margin-left: $padding-crawler * -1;
-			margin-right: $padding-crawler * -1;
+			grid-template-columns: [full-start] minmax($padding-crawler, 1fr) [wrap-start] minmax(0, #{$width-max - ($padding-crawler * 2)}) [wrap-end] minmax($padding-crawler, 1fr) [full-end];
 		}
-	}
 
-	@if $breakpoint == 3 {
 		@include breakpoint(walker) {
-			margin-left: $padding-walker * -1;
-			margin-right: $padding-walker * -1;
-		}
-	}
-
-	@if $breakpoint == 4 {
-		.js-unwrapper {
-			opacity: 0;
-			transition: opacity 0.2s ease;
-
-			.no-js & {
-				opacity: 1;
-			}
-
-			&.is-unwrapped {
-				opacity: 1;
-			}
+			grid-template-columns: [full-start] minmax($padding-walker, 1fr) [wrap-start] minmax(0, #{$width-max - ($padding-walker * 2)}) [wrap-end] minmax($padding-walker, 1fr) [full-end];
 		}
 
 		@include breakpoint(flyer) {
-			margin-left: calc(-50vw + (#{$width-max} - #{$padding-flyer * 2}) / 2);
-			margin-right: calc(-50vw + (#{$width-max} - #{$padding-flyer * 2}) / 2);
-		}
-	}
-}
-
-@mixin aside($side: right) {
-	flex: 1 1 auto;
-	width: 100%;
-
-	@include breakpoint(runner) {
-		flex: 0 0 auto;
-		margin-left: $padding-runner / 1.5;
-		width: 25%;
-	}
-
-	@if $side == left {
-		margin-bottom: $padding-origin * 1.5;
-		order: -1;
-
-		@include breakpoint(runner) {
-			margin-bottom: 0;
-			margin-left: 0;
-			margin-right: $padding-runner / 1.5;
-		}
-
-		@include breakpoint(flyer) {
-			margin-right: $padding-flyer;
+			grid-template-columns: [full-start] minmax($padding-flyer, 1fr) [wrap-start] minmax(0, #{$width-max - ($padding-flyer * 2)}) [wrap-end] minmax($padding-flyer, 1fr) [full-end];
 		}
 	}
 }
@@ -529,6 +414,14 @@
 	padding: 0;
 	position: absolute;
 	width: 1px;
+}
+
+@mixin visible {
+	display: block !important;
+	height: auto !important;
+	opacity: 1 !important;
+	overflow: visible !important;
+	visibility: visible !important;
 }
 
 @mixin column-items($margin) {
@@ -583,12 +476,4 @@
 		max-width: 100%;
 		min-width: calc(#{$width} - (#{$margin} * 2));
 	}
-}
-
-@mixin visible {
-	display: block !important;
-	height: auto !important;
-	opacity: 1 !important;
-	overflow: visible !important;
-	visibility: visible !important;
 }

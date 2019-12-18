@@ -1,58 +1,37 @@
+<!-- Get the complete predefine layout here -->
+
 <!-- @include('_header.html', {
 	"nav-template": "item-current"
 }) -->
 
-			<div id="site-content" class="site-content">
-				<div class="site-content-inner">
-					<main class="main-content" role="main" itemscope itemprop="mainContentOfPage">
-						<div class="template-page">
-							<header class="template-page-header">
-								<section class="section">
-									<div class="page-hero">
-										<div class="page-hero-heading"></div>
-										<div class="page-hero-breadcrumb"></div>
-									</div>
-								</section>
-							</header>
-							<div class="template-page-content">
-								<section class="section">
-									<div class="template-hero">
-										<div class="template-hero-head"></div>
-										<div class="template-hero-body">
-											<div class="template-hero-link">
-												<a href="#" class="link js-popup">Popup Link</a>
-											</div>
-											<div class="template-hero-popup">
-												<div class="popup-inline">
-													<div class="popup-inline-head"></div>
-													<div class="popup-inline-body"></div>
-													<div class="popup-inline-foot"></div>
-												</div>
-											</div>
-										</div>
-										<div class="template-hero-foot"></div>
-									</div>
-								</section>
-								<section class="section"></section>
-							</div>
-							<footer class="template-page-footer">
-								<section class="section">
-									<div class="post-related">
-										<div class="post-related-head"></div>
-										<div class="post-related-singles">
-											<div class="post-related-single"></div>
-											<div class="post-related-single"></div>
-											<div class="post-related-single"></div>
-										</div>
-									</div>
-								</section>
-							</footer>
+<div id="site-content" class="site-content">
+	<div class="site-content-inner">
+		<main class="main-content" role="main">
+			<div class="page-single">
+				<header class="page-single-header">
+					<div class="page-header">
+						<div class="page-header-text">
+							<h1 class="heading">Page Single Title</h1>
 						</div>
-					</main>
-
-					<!-- @include('_sidebar.html') -->
-
+					</div>
+				</header>
+				<div class="page-single-content">
+					<section class="section">This section is limited to certain max width.</section>
+					<section class="section section-full"><img class="image" src="http://placehold.it/2400x240/eeeeee/111111?text=This+is+not"></section>
 				</div>
+				<footer class="page-single-footer">
+					<div class="page-footer">
+						<div class="page-footer-links">
+							<a href="#" class="link">Back to Home</a>
+						</div>
+					</div>
+				</footer>
 			</div>
+		</main>
 
+		<!-- @include('_main-sidebar.html') -->
+	</div>
+</div>
+
+<!-- @include('_sidebar.html') -->
 <!-- @include('_footer.html') -->
