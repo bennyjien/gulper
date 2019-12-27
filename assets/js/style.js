@@ -241,10 +241,11 @@
 	// tab function
 	// TODO: need to make this run even after called by ajax
 	// TODO: add animation after converting to GSAP3
+	// TODO: move this to another file, ex: gulper.tabber.js
 	/*
 		data-tab-deeplink="false|true" -> whether to support deeplink or not
 	*/
-	const tabFunction = function(selector) {
+	const tabber = function(selector) {
 		const $tabs = document.querySelectorAll(selector);
 		if (!$tabs.length) return;
 
@@ -261,11 +262,11 @@
 				$selectedPanel = tab.querySelector(`[aria-labelledby=${queryString}]`);
 			} else {
 				// select first button and panel
-				$selectedButton = tab.querySelector('[role="tab"]');
-				$selectedPanel = tab.querySelector('[role="tabpanel"]');
+				$selectedButton = tab.querySelector(`[role="tab"]`);
+				$selectedPanel = tab.querySelector(`[role="tabpanel"]`);
 			}
 
-			$selectedButton.setAttribute('aria-selected', true);
+			$selectedButton.setAttribute(`aria-selected`, true);
 			$selectedPanel.hidden = false;
 		}
 
@@ -276,33 +277,33 @@
 			});
 			// mark all button as unselected
 			$tabButtons.forEach(button => {
-				button.setAttribute('aria-selected', false);
+				button.setAttribute(`aria-selected`, false);
 			});
 		}
 
 		function handleButtonClick(event, $tabButtons, $tabPanels, tabDeeplink) {
 			unselectTab($tabButtons, $tabPanels);
 			// mark clicked button as selected
-			event.currentTarget.setAttribute('aria-selected', true);
+			event.currentTarget.setAttribute(`aria-selected`, true);
 			// show selected panel
 			const id = event.currentTarget.id;
 
 			$tabPanels = Array.from($tabPanels);
-			const $selectedPanel = $tabPanels.find(panel => panel.getAttribute('aria-labelledby') === id);
+			const $selectedPanel = $tabPanels.find(panel => panel.getAttribute(`aria-labelledby`) === id);
 			$selectedPanel.hidden = false;
 			// push tab to window URL
 			if (tabDeeplink && window.history && history.pushState) {
-				history.replaceState('', '', `?tab=${id}`);
+				history.replaceState(``, ``, `?tab=${id}`);
 			}
 		}
 
 		$tabs.forEach(tab => {
-			const $tabButtons = tab.querySelectorAll('[role="tab"]');
-			const $tabPanels = tab.querySelectorAll('[role="tabpanel"]');
-			const tabDeeplink = tab.dataset.tabDeeplink === 'true' ? true : false || false;
-			const queryString = getParameterByName('tab');
+			const $tabButtons = tab.querySelectorAll(`[role="tab"]`);
+			const $tabPanels = tab.querySelectorAll(`[role="tabpanel"]`);
+			const tabDeeplink = tab.dataset.tabDeeplink === `true` ? true : false || false;
+			const queryString = getParameterByName(`tab`);
 
-			$tabButtons.forEach(button => button.addEventListener('click', function() {
+			$tabButtons.forEach(button => button.addEventListener(`click`, function() {
 				handleButtonClick(event, $tabButtons, $tabPanels, tabDeeplink);
 			}));
 
@@ -310,7 +311,7 @@
 		});
 	};
 
-	tabFunction('.js-tab');
+	tabber(`.js-tab`);
 
 	// toggle function, can use scroll to function
 	/* data-toggle-trigger="click|hover" -> how will toggle be triggered
