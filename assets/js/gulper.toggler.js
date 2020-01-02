@@ -1,6 +1,7 @@
 // toggler.js: toggle element state
 // TODO: pass options object on callback
 // TODO: by default toggle direct child
+// TODO: can still be interated with after ajax
 /* OPTIONS
 	data-toggle-trigger="click|hover" -> how will toggle be triggered
 	data-toggle-target="[selector]" -> toggle target
