@@ -3,7 +3,7 @@
 /* global window document anime */
 
 // get parameter in url
-function getParameterByName(name, url) {
+export function getParameterByName(name, url) {
 	if (!url) {
 		url = window.location.href;
 	}
