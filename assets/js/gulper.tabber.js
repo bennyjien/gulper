@@ -1,7 +1,10 @@
-// tabber.js: the tab function
+// tabber.js: toggle visibility between tabpanel elements
 // TODO: add animation after converting to GSAP3
-/*
+/* OPTIONS
 	data-tab-deeplink="false|true" -> whether to support deeplink or not
+*/
+/* EXAMPLE
+  tabber(`.js-tab`, { deeplink: true });
 */
 
 import { getParameterByName } from './helper.js';
@@ -45,12 +48,12 @@ function tabber(selector, options = {}) {
 		});
 	}
 
-	function handleButtonClick(e, $tabButtons, $tabPanels, tabDeeplink) {
+	function handleButtonClick(event, $tabButtons, $tabPanels, tabDeeplink) {
 		unselectTab($tabButtons, $tabPanels);
 		// mark clicked button as selected
-		e.target.setAttribute(`aria-selected`, true);
+		event.target.setAttribute(`aria-selected`, true);
 		// show selected panel
-		const id = e.target.id;
+		const id = event.target.id;
 
 		$tabPanels = Array.from($tabPanels);
 		const $selectedPanel = $tabPanels.find(panel => panel.getAttribute(`aria-labelledby`) === id);
@@ -67,9 +70,9 @@ function tabber(selector, options = {}) {
 		const tabDeeplink = tab.hasAttribute(`data-tab-deeplink`) || options.deeplink;
 		const queryString = getParameterByName(`tab`);
 
-		tab.addEventListener(`click`, function(e) {
-			if (e.target.matches(`[role="tab"]`)) {
-				handleButtonClick(e, $tabButtons, $tabPanels, tabDeeplink);
+		tab.addEventListener(`click`, function(event) {
+			if (event.target.matches(`[role="tab"]`)) {
+				handleButtonClick(event, $tabButtons, $tabPanels, tabDeeplink);
 			}
 		});
 

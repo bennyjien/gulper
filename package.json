@@ -4,7 +4,7 @@
   "description": "Gulpy HTML starter web template",
   "main": "gulpfile.js",
   "scripts": {
-		"start": "gulp",
+    "start": "gulp",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Benny Jien",
@@ -24,7 +24,6 @@
     "gulp-babel": "^8.0.0",
     "gulp-file-include": "^2.1.0",
     "gulp-if": "^3.0.0",
-    "gulp-jshint": "^2.0.1",
     "gulp-notify": "^3.2.0",
     "gulp-postcss": "^8.0.0",
     "gulp-prettify": "^0.5.0",

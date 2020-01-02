@@ -1,23 +1,53 @@
-/* This file contains helper functions
- */
-/* global window document anime */
+// helper.js: helper/utility function
+/* global gsap */
+
+// gsap default animation
+export const animate = {
+	fadeIn: (element, duration, delay = 0) => {
+		gsap.to(element, { display: `block`, autoAlpha: 1, duration: duration, delay: delay });
+	},
+	fadeOut: (element, duration, delay = 0) => {
+		gsap.to(element, { display: `none`, autoAlpha: 0, duration: duration, delay: delay });
+	},
+	slideDown: (element, duration, delay = 0) => {
+		gsap.set(element, { display: `block`, overflow: `visible`, autoAlpha: 1, height: `auto` });
+		gsap.from(element, duration, { overflow: `hidden`, autoAlpha: 0, height: 0, duration: duration, delay: delay });
+	},
+	slideUp: (element, duration, delay = 0) => {
+		gsap.to(element, { display: `none`, overflow: `hidden`, autoAlpha: 0, height: 0, duration: duration, delay: delay });
+	}
+};
+
+// scroll to targeted id
+export function smoothScroll(event, element) {
+	const target = element.dataset.scrollTarget || element.hash || ``,
+		targetEl = document.querySelector(`[id='${target.substring(1)}']`),
+		duration = element.dataset.scrollDuration || 0.4,
+		offsetEl = document.querySelector(element.dataset.scrollOffset) || ``,
+		offsetY = offsetEl.offsetHeight || 0;
+
+	if (targetEl) {
+		gsap.to(window, {duration: duration, scrollTo:{ y: target, offsetY: offsetY } });
+		event.preventDefault();
+	}
+}
 
 // get parameter in url
 export function getParameterByName(name, url) {
 	if (!url) {
 		url = window.location.href;
 	}
-	name = name.replace(/[\[\]]/g, '\\$&');
-	var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+	name = name.replace(/[[\]]/g, `\\$&`);
+	const regex = new RegExp(`[?&]` + name + `(=([^&#]*)|&|#|$)`),
 		results = regex.exec(url);
 	if (!results) return null;
-	if (!results[2]) return '';
-	return decodeURIComponent(results[2].replace(/\+/g, ' '));
+	if (!results[2]) return ``;
+	return decodeURIComponent(results[2].replace(/\+/g, ` `));
 }
 
 // check if element has child
-function hasChild(element, child) {
-	var node = child.parentNode;
+export function hasChild(element, child) {
+	let node = child.parentNode;
 	while (node !== null) {
 		if (node == element) {
 			return true;
@@ -28,8 +58,8 @@ function hasChild(element, child) {
 }
 
 // get mouse position (http://www.window.org/js/events_properties.html#position)
-function mousePos(event) {
-	var posX = 0,
+export function mousePos(event) {
+	let posX = 0,
 		posY = 0;
 	if (!event) event = window.event;
 	if (event.pageX || event.pageY) {
@@ -43,50 +73,4 @@ function mousePos(event) {
 		x: posX,
 		y: posY
 	};
-}
-
-// equalling heights function
-/* EXAMPLE
-   equalheight('.floaters .floater');
-*/
-function equalheight(elements) {
-	let $this,
-		currentHighest = 0,
-		currentRowStart = 0,
-		currentDiv,
-		rowDivs = [],
-		topPosition = 0;
-
-	function calculateHeight(elements) {
-		const $elements = document.querySelectorAll(elements);
-
-		$elements.forEach(element => {
-			$this = element;
-			$this.style.minHeight = 0;
-			topPosition = $this.getBoundingClientRect().top;
-
-			if (currentRowStart !== topPosition) {
-				for (currentDiv = 0 ; currentDiv < rowDivs.length ; currentDiv++) {
-					rowDivs[currentDiv].style.minHeight = currentHighest + 'px';
-				}
-				rowDivs.length = 0;
-				currentRowStart = topPosition;
-				currentHighest = $this.offsetHeight;
-				rowDivs.push($this);
-			} else {
-				rowDivs.push($this);
-				currentHighest = (currentHighest < $this.offsetHeight) ? $this.offsetHeight : currentHighest;
-			}
-
-			for (currentDiv = 0 ; currentDiv < rowDivs.length ; currentDiv++) {
-				rowDivs[currentDiv].style.minHeight = currentHighest + 'px';
-			}
-		});
-	}
-
-	calculateHeight(elements);
-	window.addEventListener('resize', function() {
-		currentHighest = 0;
-		calculateHeight(elements);
-	});
 }
