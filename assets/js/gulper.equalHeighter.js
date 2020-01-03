@@ -46,5 +46,3 @@ function equalHeighter(selector) {
 }
 
 equalHeighter.version = `1.0.0`;
-
-export default equalHeighter;

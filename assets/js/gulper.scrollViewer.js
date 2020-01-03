@@ -8,28 +8,26 @@
   scrollViewer(`.js-scroll`);
 */
 
-/* global ScrollMagic imagesLoaded */
-
-import { smoothScroll } from './helper.js';
+/* global ScrollMagic imagesLoaded smoothScroll */
 
 function scrollViewer(selector) {
-	const $scrolls = document.querySelectorAll(selector);
+	const scrollsEl = document.querySelectorAll(selector);
 	const sceneController = new ScrollMagic.Controller();
 
 	// add .in-viewport for links and element (to mark current selected)
 	function elementClass(scroll) {
 		const scrollTarget = scroll.dataset.scrollTarget || scroll.hash || ``,
-			$scrollTarget = document.querySelector(`[id="${scrollTarget.substring(1)}"]`);
-		let scrollTargetHeight = $scrollTarget.offsetHeight;
+			scrollTargetEl = document.querySelector(`[id="${scrollTarget.substring(1)}"]`);
+		let scrollTargetHeight = scrollTargetEl.offsetHeight;
 
 		function updateDuration() {
-			scrollTargetHeight = $scrollTarget.offsetHeight;
+			scrollTargetHeight = scrollTargetEl.offsetHeight;
 			return scrollTargetHeight;
 		}
 
-		imagesLoaded($scrollTarget, function() {
-			const scene = new ScrollMagic.Scene({ triggerElement: $scrollTarget, triggerHook: 0.5, duration: scrollTargetHeight, reverse: true })
-				.setClassToggle([scroll, $scrollTarget], `in-viewport`)
+		imagesLoaded(scrollTargetEl, function() {
+			const scene = new ScrollMagic.Scene({ triggerElement: scrollTargetEl, triggerHook: 0.5, duration: scrollTargetHeight, reverse: true })
+				.setClassToggle([scroll, scrollTargetEl], `in-viewport`)
 				// .addIndicators()
 				.addTo(sceneController);
 
@@ -38,7 +36,7 @@ function scrollViewer(selector) {
 		});
 	}
 
-	$scrolls.forEach(scroll => {
+	scrollsEl.forEach(scroll => {
 		scroll.addEventListener(`click`, function(event) {
 			smoothScroll(event, this);
 		});
@@ -48,5 +46,3 @@ function scrollViewer(selector) {
 }
 
 scrollViewer.version = `1.0.0`;
-
-export default scrollViewer;

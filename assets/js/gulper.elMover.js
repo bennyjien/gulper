@@ -17,20 +17,20 @@ function elMover(selector) {
 		thisEl.insertAdjacentHTML(`beforebegin`, `<div class="js-mover-source"></div>`);
 
 		const moversElource = thisEl.previousElementSibling,
-			$moverTarget = document.querySelector(thisEl.dataset.moverTarget),
+			moverTargetEl = document.querySelector(thisEl.dataset.moverTarget),
 			moverBreakpoint = thisEl.dataset.moverBreakpoint;
 		let windowWidth = document.documentElement.clientWidth;
 
 		if (windowWidth >= moverBreakpoint) {
-			$moverTarget.appendChild(thisEl);
+			moverTargetEl.appendChild(thisEl);
 		}
 
 		window.addEventListener(`resize`, function() {
 			windowWidth = document.documentElement.clientWidth;
 
 			if (windowWidth >= moverBreakpoint) {
-				if (thisEl.parentNode !== $moverTarget) {
-					$moverTarget.appendChild(thisEl);
+				if (thisEl.parentNode !== moverTargetEl) {
+					moverTargetEl.appendChild(thisEl);
 				}
 			} else {
 				if (thisEl.parentNode !== moversElource) {
@@ -44,5 +44,3 @@ function elMover(selector) {
 }
 
 elMover.version = `1.0.0`;
-
-export default elMover;

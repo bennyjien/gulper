@@ -73,5 +73,3 @@ function formSetter(selector) {
 }
 
 formSetter.version = `1.0.0`;
-
-export default formSetter;

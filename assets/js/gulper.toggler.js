@@ -20,7 +20,7 @@
   toggler(`.js-toggle`);
 */
 
-import { animate, hasChild, smoothScroll } from './helper.js';
+/* global animate hasChild smoothScroll */
 
 function toggler(selector) {
 	const bodyEl = document.querySelector(`body`);
@@ -40,9 +40,9 @@ function toggler(selector) {
 	function toggleOpen(event, thisEl) {
 		const toggleTrigger = thisEl.dataset.toggleTrigger || `click`,
 			toggleTarget = thisEl.dataset.toggleTarget || thisEl.hash,
-			$toggleTarget = document.querySelector(toggleTarget),
-			$toggleArea = document.querySelector(thisEl.dataset.toggleArea) || thisEl,
-			$toggleFocus = document.querySelector(thisEl.dataset.toggleFocus),
+			toggleTargetEl = document.querySelector(toggleTarget),
+			toggleAreaEl = document.querySelector(thisEl.dataset.toggleArea) || thisEl,
+			toggleFocusEl = document.querySelector(thisEl.dataset.toggleFocus),
 			toggleAnimation = thisEl.dataset.toggleAnimation || `slide`,
 			toggleDuration = thisEl.dataset.toggleDuration || 0.2,
 			toggleIteration = thisEl.dataset.toggleIteration || `infinite`,
@@ -54,64 +54,64 @@ function toggler(selector) {
 		let clickPrevent = false;
 
 		if (toggleTarget === thisEl.hash) clickPrevent = true;
-		if (!$toggleTarget) return false;
+		if (!toggleTargetEl) return false;
 		if (!thisEl.classList.contains(togglesClass)){
 			return false;
 		}
 
 		if (event.type === `mouseenter` || event.type === `touchstart`) {
 			if (toggleTrigger === `hover`) {
-				const $toggleLinkToggled = $toggleArea.querySelectorAll(`${selector}.is-toggled`);
+				const toggleLinkToggledEl = toggleAreaEl.querySelectorAll(`${selector}.is-toggled`);
 
 				if (toggleIteration === `once`) {
 					thisEl.classList.remove(togglesClass);
 				}
 
-				$toggleLinkToggled.forEach(toggle => {
+				toggleLinkToggledEl.forEach(toggle => {
 					if (toggle !== thisEl) {
 						toggle.classList.remove(`is-toggled`);
 					}
 				});
 
-				const $toggleAllToggled = $toggleArea.querySelectorAll(`.is-toggled`),
-					$toggleCurrentToggled = [];
+				const toggleAllToggledEl = toggleAreaEl.querySelectorAll(`.is-toggled`),
+					toggleCurrentToggledEl = [];
 
-				$toggleAllToggled.forEach(toggle => {
-					if (toggle !== thisEl && toggle !== $toggleTarget) {
-						$toggleCurrentToggled.push(toggle);
+				toggleAllToggledEl.forEach(toggle => {
+					if (toggle !== thisEl && toggle !== toggleTargetEl) {
+						toggleCurrentToggledEl.push(toggle);
 					}
 				});
 
 				if (toggleAnimation === `slide`) {
-					$toggleCurrentToggled.forEach(toggle => {
+					toggleCurrentToggledEl.forEach(toggle => {
 						animate.slideUp(toggle, toggleDuration/2);
 					});
 				} else if (toggleAnimation === `fade`) {
-					$toggleCurrentToggled.forEach(toggle => {
+					toggleCurrentToggledEl.forEach(toggle => {
 						animate.fadeOut(toggle, toggleDuration/2);
 					});
 				}
 
-				$toggleCurrentToggled.forEach(toggle => toggle.classList.remove(`is-toggled`));
+				toggleCurrentToggledEl.forEach(toggle => toggle.classList.remove(`is-toggled`));
 
 				if (thisEl.classList.contains(`is-toggled`) === false) {
 					thisEl.classList.add(`is-toggled`);
-					$toggleTarget.classList.add(`is-toggled`);
+					toggleTargetEl.classList.add(`is-toggled`);
 					if (toggleAnimation === `slide`) {
-						animate.slideDown($toggleTarget, toggleDuration, toggleDuration/2);
+						animate.slideDown(toggleTargetEl, toggleDuration, toggleDuration/2);
 					} else if (toggleAnimation === `fade`) {
-						animate.fadeIn($toggleTarget, toggleDuration, toggleDuration/2);
+						animate.fadeIn(toggleTargetEl, toggleDuration, toggleDuration/2);
 					}
 				}
 
-				$toggleArea.addEventListener(`mouseleave`, function(event) {
-					toggleClose(event, thisEl, toggleTrigger, $toggleTarget, $toggleArea, toggleAnimation, toggleDuration, bodyClass);
+				toggleAreaEl.addEventListener(`mouseleave`, function(event) {
+					toggleClose(event, thisEl, toggleTrigger, toggleTargetEl, toggleAreaEl, toggleAnimation, toggleDuration, bodyClass);
 				});
 				bodyEl.addEventListener(`click`, function(event) {
-					toggleClose(event, thisEl, toggleTrigger, $toggleTarget, $toggleArea, toggleAnimation, toggleDuration, bodyClass);
+					toggleClose(event, thisEl, toggleTrigger, toggleTargetEl, toggleAreaEl, toggleAnimation, toggleDuration, bodyClass);
 				});
 				bodyEl.addEventListener(`touchend`, function(event) {
-					toggleClose(event, thisEl, toggleTrigger, $toggleTarget, $toggleArea, toggleAnimation, toggleDuration, bodyClass);
+					toggleClose(event, thisEl, toggleTrigger, toggleTargetEl, toggleAreaEl, toggleAnimation, toggleDuration, bodyClass);
 				});
 			}
 		} else if (event.type === `click`) {
@@ -123,48 +123,48 @@ function toggler(selector) {
 					thisEl.classList.replace(togglesClass, `${togglesClass}-inactive`);
 				}
 
-				if (thisEl.classList.contains(`is-toggled`) || $toggleTarget.classList.contains(`is-toggled`) || window.getComputedStyle($toggleTarget).getPropertyValue(`display`) !== `none`) {
-					if (!hasChild(thisEl, $toggleArea)) {
-						var $toggler = document.querySelectorAll(`.`+bodyClass+`-toggler`);
+				if (thisEl.classList.contains(`is-toggled`) || toggleTargetEl.classList.contains(`is-toggled`) || window.getComputedStyle(toggleTargetEl).getPropertyValue(`display`) !== `none`) {
+					if (!hasChild(thisEl, toggleAreaEl)) {
+						var togglerEl = document.querySelectorAll(`.`+bodyClass+`-toggler`);
 
-						$toggler.forEach(element => {
+						togglerEl.forEach(element => {
 							element.classList.replace(`${togglesClass}-inactive`, togglesClass);
 							element.classList.remove(`is-toggled`);
 							element.classList.remove(bodyClass+`-toggler`);
 							element.classList.add(`is-untoggling`);
 						});
-						$toggleTarget.classList.remove(`is-toggled`);
-						$toggleTarget.classList.add(`is-untoggling`);
+						toggleTargetEl.classList.remove(`is-toggled`);
+						toggleTargetEl.classList.add(`is-untoggling`);
 						bodyEl.classList.add(bodyClass+`-is-untoggling`);
 						setTimeout(function() {
-							$toggler.forEach(element => {
+							togglerEl.forEach(element => {
 								element.classList.remove(`is-untoggling`);
 							});
-							$toggleTarget.classList.remove(`is-untoggling`);
+							toggleTargetEl.classList.remove(`is-untoggling`);
 							bodyEl.classList.remove(bodyClass+`-is-toggled`, bodyClass+`-is-untoggling`);
 						}, toggleDuration);
 						if (toggleAnimation === `slide`) {
-							animate.slideUp($toggleTarget, toggleDuration/2);
+							animate.slideUp(toggleTargetEl, toggleDuration/2);
 						} else if (toggleAnimation === `fade`) {
-							animate.fadeOut($toggleTarget, toggleDuration/2);
+							animate.fadeOut(toggleTargetEl, toggleDuration/2);
 						}
 					}
 				} else {
 					thisEl.classList.add(`is-toggling`);
-					$toggleTarget.classList.add(`is-toggling`);
+					toggleTargetEl.classList.add(`is-toggling`);
 					bodyEl.classList.add(bodyClass+`-is-toggling`);
 
 					setTimeout(function() {
 						thisEl.classList.remove(`is-toggling`);
 						thisEl.classList.add(`is-toggled`);
 						thisEl.classList.add(bodyClass+`-toggler`);
-						$toggleTarget.classList.remove(`is-toggling`);
-						$toggleTarget.classList.add(`is-toggled`);
+						toggleTargetEl.classList.remove(`is-toggling`);
+						toggleTargetEl.classList.add(`is-toggled`);
 						bodyEl.classList.remove(bodyClass+`-is-toggling`);
 						bodyEl.classList.add(bodyClass+`-is-toggled`);
 
-						if ($toggleFocus) {
-							$toggleFocus.focus();
+						if (toggleFocusEl) {
+							toggleFocusEl.focus();
 						}
 					}, toggleDuration);
 
@@ -173,22 +173,22 @@ function toggler(selector) {
 					}
 
 					if (toggleAnimation === `slide`) {
-						animate.slideDown($toggleTarget, toggleDuration);
+						animate.slideDown(toggleTargetEl, toggleDuration);
 					} else if (toggleAnimation === `fade`) {
-						animate.fadeIn($toggleTarget, toggleDuration);
+						animate.fadeIn(toggleTargetEl, toggleDuration);
 					}
 
 					bodyEl.addEventListener(`click`, function(event) {
-						toggleClose(event, thisEl, toggleTrigger, $toggleTarget, $toggleArea, toggleAnimation, toggleDuration, bodyClass);
+						toggleClose(event, thisEl, toggleTrigger, toggleTargetEl, toggleAreaEl, toggleAnimation, toggleDuration, bodyClass);
 					});
 					bodyEl.addEventListener(`touchend`, function(event) {
-						toggleClose(event, thisEl, toggleTrigger, $toggleTarget, $toggleArea, toggleAnimation, toggleDuration, bodyClass);
+						toggleClose(event, thisEl, toggleTrigger, toggleTargetEl, toggleAreaEl, toggleAnimation, toggleDuration, bodyClass);
 					});
 
 					if (toggleKeyclose === `true`) {
 						document.addEventListener(`keydown`, function(event) {
 							if (event.keyCode === 27) {
-								toggleClose(event, thisEl, toggleTrigger, $toggleTarget, $toggleArea, toggleAnimation, toggleDuration, bodyClass);
+								toggleClose(event, thisEl, toggleTrigger, toggleTargetEl, toggleAreaEl, toggleAnimation, toggleDuration, bodyClass);
 							}
 						});
 					}
@@ -201,40 +201,40 @@ function toggler(selector) {
 		}
 	}
 
-	function toggleClose(event, thisEl, toggleTrigger, $toggleTarget, $toggleArea, toggleAnimation, toggleDuration, bodyClass) {
-		if (thisEl.classList.contains(`is-toggled`) || $toggleTarget.classList.contains(`is-toggled`)) {
+	function toggleClose(event, thisEl, toggleTrigger, toggleTargetEl, toggleAreaEl, toggleAnimation, toggleDuration, bodyClass) {
+		if (thisEl.classList.contains(`is-toggled`) || toggleTargetEl.classList.contains(`is-toggled`)) {
 			if ((toggleTrigger === `hover` && event.type !== `click`) || (toggleTrigger === `click` && event.type === `keydown`)) {
 				thisEl.classList.remove(`is-toggled`);
 				thisEl.classList.add(`is-untoggling`);
-				$toggleTarget.classList.remove(`is-toggled`);
-				$toggleTarget.classList.add(`is-untoggling`);
+				toggleTargetEl.classList.remove(`is-toggled`);
+				toggleTargetEl.classList.add(`is-untoggling`);
 
 				setTimeout(function() {
 					thisEl.classList.remove(`is-untoggling`);
-					$toggleTarget.classList.remove(`is-untoggling`);
+					toggleTargetEl.classList.remove(`is-untoggling`);
 				}, toggleDuration);
 
 				if (toggleAnimation === `slide`) {
-					animate.slideUp($toggleTarget, toggleDuration/2);
+					animate.slideUp(toggleTargetEl, toggleDuration/2);
 				} else if (toggleAnimation === `fade`) {
-					animate.fadeOut($toggleTarget, toggleDuration/2);
+					animate.fadeOut(toggleTargetEl, toggleDuration/2);
 				}
 			} else {
-				if (thisEl !== event.target && !hasChild(thisEl, event.target) && $toggleArea !== event.target && !hasChild($toggleArea, event.target)) {
+				if (thisEl !== event.target && !hasChild(thisEl, event.target) && toggleAreaEl !== event.target && !hasChild(toggleAreaEl, event.target)) {
 					thisEl.classList.remove(`is-toggled`);
 					thisEl.classList.add(`is-untoggling`);
-					$toggleTarget.classList.remove(`is-toggled`);
-					$toggleTarget.classList.add(`is-untoggling`);
+					toggleTargetEl.classList.remove(`is-toggled`);
+					toggleTargetEl.classList.add(`is-untoggling`);
 					bodyEl.classList.add(bodyClass+`-is-untoggling`);
 					setTimeout(function() {
 						thisEl.classList.remove(`is-untoggling`);
-						$toggleTarget.classList.remove(`is-untoggling`);
+						toggleTargetEl.classList.remove(`is-untoggling`);
 						bodyEl.classList.remove(bodyClass+`-is-toggled`, bodyClass+`-is-untoggling`);
 					}, toggleDuration);
 					if (toggleAnimation === `slide`) {
-						animate.slideUp($toggleTarget, toggleDuration/2);
+						animate.slideUp(toggleTargetEl, toggleDuration/2);
 					} else if (toggleAnimation === `fade`) {
-						animate.fadeOut($toggleTarget, toggleDuration/2);
+						animate.fadeOut(toggleTargetEl, toggleDuration/2);
 					}
 				}
 			}
@@ -250,5 +250,3 @@ function toggler(selector) {
 }
 
 toggler.version = `2.0.0`;
-
-export default toggler;

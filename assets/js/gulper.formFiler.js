@@ -65,5 +65,3 @@ function formFiler(selector) {
 }
 
 formFiler.version = `1.0.0`;
-
-export default formFiler;

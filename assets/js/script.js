@@ -1,17 +1,7 @@
-/* This file contains main script for website
- * Style related scripts is located in style.js
- */
-/* global imagesLoaded fluidvids */
+/* This file contains main script for website */
+/* global imagesLoaded fluidvids elMover equalHeighter formFiler formSetter scrollAnimater scrollViewer tabber toggler */
 
 'use strict';
-
-import elMover from './gulper.elMover.js';
-import formFiler from './gulper.formFiler.js';
-import formSetter from './gulper.formSetter.js';
-import scrollAnimater from './gulper.scrollAnimater.js';
-import scrollViewer from './gulper.scrollViewer.js';
-import tabber from './gulper.tabber.js';
-import toggler from './gulper.toggler.js';
 
 // vendor: check if images are loaded
 imagesLoaded(`#site-container`, function() {

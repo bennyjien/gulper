@@ -2,7 +2,7 @@
 /* global gsap */
 
 // gsap default animation
-export const animate = {
+const animate = {
 	fadeIn: (element, duration, delay = 0) => {
 		gsap.to(element, { display: `block`, autoAlpha: 1, duration: duration, delay: delay });
 	},
@@ -19,7 +19,7 @@ export const animate = {
 };
 
 // scroll to targeted id
-export function smoothScroll(event, element) {
+function smoothScroll(event, element) {
 	const target = element.dataset.scrollTarget || element.hash || ``,
 		targetEl = document.querySelector(`[id='${target.substring(1)}']`),
 		duration = element.dataset.scrollDuration || 0.4,
@@ -33,7 +33,7 @@ export function smoothScroll(event, element) {
 }
 
 // get parameter in url
-export function getParameterByName(name, url) {
+function getParameterByName(name, url) {
 	if (!url) {
 		url = window.location.href;
 	}
@@ -46,7 +46,7 @@ export function getParameterByName(name, url) {
 }
 
 // check if element has child
-export function hasChild(element, child) {
+function hasChild(element, child) {
 	let node = child.parentNode;
 	while (node !== null) {
 		if (node == element) {
@@ -58,7 +58,7 @@ export function hasChild(element, child) {
 }
 
 // get mouse position (http://www.window.org/js/events_properties.html#position)
-export function mousePos(event) {
+function mousePos(event) {
 	let posX = 0,
 		posY = 0;
 	if (!event) event = window.event;
