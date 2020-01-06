@@ -27,35 +27,35 @@ function toggler(selector) {
 	const togglesEl = document.querySelectorAll(selector);
 	const togglesClass = selector.substring(1);
 
-	function toggleInit(thisEl) {
+	function toggleInit(element) {
 		const eventClick = new MouseEvent(`click`),
 			eventMouse = new MouseEvent(`mouseenter`);
 
-		if (thisEl.dataset.toggleState === `toggled`) {
-			toggleOpen(eventClick, thisEl);
-			toggleOpen(eventMouse, thisEl);
+		if (element.dataset.toggleState === `toggled`) {
+			toggleOpen(eventClick, element);
+			toggleOpen(eventMouse, element);
 		}
 	}
 
-	function toggleOpen(event, thisEl) {
-		const toggleTrigger = thisEl.dataset.toggleTrigger || `click`,
-			toggleTarget = thisEl.dataset.toggleTarget || thisEl.hash,
+	function toggleOpen(event, element) {
+		const toggleTrigger = element.dataset.toggleTrigger || `click`,
+			toggleTarget = element.dataset.toggleTarget || element.hash,
 			toggleTargetEl = document.querySelector(toggleTarget),
-			toggleAreaEl = document.querySelector(thisEl.dataset.toggleArea) || thisEl,
-			toggleFocusEl = document.querySelector(thisEl.dataset.toggleFocus),
-			toggleAnimation = thisEl.dataset.toggleAnimation || `slide`,
-			toggleDuration = thisEl.dataset.toggleDuration || 0.2,
-			toggleIteration = thisEl.dataset.toggleIteration || `infinite`,
-			toggleScrollTarget = thisEl.dataset.scrollTarget,
-			toggleKeyclose = thisEl.dataset.toggleKeyclose || false,
+			toggleAreaEl = document.querySelector(element.dataset.toggleArea) || element,
+			toggleFocusEl = document.querySelector(element.dataset.toggleFocus),
+			toggleAnimation = element.dataset.toggleAnimation || `slide`,
+			toggleDuration = element.dataset.toggleDuration || 0.2,
+			toggleIteration = element.dataset.toggleIteration || `infinite`,
+			toggleScrollTarget = element.dataset.scrollTarget,
+			toggleKeyclose = element.dataset.toggleKeyclose || false,
 			bodyClass = toggleTarget.substring(1),
-			preventDefault = thisEl.dataset.toggleTarget ? false : true;
+			preventDefault = element.dataset.toggleTarget ? false : true;
 
 		let clickPrevent = false;
 
-		if (toggleTarget === thisEl.hash) clickPrevent = true;
+		if (toggleTarget === element.hash) clickPrevent = true;
 		if (!toggleTargetEl) return false;
-		if (!thisEl.classList.contains(togglesClass)){
+		if (!element.classList.contains(togglesClass)){
 			return false;
 		}
 
@@ -64,11 +64,11 @@ function toggler(selector) {
 				const toggleLinkToggledEl = toggleAreaEl.querySelectorAll(`${selector}.is-toggled`);
 
 				if (toggleIteration === `once`) {
-					thisEl.classList.remove(togglesClass);
+					element.classList.remove(togglesClass);
 				}
 
 				toggleLinkToggledEl.forEach(toggle => {
-					if (toggle !== thisEl) {
+					if (toggle !== element) {
 						toggle.classList.remove(`is-toggled`);
 					}
 				});
@@ -77,7 +77,7 @@ function toggler(selector) {
 					toggleCurrentToggledEl = [];
 
 				toggleAllToggledEl.forEach(toggle => {
-					if (toggle !== thisEl && toggle !== toggleTargetEl) {
+					if (toggle !== element && toggle !== toggleTargetEl) {
 						toggleCurrentToggledEl.push(toggle);
 					}
 				});
@@ -94,8 +94,8 @@ function toggler(selector) {
 
 				toggleCurrentToggledEl.forEach(toggle => toggle.classList.remove(`is-toggled`));
 
-				if (thisEl.classList.contains(`is-toggled`) === false) {
-					thisEl.classList.add(`is-toggled`);
+				if (element.classList.contains(`is-toggled`) === false) {
+					element.classList.add(`is-toggled`);
 					toggleTargetEl.classList.add(`is-toggled`);
 					if (toggleAnimation === `slide`) {
 						animate.slideDown(toggleTargetEl, toggleDuration, toggleDuration/2);
@@ -105,13 +105,13 @@ function toggler(selector) {
 				}
 
 				toggleAreaEl.addEventListener(`mouseleave`, function(event) {
-					toggleClose(event, thisEl, toggleTrigger, toggleTargetEl, toggleAreaEl, toggleAnimation, toggleDuration, bodyClass);
+					toggleClose(event, element, toggleTrigger, toggleTargetEl, toggleAreaEl, toggleAnimation, toggleDuration, bodyClass);
 				});
 				bodyEl.addEventListener(`click`, function(event) {
-					toggleClose(event, thisEl, toggleTrigger, toggleTargetEl, toggleAreaEl, toggleAnimation, toggleDuration, bodyClass);
+					toggleClose(event, element, toggleTrigger, toggleTargetEl, toggleAreaEl, toggleAnimation, toggleDuration, bodyClass);
 				});
 				bodyEl.addEventListener(`touchend`, function(event) {
-					toggleClose(event, thisEl, toggleTrigger, toggleTargetEl, toggleAreaEl, toggleAnimation, toggleDuration, bodyClass);
+					toggleClose(event, element, toggleTrigger, toggleTargetEl, toggleAreaEl, toggleAnimation, toggleDuration, bodyClass);
 				});
 			}
 		} else if (event.type === `click`) {
@@ -120,11 +120,11 @@ function toggler(selector) {
 			}
 			else if (toggleTrigger === `click`) {
 				if (toggleIteration === `once`) {
-					thisEl.classList.replace(togglesClass, `${togglesClass}-inactive`);
+					element.classList.replace(togglesClass, `${togglesClass}-inactive`);
 				}
 
-				if (thisEl.classList.contains(`is-toggled`) || toggleTargetEl.classList.contains(`is-toggled`) || window.getComputedStyle(toggleTargetEl).getPropertyValue(`display`) !== `none`) {
-					if (!hasChild(thisEl, toggleAreaEl)) {
+				if (element.classList.contains(`is-toggled`) || toggleTargetEl.classList.contains(`is-toggled`) || window.getComputedStyle(toggleTargetEl).getPropertyValue(`display`) !== `none`) {
+					if (!hasChild(element, toggleAreaEl)) {
 						var togglerEl = document.querySelectorAll(`.`+bodyClass+`-toggler`);
 
 						togglerEl.forEach(element => {
@@ -150,14 +150,14 @@ function toggler(selector) {
 						}
 					}
 				} else {
-					thisEl.classList.add(`is-toggling`);
+					element.classList.add(`is-toggling`);
 					toggleTargetEl.classList.add(`is-toggling`);
 					bodyEl.classList.add(bodyClass+`-is-toggling`);
 
 					setTimeout(function() {
-						thisEl.classList.remove(`is-toggling`);
-						thisEl.classList.add(`is-toggled`);
-						thisEl.classList.add(bodyClass+`-toggler`);
+						element.classList.remove(`is-toggling`);
+						element.classList.add(`is-toggled`);
+						element.classList.add(bodyClass+`-toggler`);
 						toggleTargetEl.classList.remove(`is-toggling`);
 						toggleTargetEl.classList.add(`is-toggled`);
 						bodyEl.classList.remove(bodyClass+`-is-toggling`);
@@ -169,7 +169,7 @@ function toggler(selector) {
 					}, toggleDuration);
 
 					if (toggleScrollTarget) {
-						smoothScroll(event, thisEl);
+						smoothScroll(event, element);
 					}
 
 					if (toggleAnimation === `slide`) {
@@ -179,16 +179,16 @@ function toggler(selector) {
 					}
 
 					bodyEl.addEventListener(`click`, function(event) {
-						toggleClose(event, thisEl, toggleTrigger, toggleTargetEl, toggleAreaEl, toggleAnimation, toggleDuration, bodyClass);
+						toggleClose(event, element, toggleTrigger, toggleTargetEl, toggleAreaEl, toggleAnimation, toggleDuration, bodyClass);
 					});
 					bodyEl.addEventListener(`touchend`, function(event) {
-						toggleClose(event, thisEl, toggleTrigger, toggleTargetEl, toggleAreaEl, toggleAnimation, toggleDuration, bodyClass);
+						toggleClose(event, element, toggleTrigger, toggleTargetEl, toggleAreaEl, toggleAnimation, toggleDuration, bodyClass);
 					});
 
 					if (toggleKeyclose === `true`) {
 						document.addEventListener(`keydown`, function(event) {
 							if (event.keyCode === 27) {
-								toggleClose(event, thisEl, toggleTrigger, toggleTargetEl, toggleAreaEl, toggleAnimation, toggleDuration, bodyClass);
+								toggleClose(event, element, toggleTrigger, toggleTargetEl, toggleAreaEl, toggleAnimation, toggleDuration, bodyClass);
 							}
 						});
 					}
@@ -201,16 +201,16 @@ function toggler(selector) {
 		}
 	}
 
-	function toggleClose(event, thisEl, toggleTrigger, toggleTargetEl, toggleAreaEl, toggleAnimation, toggleDuration, bodyClass) {
-		if (thisEl.classList.contains(`is-toggled`) || toggleTargetEl.classList.contains(`is-toggled`)) {
+	function toggleClose(event, element, toggleTrigger, toggleTargetEl, toggleAreaEl, toggleAnimation, toggleDuration, bodyClass) {
+		if (element.classList.contains(`is-toggled`) || toggleTargetEl.classList.contains(`is-toggled`)) {
 			if ((toggleTrigger === `hover` && event.type !== `click`) || (toggleTrigger === `click` && event.type === `keydown`)) {
-				thisEl.classList.remove(`is-toggled`);
-				thisEl.classList.add(`is-untoggling`);
+				element.classList.remove(`is-toggled`);
+				element.classList.add(`is-untoggling`);
 				toggleTargetEl.classList.remove(`is-toggled`);
 				toggleTargetEl.classList.add(`is-untoggling`);
 
 				setTimeout(function() {
-					thisEl.classList.remove(`is-untoggling`);
+					element.classList.remove(`is-untoggling`);
 					toggleTargetEl.classList.remove(`is-untoggling`);
 				}, toggleDuration);
 
@@ -220,14 +220,14 @@ function toggler(selector) {
 					animate.fadeOut(toggleTargetEl, toggleDuration/2);
 				}
 			} else {
-				if (thisEl !== event.target && !hasChild(thisEl, event.target) && toggleAreaEl !== event.target && !hasChild(toggleAreaEl, event.target)) {
-					thisEl.classList.remove(`is-toggled`);
-					thisEl.classList.add(`is-untoggling`);
+				if (element !== event.target && !hasChild(element, event.target) && toggleAreaEl !== event.target && !hasChild(toggleAreaEl, event.target)) {
+					element.classList.remove(`is-toggled`);
+					element.classList.add(`is-untoggling`);
 					toggleTargetEl.classList.remove(`is-toggled`);
 					toggleTargetEl.classList.add(`is-untoggling`);
 					bodyEl.classList.add(bodyClass+`-is-untoggling`);
 					setTimeout(function() {
-						thisEl.classList.remove(`is-untoggling`);
+						element.classList.remove(`is-untoggling`);
 						toggleTargetEl.classList.remove(`is-untoggling`);
 						bodyEl.classList.remove(bodyClass+`-is-toggled`, bodyClass+`-is-untoggling`);
 					}, toggleDuration);

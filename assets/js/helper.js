@@ -1,20 +1,23 @@
 // helper.js: helper/utility function
 /* global gsap */
 
+// wait
+const wait = (amount = 0) => new Promise(resolve => setTimeout(resolve, amount));
+
 // gsap default animation
 const animate = {
 	fadeIn: (element, duration, delay = 0) => {
-		gsap.to(element, { display: `block`, autoAlpha: 1, duration: duration, delay: delay });
+		gsap.to(element, { display: `block`, autoAlpha: 1, duration: duration/1000, delay: delay });
 	},
 	fadeOut: (element, duration, delay = 0) => {
-		gsap.to(element, { display: `none`, autoAlpha: 0, duration: duration, delay: delay });
+		gsap.to(element, { display: `none`, autoAlpha: 0, duration: duration/1000, delay: delay });
 	},
 	slideDown: (element, duration, delay = 0) => {
 		gsap.set(element, { display: `block`, overflow: `visible`, autoAlpha: 1, height: `auto` });
-		gsap.from(element, duration, { overflow: `hidden`, autoAlpha: 0, height: 0, duration: duration, delay: delay });
+		gsap.from(element, duration, { overflow: `hidden`, autoAlpha: 0, height: 0, duration: duration/1000, delay: delay });
 	},
 	slideUp: (element, duration, delay = 0) => {
-		gsap.to(element, { display: `none`, overflow: `hidden`, autoAlpha: 0, height: 0, duration: duration, delay: delay });
+		gsap.to(element, { display: `none`, overflow: `hidden`, autoAlpha: 0, height: 0, duration: duration/1000, delay: delay });
 	}
 };
 

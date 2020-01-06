@@ -15,6 +15,6 @@
 		"no-unused-vars": 0
 	},
 	"parserOptions": {
-		"sourceType": "module"
+		"ecmaVersion": 8
 	},
 }

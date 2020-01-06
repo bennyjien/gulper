@@ -4,7 +4,7 @@
 	data-popper-target="[selector]" -> popper target
 	data-popper-area="[selector]" -> popper will end outside this area
 	data-popper-animation="slide|manual" -> how popper is handled
-	data-popper-duration="[second]" -> how long is popper animation
+	data-popper-duration="[ms]" -> how long is popper animation
 	data-popper-focus="[selector]" -> popper will focus on targeted form
 	data-popper-repeat="true|false" -> once will only trigger popper once
 	data-popper-state="undefined|popped" -> popper state on page load
@@ -27,39 +27,61 @@
 	});
 */
 
+/* global wait */
+
 function popper(selector, options = {}) {
 	const body = document.querySelector(`body`);
 	const popperEl = document.querySelectorAll(selector);
 
-	function init(element, targetEl, state) {
+	function init(element, targetEl, duration, bodyClass) {
+		const state = element.dataset.popperState || options.state;
+
 		if (state === `popped`) {
-			open(element, targetEl);
+			open(element, targetEl, duration, bodyClass);
 		}
 	}
 
-	function open(element, targetEl, focusEl) {
+	async function open(element, targetEl, duration, bodyClass) {
+		const focus = element.dataset.popperFocus || options.focus;
+
+		element.classList.add(`is-popping`);
+		targetEl.classList.add(`is-popping`);
+		body.classList.add(`${bodyClass}-is-popping`);
+		await wait(duration);
 		element.classList.add(`is-popped`);
 		targetEl.classList.add(`is-popped`);
+		body.classList.add(`${bodyClass}-is-popped`);
+		element.classList.remove(`is-popping`);
+		targetEl.classList.remove(`is-popping`);
+		body.classList.remove(`${bodyClass}-is-popping`);
 
-		if (focusEl) {
-			focusEl.focus();
+		if (focus) {
+			document.querySelector(focus).focus();
 		}
 	}
 
-	function close(element, targetEl) {
+	async function close(element, targetEl, duration, bodyClass) {
+		element.classList.add(`is-unpopping`);
+		targetEl.classList.add(`is-unpopping`);
+		body.classList.add(`${bodyClass}-is-unpopping`);
 		element.classList.remove(`is-popped`);
 		targetEl.classList.remove(`is-popped`);
+		body.classList.remove(`${bodyClass}-is-popped`);
+		await wait(duration);
+		element.classList.remove(`is-unpopping`);
+		targetEl.classList.remove(`is-unpopping`);
+		body.classList.remove(`${bodyClass}-is-unpopping`);
 	}
 
-	function handleClick(event, element, targetEl, area, focusEl) {
+	function handleClick(event, element, targetEl, area, duration, bodyClass) {
 		event.preventDefault();
 
 		if (event.target === element || !event.target.closest(area)) {
 			if (element.classList.contains(`is-popped`) || targetEl.classList.contains(`is-popped`)) {
-				close(element, targetEl);
+				close(element, targetEl, duration, bodyClass);
 			} else {
 				if (event.target === element) {
-					open(element, targetEl, focusEl);
+					open(element, targetEl, duration, bodyClass);
 				}
 			}
 		}
@@ -79,20 +101,18 @@ function popper(selector, options = {}) {
 	popperEl.forEach(element => {
 		const target = element.dataset.popperTarget || element.hash;
 		const targetEl = document.querySelector(target);
+		const bodyClass = target.substring(1);
 		const area = element.dataset.popperArea || options.area || target;
-		const focus = element.dataset.popperFocus || options.focus;
-		const focusEl = document.querySelector(focus);
-		const duration = element.dataset.popperDuration || 0.2;
+		const duration = element.dataset.popperDuration || options.duration || 0;
 		const trigger = element.dataset.popperTrigger || options.trigger || `click`;
-		const state = element.dataset.popperState || options.state;
 
-		// console.log(area);
+		// console.log(bodyClass);
 
-		init(element, targetEl, state);
+		init(element, targetEl, duration, bodyClass);
 
 		if (trigger === `click`) {
 			body.addEventListener(`click`, function(event) {
-				handleClick(event, element, targetEl, area, focusEl);
+				handleClick(event, element, targetEl, area, duration, bodyClass);
 			});
 		} else if (trigger === `hover`) {
 			element.addEventListener(`mouseover`, function(event) {
@@ -112,6 +132,7 @@ popper.version = `1.0.0`;
 popper(`.js-popper`, {
 	// area: `.js-popper`,
 	// focus: `#input-name`,
+	// duration: 500,
 	// trigger: `hover`,
 	// state: `popped`,
 });
