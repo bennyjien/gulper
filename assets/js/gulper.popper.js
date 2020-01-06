@@ -30,22 +30,79 @@
 function popper(selector, options = {}) {
 	const body = document.querySelector(`body`);
 	const popperEl = document.querySelectorAll(selector);
-	const popperClass = selector.substring(1);
 
-	function handleClick(e) {
-		console.log(`clicked`);
-		e.preventDefault();
+	function init(element, targetEl, state) {
+		if (state === `popped`) {
+			open(element, targetEl);
+		}
 	}
 
-	function handleHover(e) {
-		console.log(`hovered`);
-		e.preventDefault();
+	function open(element, targetEl, focusEl) {
+		element.classList.add(`is-popped`);
+		targetEl.classList.add(`is-popped`);
+
+		if (focusEl) {
+			focusEl.focus();
+		}
 	}
 
-	popperEl.forEach(el => {
-		el.addEventListener(`click`, handleClick);
-		el.addEventListener(`mouseenter`, handleHover);
-		el.addEventListener(`touchstart`, handleHover);
+	function close(element, targetEl) {
+		element.classList.remove(`is-popped`);
+		targetEl.classList.remove(`is-popped`);
+	}
+
+	function handleClick(event, element, targetEl, area, focusEl) {
+		event.preventDefault();
+
+		if (event.target === element || !event.target.closest(area)) {
+			if (element.classList.contains(`is-popped`) || targetEl.classList.contains(`is-popped`)) {
+				close(element, targetEl);
+			} else {
+				if (event.target === element) {
+					open(element, targetEl, focusEl);
+				}
+			}
+		}
+	}
+
+	function handleHover(event, element, targetEl) {
+		event.preventDefault();
+
+		if (event.type === `mouseover`) {
+			open(element, targetEl);
+		} else if (event.type === `mouseout`) {
+			close(element, targetEl);
+		}
+	}
+
+
+	popperEl.forEach(element => {
+		const target = element.dataset.popperTarget || element.hash;
+		const targetEl = document.querySelector(target);
+		const area = element.dataset.popperArea || options.area || target;
+		const focus = element.dataset.popperFocus || options.focus;
+		const focusEl = document.querySelector(focus);
+		const duration = element.dataset.popperDuration || 0.2;
+		const trigger = element.dataset.popperTrigger || options.trigger || `click`;
+		const state = element.dataset.popperState || options.state;
+
+		// console.log(area);
+
+		init(element, targetEl, state);
+
+		if (trigger === `click`) {
+			body.addEventListener(`click`, function(event) {
+				handleClick(event, element, targetEl, area, focusEl);
+			});
+		} else if (trigger === `hover`) {
+			element.addEventListener(`mouseover`, function(event) {
+				handleHover(event, element, targetEl);
+			});
+			element.addEventListener(`mouseout`, function(event) {
+				handleHover(event, element, targetEl);
+			});
+		}
+		// element.addEventListener(`touchstart`, handleHover);
 	});
 }
 
@@ -53,5 +110,8 @@ popper.version = `1.0.0`;
 
 // demo callback
 popper(`.js-popper`, {
-	// type: `gallery`
+	// area: `.js-popper`,
+	// focus: `#input-name`,
+	// trigger: `hover`,
+	// state: `popped`,
 });
