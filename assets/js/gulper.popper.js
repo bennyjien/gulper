@@ -73,9 +73,8 @@ function popper(selector, options = {}) {
 	}
 
 	function handleClick(event, element, targetEl, area, duration, bodyClass) {
-		event.preventDefault();
-
 		if (event.target === element || !event.target.closest(area)) {
+			event.preventDefault();
 			if (element.classList.contains(`is-popped`) || targetEl.classList.contains(`is-popped`)) {
 				close(element, targetEl, duration, bodyClass);
 			} else {
@@ -87,8 +86,6 @@ function popper(selector, options = {}) {
 	}
 
 	function handleHover(event, element, targetEl) {
-		event.preventDefault();
-
 		if (event.type === `mouseover`) {
 			open(element, targetEl);
 		} else if (event.type === `mouseout`) {
