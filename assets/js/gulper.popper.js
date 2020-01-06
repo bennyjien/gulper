@@ -3,15 +3,14 @@
 	data-popper-trigger="click|hover" -> how will popper be triggered
 	data-popper-target="[selector]" -> popper target
 	data-popper-area="[selector]" -> popper will end outside this area
-	data-popper-animation="slide|manual" -> how popper is handled
+	data-popper-animation="slide|manual" -> how popper is handled *TODO*
 	data-popper-duration="[ms]" -> how long is popper animation
 	data-popper-focus="[selector]" -> popper will focus on targeted form
-	data-popper-repeat="true|false" -> once will only trigger popper once
 	data-popper-state="undefined|popped" -> popper state on page load
-	data-popper-keyclose="false|true" -> popper target can be closed by keydown
-	data-scroll-target="[selector]" -> scroll to target
-	data-scroll-offset="[element]"
-	data-scroll-duration="[second]"
+	data-popper-keyclose="false|true" -> popper target can be closed by keydown *TODO*
+	data-scroll-target="[selector]" -> scroll to target *TODO*
+	data-scroll-offset="[element]" *TODO*
+	data-scroll-duration="[second]" *TODO*
 */
 /* EXAMPLE
   popper(`.js-popup-link`, {
