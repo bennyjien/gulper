@@ -1,5 +1,5 @@
 /* This file contains main script for website */
-/* global imagesLoaded fluidvids elMover equalHeighter formFiler formSetter scrollAnimater scrollViewer tabber toggler */
+/* global imagesLoaded fluidvids elMover equalHeighter formFiler formSetter popper scrollAnimater scrollViewer tabber toggler */
 
 'use strict';
 
@@ -18,6 +18,7 @@ fluidvids.init({
 elMover(`.js-mover`);
 formFiler(`.js-form-file`);
 formSetter(`.js-form-input`);
+// popper(`.js-popup-link`);
 scrollAnimater(`.js-scene`);
 scrollViewer(`.js-scroll`);
 tabber(`.js-tab`);
