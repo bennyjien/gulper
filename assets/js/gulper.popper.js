@@ -32,83 +32,80 @@ function popper(selector, options = {}) {
 	const body = document.querySelector(`body`);
 	const popperEl = document.querySelectorAll(selector);
 
-	function init(element, targetEl, animation, duration, bodyClass) {
+	function init(element, params) {
 		const pop = element.hasAttribute(`data-popper-pop`) || options.pop;
 
 		if (pop) {
-			open(event, element, targetEl, animation, duration, bodyClass);
+			open(event, element, params);
 		}
 	}
 
-	async function open(event, element, targetEl, animation, duration, bodyClass) {
-		const focus = element.dataset.popperFocus || options.focus;
-		const scrollTarget = element.dataset.scrollTarget;
-
-		element.classList.add(`${bodyClass}-toggler`);
+	async function open(event, element, params) {
+		element.classList.add(`${params.bodyClass}-toggler`);
 		element.classList.add(`is-popping`);
-		targetEl.classList.add(`is-popping`);
-		body.classList.add(`${bodyClass}-is-popping`);
-		if (animation === `slide`) animate.slideDown(targetEl, duration);
-		if (animation === `fade`) animate.fadeIn(targetEl, duration);
-		await wait(duration);
+		params.targetEl.classList.add(`is-popping`);
+		body.classList.add(`${params.bodyClass}-is-popping`);
+		if (params.animation === `slide`) animate.slideDown(params.targetEl, params.duration);
+		if (params.animation === `fade`) animate.fadeIn(params.targetEl, params.duration);
+		await wait(params.duration);
 		element.classList.add(`is-popped`);
-		targetEl.classList.add(`is-popped`);
-		body.classList.add(`${bodyClass}-is-popped`);
+		params.targetEl.classList.add(`is-popped`);
+		body.classList.add(`${params.bodyClass}-is-popped`);
 		element.classList.remove(`is-popping`);
-		targetEl.classList.remove(`is-popping`);
-		body.classList.remove(`${bodyClass}-is-popping`);
+		params.targetEl.classList.remove(`is-popping`);
+		body.classList.remove(`${params.bodyClass}-is-popping`);
 
-		if (focus) {
-			document.querySelector(focus).focus();
+		if (params.focus) {
+			document.querySelector(params.focus).focus();
 		}
 
-		if (scrollTarget) {
+		if (params.scrollTarget) {
 			smoothScroll(event, element);
 		}
 	}
 
-	async function close(element, targetEl, animation, duration, bodyClass) {
-		const prevPopperEl = document.querySelector(`.${bodyClass}-toggler`);
+	async function close(element, params) {
+		const prevPopperEl = document.querySelector(`.${params.bodyClass}-toggler`);
 
 		element.classList.add(`is-unpopping`);
-		targetEl.classList.add(`is-unpopping`);
-		body.classList.add(`${bodyClass}-is-unpopping`);
+		params.targetEl.classList.add(`is-unpopping`);
+		body.classList.add(`${params.bodyClass}-is-unpopping`);
 		element.classList.remove(`is-popped`);
-		targetEl.classList.remove(`is-popped`);
-		body.classList.remove(`${bodyClass}-is-popped`);
-		prevPopperEl.classList.remove(`is-popped`, `${bodyClass}-toggler`);
-		if (animation === `slide`) animate.slideUp(targetEl, duration);
-		if (animation === `fade`) animate.fadeOut(targetEl, duration);
-		await wait(duration);
+		params.targetEl.classList.remove(`is-popped`);
+		body.classList.remove(`${params.bodyClass}-is-popped`);
+		prevPopperEl.classList.remove(`is-popped`, `${params.bodyClass}-toggler`);
+		if (params.animation === `slide`) animate.slideUp(params.targetEl, params.duration);
+		if (params.animation === `fade`) animate.fadeOut(params.targetEl, params.duration);
+		await wait(params.duration);
 		element.classList.remove(`is-unpopping`);
-		targetEl.classList.remove(`is-unpopping`);
-		body.classList.remove(`${bodyClass}-is-unpopping`);
+		params.targetEl.classList.remove(`is-unpopping`);
+		body.classList.remove(`${params.bodyClass}-is-unpopping`);
 	}
 
-	function handleClick(event, element, targetEl, area, animation, duration, bodyClass) {
-		if (event.target === element || !event.target.closest(area)) {
+	function handleClick(event, element, params) {
+		if (event.target === element || !event.target.closest(params.area)) {
 			event.preventDefault();
-			if (element.classList.contains(`is-popped`) || targetEl.classList.contains(`is-popped`)) {
-				close(element, targetEl, animation, duration, bodyClass);
+			if (element.classList.contains(`is-popped`) || params.targetEl.classList.contains(`is-popped`)) {
+				close(element, params);
 			} else {
 				if (event.target === element) {
-					open(event, element, targetEl, animation, duration, bodyClass);
+					open(event, element, params);
 				}
 			}
 		}
 	}
 
-	function handleHover(event, element, targetEl, animation, duration, bodyClass) {
+	function handleHover(event, element, params) {
 		if (event.type === `mouseover`) {
-			open(event, element, targetEl, animation, duration, bodyClass);
+			open(event, element, params);
 		} else if (event.type === `mouseout`) {
-			close(element, targetEl, animation, duration, bodyClass);
+			close(element, params);
 		}
 	}
 
-	function handleEscape(element, targetEl, animation, duration, bodyClass) {
-		if (element.classList.contains(`is-popped`) || targetEl.classList.contains(`is-popped`)) {
-			close(element, targetEl, animation, duration, bodyClass);
+	function handleEscape(element, params) {
+		if (element.classList.contains(`is-popped`) || params.targetEl.classList.contains(`is-popped`)) {
+			close(element, params);
 		}
 	}
 
@@ -121,27 +118,42 @@ function popper(selector, options = {}) {
 		const duration = element.dataset.popperDuration || options.duration || 0;
 		const trigger = element.dataset.popperTrigger || options.trigger || `click`;
 		const escape = element.hasAttribute(`data-popper-escape`) || options.escape;
+		const focus = element.dataset.popperFocus || options.focus;
+		const scrollTarget = element.dataset.scrollTarget;
 
-		init(element, targetEl, animation, duration, bodyClass);
+		const params = {
+			target,
+			targetEl,
+			bodyClass,
+			area,
+			animation,
+			duration,
+			trigger,
+			escape,
+			focus,
+			scrollTarget
+		};
+
+		init(element, params);
 
 		if (trigger === `click`) {
 			window.addEventListener(`click`, event => {
-				handleClick(event, element, targetEl, area, animation, duration, bodyClass);
+				handleClick(event, element, params);
 			});
 		} else if (trigger === `hover`) {
 			element.addEventListener(`mouseover`, event => {
-				handleHover(event, element, targetEl, animation, duration, bodyClass);
+				handleHover(event, element, params);
 			});
 			element.addEventListener(`mouseout`, event => {
-				handleHover(event, element, targetEl, animation, duration, bodyClass);
+				handleHover(event, element, params);
 			});
 		}
-		// element.addEventListener(`touchstart`, handleHover);
+		// element.addEventListener(`touchstart`, handleHover); *TODO*
 
 		if (escape) {
 			window.addEventListener(`keydown`, event => {
 				if (event.key === `Escape`) {
-					handleEscape(element, targetEl, animation, duration, bodyClass);
+					handleEscape(element, params);
 				}
 			});
 		}
