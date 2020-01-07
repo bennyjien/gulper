@@ -7,14 +7,15 @@ const wait = (amount = 0) => new Promise(resolve => setTimeout(resolve, amount))
 // gsap default animation
 const animate = {
 	fadeIn: (element, duration, delay = 0) => {
-		gsap.to(element, { display: `block`, autoAlpha: 1, duration: duration/1000, delay: delay });
+		gsap.set(element, { display: `block`, autoAlpha: 1, duration: duration/1000, delay: delay });
+		gsap.from(element, { autoAlpha: 0, duration: duration/1000, delay: delay });
 	},
 	fadeOut: (element, duration, delay = 0) => {
 		gsap.to(element, { display: `none`, autoAlpha: 0, duration: duration/1000, delay: delay });
 	},
 	slideDown: (element, duration, delay = 0) => {
 		gsap.set(element, { display: `block`, overflow: `visible`, autoAlpha: 1, height: `auto` });
-		gsap.from(element, duration, { overflow: `hidden`, autoAlpha: 0, height: 0, duration: duration/1000, delay: delay });
+		gsap.from(element, { overflow: `hidden`, autoAlpha: 0, height: 0, duration: duration/1000, delay: delay });
 	},
 	slideUp: (element, duration, delay = 0) => {
 		gsap.to(element, { display: `none`, overflow: `hidden`, autoAlpha: 0, height: 0, duration: duration/1000, delay: delay });
@@ -23,11 +24,11 @@ const animate = {
 
 // scroll to targeted id
 function smoothScroll(event, element) {
-	const target = element.dataset.scrollTarget || element.hash || ``,
-		targetEl = document.querySelector(`[id='${target.substring(1)}']`),
-		duration = element.dataset.scrollDuration || 0.4,
-		offsetEl = document.querySelector(element.dataset.scrollOffset) || ``,
-		offsetY = offsetEl.offsetHeight || 0;
+	const target = element.dataset.scrollTarget || element.hash || ``;
+	const targetEl = document.querySelector(`[id='${target.substring(1)}']`);
+	const duration = element.dataset.scrollDuration || 0.4;
+	const offsetEl = document.querySelector(element.dataset.scrollOffset) || ``;
+	const offsetY = offsetEl.offsetHeight || 0;
 
 	if (targetEl) {
 		gsap.to(window, {duration: duration, scrollTo:{ y: target, offsetY: offsetY } });

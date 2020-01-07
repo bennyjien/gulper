@@ -18,8 +18,7 @@ fluidvids.init({
 elMover(`.js-mover`);
 formFiler(`.js-form-file`);
 formSetter(`.js-form-input`);
-// popper(`.js-popup-link`);
+popper(`.js-toggle`);
 scrollAnimater(`.js-scene`);
 scrollViewer(`.js-scroll`);
 tabber(`.js-tab`);
-toggler(`.js-toggle`);

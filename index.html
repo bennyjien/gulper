@@ -10,17 +10,19 @@
 					<div class="page-header">
 						<div class="page-header-text">
 							<h1 class="heading">Page Single Title</h1>
-							<a href="#popup-1" class="js-popper">Hello popup</a>
+							<a href="#popup-1" class="js-toggle">Hello popup</a>
 							<div id="popup-1" class="popup-inline"></div>
 						</div>
 					</div>
 				</header>
 				<div class="home-page-content page-single-content">
 					<section class="section">
-						<button type="button" class="js-popper" data-popper-target="#popup-inline">Launch Inline Popup</button>
+						<button type="button" class="js-toggle" data-popper-target="#popup-inline">Launch Inline Popup</button>
 						<div id="popup-inline" class="popup-inline" tabindex="-1" role="dialog">
 							<div class="popup-inline-wrapper">
-								<div class="popup-inline-head"></div>
+								<div class="popup-inline-head">
+									<a href="#popup-inline" class="close js-toggle">Close</a>
+								</div>
 								<div class="popup-inline-body">
 									<input type="text" id="input-name" class="input" placeholder="Input Your Name">
 									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut accusantium architecto, consectetur deleniti reprehenderit consequuntur officia eligendi error doloremque voluptas quod, consequatur maxime repudiandae!</p>
@@ -31,7 +33,7 @@
 					</section>
 					<section class="section">
 						<p>Just use flickity for Gallery</p>
-						<a href="#popup-gallery" class="js-popper-gallery">Open Popup</a>
+						<a href="#popup-gallery" class="js-toggle-gallery">Open Popup</a>
 						<div id="popup-gallery" class="popup-gallery">
 							<div class="popup-gallery-items">
 								<div class="popup-gallery-item"></div>
@@ -40,7 +42,7 @@
 						</div>
 					</section>
 					<section class="section">
-						<a href="#popup-gallery" class="js-popper-gallery">Open Popup</a>
+						<a href="#popup-gallery" class="js-toggle-gallery">Open Popup</a>
 						<div id="popup-gallery" class="popup-gallery">
 							<div class="popup-gallery-items">
 								<div class="popup-gallery-item"></div>
@@ -74,7 +76,13 @@
 									<div class="about-hero-photo">
 										<img class="image" src="http://placehold.it/240x240/eeeeee/111111">
 									</div>
-									<div class="about-hero-text js-scene" data-scene-stagger="0.2">
+									<div class="about-hero-text js-scene" data-scene-stagger="2">
+										<div class="about-hero-head">
+											<h1 class="heading">Tentang Dapur Solo</h1>
+										</div>
+										<div class="about-hero-head">
+											<h1 class="heading">Tentang Dapur Solo</h1>
+										</div>
 										<div class="about-hero-head">
 											<h1 class="heading">Tentang Dapur Solo</h1>
 										</div>

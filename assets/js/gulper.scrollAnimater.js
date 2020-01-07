@@ -27,7 +27,7 @@ function scrollAnimater(selector) {
 			triggerHook = element.dataset.sceneHook || 0.8,
 			triggerOffset = element.dataset.sceneOffset || 0,
 			stagger = element.dataset.sceneStagger || 0,
-			staggerDuration = element.dataset.sceneStaggerDuration || (stagger * 2),
+			staggerDuration = element.dataset.sceneStaggerDuration || (stagger * element.children.length),
 			parallax = element.dataset.sceneParallax || 0,
 			parallaxSpeed = element.dataset.sceneParallaxSpeed || 1,
 			parallaxType = element.dataset.sceneParallaxType || `transform`,

@@ -38,7 +38,7 @@ function scrollViewer(selector) {
 
 	scrollsEl.forEach(scroll => {
 		scroll.addEventListener(`click`, function(event) {
-			smoothScroll(event, this);
+			smoothScroll(event, scroll);
 		});
 
 		elementClass(scroll);
