@@ -41,19 +41,19 @@ function popper(selector, options = {}) {
 	}
 
 	async function open(event, element, params) {
-		element.classList.add(`${params.bodyClass}-toggler`);
+		element.classList.add(`${params.targetClass}-toggler`);
 		element.classList.add(`is-popping`);
 		params.targetEl.classList.add(`is-popping`);
-		body.classList.add(`${params.bodyClass}-is-popping`);
+		body.classList.add(`${params.targetClass}-is-popping`);
 		if (params.animation === `slide`) animate.slideDown(params.targetEl, params.duration);
 		if (params.animation === `fade`) animate.fadeIn(params.targetEl, params.duration);
 		await wait(params.duration);
 		element.classList.add(`is-popped`);
 		params.targetEl.classList.add(`is-popped`);
-		body.classList.add(`${params.bodyClass}-is-popped`);
+		body.classList.add(`${params.targetClass}-is-popped`);
 		element.classList.remove(`is-popping`);
 		params.targetEl.classList.remove(`is-popping`);
-		body.classList.remove(`${params.bodyClass}-is-popping`);
+		body.classList.remove(`${params.targetClass}-is-popping`);
 
 		if (params.focus) {
 			document.querySelector(params.focus).focus();
@@ -65,21 +65,21 @@ function popper(selector, options = {}) {
 	}
 
 	async function close(element, params) {
-		const prevPopperEl = document.querySelector(`.${params.bodyClass}-toggler`);
+		const prevPopperEl = document.querySelector(`.${params.targetClass}-toggler`);
 
 		element.classList.add(`is-unpopping`);
 		params.targetEl.classList.add(`is-unpopping`);
-		body.classList.add(`${params.bodyClass}-is-unpopping`);
+		body.classList.add(`${params.targetClass}-is-unpopping`);
 		element.classList.remove(`is-popped`);
 		params.targetEl.classList.remove(`is-popped`);
-		body.classList.remove(`${params.bodyClass}-is-popped`);
-		prevPopperEl.classList.remove(`is-popped`, `${params.bodyClass}-toggler`);
+		body.classList.remove(`${params.targetClass}-is-popped`);
+		prevPopperEl.classList.remove(`is-popped`, `${params.targetClass}-toggler`);
 		if (params.animation === `slide`) animate.slideUp(params.targetEl, params.duration);
 		if (params.animation === `fade`) animate.fadeOut(params.targetEl, params.duration);
 		await wait(params.duration);
 		element.classList.remove(`is-unpopping`);
 		params.targetEl.classList.remove(`is-unpopping`);
-		body.classList.remove(`${params.bodyClass}-is-unpopping`);
+		body.classList.remove(`${params.targetClass}-is-unpopping`);
 	}
 
 	function handleClick(event, element, params) {
@@ -112,7 +112,7 @@ function popper(selector, options = {}) {
 	popperEl.forEach(element => {
 		const target = element.dataset.popperTarget || element.hash;
 		const targetEl = document.querySelector(target);
-		const bodyClass = target.substring(1);
+		const targetClass = target.substring(1);
 		const area = element.dataset.popperArea || options.area || target;
 		const animation = element.dataset.popperAnimation || options.animation || `manual`;
 		const duration = element.dataset.popperDuration || options.duration || 0;
@@ -124,7 +124,7 @@ function popper(selector, options = {}) {
 		const params = {
 			target,
 			targetEl,
-			bodyClass,
+			targetClass,
 			area,
 			animation,
 			duration,
