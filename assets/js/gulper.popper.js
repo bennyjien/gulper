@@ -27,7 +27,7 @@
 	});
 */
 
-/* global wait animate smoothScroll hasChild */
+/* global animate smoothScroll hasChild */
 
 function popper(selector, options = {}) {
 	const body = document.querySelector(`body`);
@@ -40,20 +40,21 @@ function popper(selector, options = {}) {
 		}
 	}
 
-	async function open(event, element, params) {
+	function open(event, element, params) {
 		element.classList.add(`${params.targetClass}-toggler`);
 		element.classList.add(`is-popping`);
 		params.targetEl.classList.add(`is-popping`);
 		body.classList.add(`${params.bodyClass}-is-popping`, `${params.targetClass}-is-popping`);
 		if (params.animation === `slide`) animate.slideDown(params.targetEl, params.duration);
 		if (params.animation === `fade`) animate.fadeIn(params.targetEl, params.duration);
-		await wait(params.duration);
-		element.classList.add(`is-popped`);
-		params.targetEl.classList.add(`is-popped`);
-		body.classList.add(`${params.bodyClass}-is-popped`, `${params.targetClass}-is-popped`);
-		element.classList.remove(`is-popping`);
-		params.targetEl.classList.remove(`is-popping`);
-		body.classList.remove(`${params.bodyClass}-is-popping`, `${params.targetClass}-is-popping`);
+		setTimeout(function() {
+			element.classList.add(`is-popped`);
+			params.targetEl.classList.add(`is-popped`);
+			body.classList.add(`${params.bodyClass}-is-popped`, `${params.targetClass}-is-popped`);
+			element.classList.remove(`is-popping`);
+			params.targetEl.classList.remove(`is-popping`);
+			body.classList.remove(`${params.bodyClass}-is-popping`, `${params.targetClass}-is-popping`);
+		}, params.duration);
 
 		if (params.onOpen) params.onOpen();
 
@@ -66,7 +67,7 @@ function popper(selector, options = {}) {
 		}
 	}
 
-	async function close(element, params) {
+	function close(element, params) {
 		const prevPopperEl = document.querySelector(`.${params.targetClass}-toggler`);
 
 		element.classList.add(`is-unpopping`);
@@ -78,10 +79,11 @@ function popper(selector, options = {}) {
 		prevPopperEl.classList.remove(`is-popped`, `${params.targetClass}-toggler`);
 		if (params.animation === `slide`) animate.slideUp(params.targetEl, params.duration);
 		if (params.animation === `fade`) animate.fadeOut(params.targetEl, params.duration);
-		await wait(params.duration);
-		element.classList.remove(`is-unpopping`);
-		params.targetEl.classList.remove(`is-unpopping`);
-		body.classList.remove(`${params.bodyClass}-is-unpopping`, `${params.targetClass}-is-unpopping`);
+		setTimeout(function() {
+			element.classList.remove(`is-unpopping`);
+			params.targetEl.classList.remove(`is-unpopping`);
+			body.classList.remove(`${params.bodyClass}-is-unpopping`, `${params.targetClass}-is-unpopping`);
+		}, params.duration);
 	}
 
 	function handleClick(event, element, params) {

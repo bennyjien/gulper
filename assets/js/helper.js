@@ -2,7 +2,8 @@
 /* global gsap */
 
 // wait
-const wait = (amount = 0) => new Promise(resolve => setTimeout(resolve, amount));
+// TODO: make this compatible with babel runtime
+// const wait = (amount = 0) => new Promise(resolve => setTimeout(resolve, amount));
 
 // gsap default animation
 const animate = {
