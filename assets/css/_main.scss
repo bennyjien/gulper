@@ -8,5 +8,8 @@
 	@include wrapper-xy(0.5);
 	background-color: $color-100;
 	grid-area: side;
-	width: 256px;
+
+	@include breakpoint(runner) {
+		width: 256px;
+	}
 }

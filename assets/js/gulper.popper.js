@@ -23,19 +23,19 @@
 		focus: `input[type="text"]`,
 		pop: true,
 		escape: true,
+		onOpen: function() {}
 	});
 */
 
-/* global wait animate smoothScroll */
+/* global wait animate smoothScroll hasChild */
 
 function popper(selector, options = {}) {
 	const body = document.querySelector(`body`);
 	const popperEl = document.querySelectorAll(selector);
 
 	function init(element, params) {
-		const pop = element.hasAttribute(`data-popper-pop`) || options.pop;
 
-		if (pop) {
+		if (params.pop) {
 			open(event, element, params);
 		}
 	}
@@ -44,16 +44,18 @@ function popper(selector, options = {}) {
 		element.classList.add(`${params.targetClass}-toggler`);
 		element.classList.add(`is-popping`);
 		params.targetEl.classList.add(`is-popping`);
-		body.classList.add(`${params.targetClass}-is-popping`);
+		body.classList.add(`${params.bodyClass}-is-popping`, `${params.targetClass}-is-popping`);
 		if (params.animation === `slide`) animate.slideDown(params.targetEl, params.duration);
 		if (params.animation === `fade`) animate.fadeIn(params.targetEl, params.duration);
 		await wait(params.duration);
 		element.classList.add(`is-popped`);
 		params.targetEl.classList.add(`is-popped`);
-		body.classList.add(`${params.targetClass}-is-popped`);
+		body.classList.add(`${params.bodyClass}-is-popped`, `${params.targetClass}-is-popped`);
 		element.classList.remove(`is-popping`);
 		params.targetEl.classList.remove(`is-popping`);
-		body.classList.remove(`${params.targetClass}-is-popping`);
+		body.classList.remove(`${params.bodyClass}-is-popping`, `${params.targetClass}-is-popping`);
+
+		if (params.onOpen) params.onOpen();
 
 		if (params.focus) {
 			document.querySelector(params.focus).focus();
@@ -69,21 +71,21 @@ function popper(selector, options = {}) {
 
 		element.classList.add(`is-unpopping`);
 		params.targetEl.classList.add(`is-unpopping`);
-		body.classList.add(`${params.targetClass}-is-unpopping`);
+		body.classList.add(`${params.bodyClass}-is-unpopping`, `${params.targetClass}-is-unpopping`);
 		element.classList.remove(`is-popped`);
 		params.targetEl.classList.remove(`is-popped`);
-		body.classList.remove(`${params.targetClass}-is-popped`);
+		body.classList.remove(`${params.bodyClass}-is-popped`, `${params.targetClass}-is-popped`);
 		prevPopperEl.classList.remove(`is-popped`, `${params.targetClass}-toggler`);
 		if (params.animation === `slide`) animate.slideUp(params.targetEl, params.duration);
 		if (params.animation === `fade`) animate.fadeOut(params.targetEl, params.duration);
 		await wait(params.duration);
 		element.classList.remove(`is-unpopping`);
 		params.targetEl.classList.remove(`is-unpopping`);
-		body.classList.remove(`${params.targetClass}-is-unpopping`);
+		body.classList.remove(`${params.bodyClass}-is-unpopping`, `${params.targetClass}-is-unpopping`);
 	}
 
 	function handleClick(event, element, params) {
-		if (event.target === element || !event.target.closest(params.area)) {
+		if (event.target === element || !event.target.closest(params.area) || hasChild(element, event.target)) {
 			event.preventDefault();
 			if (element.classList.contains(`is-popped`) || params.targetEl.classList.contains(`is-popped`)) {
 				close(element, params);
@@ -96,9 +98,10 @@ function popper(selector, options = {}) {
 	}
 
 	function handleHover(event, element, params) {
-		if (event.type === `mouseover`) {
+		element.classList.add(`is-unselectable`);
+		if (event.type === `mouseover` || event.type === `touchstart`) {
 			open(event, element, params);
-		} else if (event.type === `mouseout`) {
+		} else if (event.type === `mouseout` || event.type === `touchend`) {
 			close(element, params);
 		}
 	}
@@ -111,26 +114,33 @@ function popper(selector, options = {}) {
 
 	popperEl.forEach(element => {
 		const target = element.dataset.popperTarget || element.hash;
+		const targetChild = `${target} > *`;
 		const targetEl = document.querySelector(target);
 		const targetClass = target.substring(1);
-		const area = element.dataset.popperArea || options.area || target;
+		const bodyClass = options.bodyClass;
+		const area = element.dataset.popperArea === `child` ? targetChild : element.dataset.popperArea || options.area === `child` ? targetChild : options.area || target;
 		const animation = element.dataset.popperAnimation || options.animation || `manual`;
 		const duration = element.dataset.popperDuration || options.duration || 0;
 		const trigger = element.dataset.popperTrigger || options.trigger || `click`;
 		const escape = element.hasAttribute(`data-popper-escape`) || options.escape;
 		const focus = element.dataset.popperFocus || options.focus;
+		const pop = element.hasAttribute(`data-popper-pop`) || options.pop;
+		const onOpen = options.onOpen;
 		const scrollTarget = element.dataset.scrollTarget;
 
 		const params = {
 			target,
 			targetEl,
 			targetClass,
+			bodyClass,
 			area,
 			animation,
 			duration,
 			trigger,
 			escape,
 			focus,
+			pop,
+			onOpen,
 			scrollTarget
 		};
 
@@ -144,11 +154,16 @@ function popper(selector, options = {}) {
 			element.addEventListener(`mouseover`, event => {
 				handleHover(event, element, params);
 			});
+			element.addEventListener(`touchstart`, event => {
+				handleHover(event, element, params);
+			});
 			element.addEventListener(`mouseout`, event => {
 				handleHover(event, element, params);
 			});
+			element.addEventListener(`touchend`, event => {
+				handleHover(event, element, params);
+			});
 		}
-		// element.addEventListener(`touchstart`, handleHover); *TODO*
 
 		if (escape) {
 			window.addEventListener(`keydown`, event => {

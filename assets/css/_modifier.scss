@@ -25,6 +25,10 @@
 	pointer-events: none;
 }
 
+.is-unselectable {
+	user-select: none;
+}
+
 .is-hidden {
 	@include hidden;
 }

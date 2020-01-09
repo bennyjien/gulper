@@ -10,24 +10,30 @@
 					<div class="page-header">
 						<div class="page-header-text">
 							<h1 class="heading">Page Single Title</h1>
-							<a href="#popup-1" class="js-toggle">Hello popup</a>
-							<div id="popup-1" class="popup-inline"></div>
+							<a href="#popup-1" class="js-popup-modal">Hello popup modal</a>
+							<div id="popup-1" class="popup-inline">
+								<div class="popup-inline-wrapper">
+									<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti unde repellat ipsam beatae, eveniet recusandae, asperiores nam dicta alias veniam quae dolorum possimus illum.</p>
+									<button class="button js-popup-modal" data-popper-target="#popup-1">Close</button>
+								</div>
+							</div>
 						</div>
 					</div>
 				</header>
 				<div class="home-page-content page-single-content">
 					<section class="section">
-						<button type="button" class="js-toggle" data-popper-target="#popup-inline" data-popper-focus="#input-name">Launch Inline Popup</button>
+						<button type="button" class="js-popup-inline" data-popper-target="#popup-inline" data-popper-focus="#input-name">Launch Inline Popup</button>
 						<div id="popup-inline" class="popup-inline" tabindex="-1" role="dialog">
 							<div class="popup-inline-wrapper">
-								<div class="popup-inline-head">
-									<a href="#popup-inline" class="close js-toggle">Close</a>
+								<div class="popup-inline-close">
+									<a href="#popup-inline" class="close js-popup-inline"><svg class="icon" role="img"><use xlink:href="assets/images/svg-symbols.svg#icon-close" /></svg></a>
 								</div>
 								<div class="popup-inline-body">
 									<input type="text" id="input-name" class="input" placeholder="Input Your Name">
 									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut accusantium architecto, consectetur deleniti reprehenderit consequuntur officia eligendi error doloremque voluptas quod, consequatur maxime repudiandae!</p>
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut accusantium architecto, consectetur deleniti reprehenderit consequuntur officia eligendi error doloremque voluptas quod, consequatur maxime repudiandae!</p>
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut accusantium architecto, consectetur deleniti reprehenderit consequuntur officia eligendi error doloremque voluptas quod, consequatur maxime repudiandae!</p>
 								</div>
-								<div class="popup-inline-foot"></div>
 							</div>
 						</div>
 					</section>
@@ -53,7 +59,7 @@
 					<section class="section">This section is limited to certain max width.</section>
 					<section class="section section-full"><img class="image" src="http://placehold.it/2400x240/eeeeee/111111?text=This+is+not"></section>
 					<section class="section">
-						<a href="#test-3" class="js-toggle" data-toggle-trigger="hover">Teest aja</a>
+						<a href="#test-3" class="js-toggle" data-popper-trigger="hover" data-popper-animation="slide" data-popper-duration="150">Teest aja</a>
 						<p id="test-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo dicta odit excepturi voluptatum distinctio possimus, velit voluptates iure in, dolorum porro? Magnam, at sed ducimus iusto, facere itaque consectetur eveniet perspiciatis id aperiam sint vero! Sit cum ipsum autem. Excepturi.</p>
 					</section>
 					<section class="section section-about">
@@ -150,6 +156,7 @@
 				</footer>
 			</div>
 		</main>
+		<!-- @include('_main-sidebar.html') -->
 	</div>
 </div>
 

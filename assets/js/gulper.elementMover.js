@@ -1,14 +1,14 @@
-// elMover.js: move elements depending of breakpoints
+// elementMover.js: move elements depending of breakpoints
 // TODO: add options for callback
 /* OPTIONS
 	data-mover-breakpoint="[width]" -> mover breakpoint width
 	data-mover-target="[selector]" -> mover will append selected element to this selector
 	*/
 /* EXAMPLE
-	elMover(`.js-mover`);
+	elementMover(`.js-mover`);
 */
 
-function elMover(selector) {
+function elementMover(selector) {
 	const moversEl = document.querySelectorAll(selector);
 
 	function moverStart(element) {
@@ -43,4 +43,4 @@ function elMover(selector) {
 	moversEl.forEach(element => moverStart(element));
 }
 
-elMover.version = `1.0.0`;
+elementMover.version = `1.0.0`;

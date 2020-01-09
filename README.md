@@ -36,6 +36,10 @@ Have fun! :)
 + Documentation refresh
 
 ## CHANGELOG
+2.3.0 (Jan 9, 2020)
++ Restructure JS scripts
++ Remove jQuery
+
 2.2.3 (Dec 17, 2019)
 + Update _template.html to showcase predefined layout
 + Many changes to css utilizing CSS Grid

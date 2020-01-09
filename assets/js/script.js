@@ -1,5 +1,5 @@
 /* This file contains main script for website */
-/* global imagesLoaded fluidvids elMover equalHeighter formFiler formSetter popper scrollAnimater scrollViewer tabber toggler */
+/* global imagesLoaded fluidvids elementMover equalHeighter formFiler formSetter popper scrollAnimater scrollViewer tabber toggler */
 
 'use strict';
 
@@ -15,9 +15,20 @@ fluidvids.init({
 });
 
 // gulper scripts
-elMover(`.js-mover`);
+elementMover(`.js-mover`);
 formFiler(`.js-form-file`);
 formSetter(`.js-form-input`);
+popper(`.js-popup-inline`, {
+	duration: 200,
+	bodyClass: `popup-inline`,
+	area: `child`,
+	escape: true,
+});
+popper(`.js-popup-modal`, {
+	duration: 200,
+	bodyClass: `popup-inline`,
+	area: `#site-container`,
+});
 popper(`.js-toggle`);
 scrollAnimater(`.js-scene`);
 scrollViewer(`.js-scroll`);
