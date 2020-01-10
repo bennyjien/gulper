@@ -5,7 +5,7 @@
 	data-popper-target="[selector]" -> popper target
 	data-popper-area="[selector]" -> popper will end outside this area
 	data-popper-animation="manual|slide|fade" -> how popper is handled
-	data-popper-duration="[ms]" -> how long is popper animation
+	data-popper-duration="[second]" -> how long is popper animation
 	data-popper-focus="[selector]" -> popper will focus on targeted form
 	data-popper-pop -> popper popped on page load
 	data-popper-escape -> popper target can be closed by escape
@@ -19,7 +19,7 @@
 		target: `#popup-inline`,
 		area: `#popup-inline`,
 		animation: `manual`,
-		duration: 500,
+		duration: 0.5,
 		focus: `input[type="text"]`,
 		pop: true,
 		escape: true,
@@ -54,7 +54,7 @@ function popper(selector, options = {}) {
 			element.classList.remove(`is-popping`);
 			params.targetEl.classList.remove(`is-popping`);
 			body.classList.remove(`${params.bodyClass}-is-popping`, `${params.targetClass}-is-popping`);
-		}, params.duration);
+		}, params.duration*1000);
 
 		if (params.onOpen) params.onOpen();
 
@@ -83,7 +83,7 @@ function popper(selector, options = {}) {
 			element.classList.remove(`is-unpopping`);
 			params.targetEl.classList.remove(`is-unpopping`);
 			body.classList.remove(`${params.bodyClass}-is-unpopping`, `${params.targetClass}-is-unpopping`);
-		}, params.duration);
+		}, params.duration*1000);
 	}
 
 	function handleClick(event, element, params) {

@@ -19,13 +19,13 @@ elementMover(`.js-mover`);
 formFiler(`.js-form-file`);
 formSetter(`.js-form-input`);
 popper(`.js-popup-inline`, {
-	duration: 200,
+	duration: 0.2,
 	bodyClass: `popup-inline`,
 	area: `child`,
 	escape: true,
 });
 popper(`.js-popup-modal`, {
-	duration: 200,
+	duration: 0.2,
 	bodyClass: `popup-inline`,
 	area: `#site-container`,
 });

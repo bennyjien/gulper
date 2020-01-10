@@ -2,7 +2,7 @@
 /* OPTIONS
 	data-scroll-target="[selector]" -> scroll to target
 	data-scroll-offset="[selector]" -> offset of selector height
-	data-scroll-duration="[duration]" -> how long is scrolling animation
+	data-scroll-duration="[second]" -> how long is scrolling animation
 */
 /* EXAMPLE
   scrollViewer(`.js-scroll`);
