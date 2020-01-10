@@ -1,5 +1,5 @@
 // tabber.js: toggle visibility between tabpanel elements
-// TODO: add animation after converting to GSAP3
+// TODO: add animation
 /* OPTIONS
 	data-tab-deeplink="false|true" -> whether to support deeplink or not
 */

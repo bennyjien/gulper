@@ -168,7 +168,7 @@ function Compile(done) {
 		.pipe(useref({ searchPath: `./` }))
 		.pipe(gulpIf(`assets/js/script.js`, babel({
 			presets: [`@babel/preset-env`],
-			// plugins: [`@babel/plugin-transform-runtime`]
+			plugins: [`@babel/plugin-transform-runtime`]
 		})))
 		.pipe(gulpIf(`assets/js/*.js`, uglify()))
 		.pipe(gulp.dest(`dist/`));

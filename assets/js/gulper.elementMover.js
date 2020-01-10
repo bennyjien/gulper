@@ -1,14 +1,16 @@
 // elementMover.js: move elements depending of breakpoints
-// TODO: add options for callback
 /* OPTIONS
-	data-mover-breakpoint="[width]" -> mover breakpoint width
+	data-mover-breakpoint="[px]" -> mover viewport width breakpoint
 	data-mover-target="[selector]" -> mover will append selected element to this selector
 	*/
 /* EXAMPLE
-	elementMover(`.js-mover`);
+	elementMover(`.js-mover`, {
+		breakpoint: 768,
+		target: `#sidenav`
+	});
 */
 
-function elementMover(selector) {
+function elementMover(selector, options = {}) {
 	const moversEl = document.querySelectorAll(selector);
 
 	function moverStart(element) {
@@ -16,25 +18,26 @@ function elementMover(selector) {
 
 		thisEl.insertAdjacentHTML(`beforebegin`, `<div class="js-mover-source"></div>`);
 
-		const moversElource = thisEl.previousElementSibling,
-			moverTargetEl = document.querySelector(thisEl.dataset.moverTarget),
-			moverBreakpoint = thisEl.dataset.moverBreakpoint;
+		const sourceEl = thisEl.previousElementSibling;
+		const targetEl = document.querySelector(thisEl.dataset.moverTarget) || document.querySelector(options.target);
+		const breakpoint = parseInt(thisEl.dataset.moverBreakpoint) || options.breakpoint;
+
 		let windowWidth = document.documentElement.clientWidth;
 
-		if (windowWidth >= moverBreakpoint) {
-			moverTargetEl.appendChild(thisEl);
+		if (windowWidth >= breakpoint) {
+			targetEl.appendChild(thisEl);
 		}
 
 		window.addEventListener(`resize`, function() {
 			windowWidth = document.documentElement.clientWidth;
 
-			if (windowWidth >= moverBreakpoint) {
-				if (thisEl.parentNode !== moverTargetEl) {
-					moverTargetEl.appendChild(thisEl);
+			if (windowWidth >= breakpoint) {
+				if (thisEl.parentNode !== targetEl) {
+					targetEl.appendChild(thisEl);
 				}
 			} else {
-				if (thisEl.parentNode !== moversElource) {
-					moversElource.parentNode.insertBefore(thisEl, moversElource.nextSibling);
+				if (thisEl.parentNode !== sourceEl) {
+					sourceEl.parentNode.insertBefore(thisEl, sourceEl.nextSibling);
 				}
 			}
 		});

@@ -1,5 +1,4 @@
 // formSetter.js: mark if input form is filled; show password; and support Pikaday
-// TODO: check if pikaday exist to run related function
 /* EXAMPLE
 	formSetter(`.js-form-input`);
 */
@@ -55,17 +54,19 @@ function formSetter(selector) {
 			}
 
 			// pikaday support
-			const inputDateEl = element.querySelector(`.form-input-date`);
+			if (typeof Pikaday !== `undefined`) {
+				const inputDateEl = element.querySelector(`.form-input-date`);
 
-			if (inputDateEl) {
-				const fieldInputEl = inputDateEl.querySelector(`.input`);
-				let dateFormat = fieldInputEl.dataset.dateFormat ? fieldInputEl.dataset.dateFormat : `DD-MM-YYYY`;
+				if (inputDateEl) {
+					const fieldInputEl = inputDateEl.querySelector(`.input`);
+					let dateFormat = fieldInputEl.dataset.dateFormat ? fieldInputEl.dataset.dateFormat : `DD-MM-YYYY`;
 
-				new Pikaday({
-					field: fieldInputEl,
-					format: dateFormat,
-					minDate: new Date()
-				});
+					new Pikaday({
+						field: fieldInputEl,
+						format: dateFormat,
+						minDate: new Date()
+					});
+				}
 			}
 		});
 

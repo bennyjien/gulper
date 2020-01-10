@@ -1,5 +1,4 @@
 // scrollAnimater.js: scroll animation with parallax and stagger option
-// TODO: pass options object on callback
 /* OPTIONS
 	data-scene-hook="[0-1]" -> where the trigger hook is located on y axis (0 = top, 1 = bottom)
 	data-scene-offset="[px]" -> offset from top of scene element
@@ -10,12 +9,14 @@
 	data-scene-parallax-type="[transform|background]" -> what to shift
 */
 /* EXAMPLE
-  scrollAnimater(`.js-scene`);
+  scrollAnimater(`.js-scene`, {
+		triggerHook: 0.8
+	});
 */
 
 /* global imagesLoaded ScrollMagic gsap */
 
-function scrollAnimater(selector) {
+function scrollAnimater(selector, options = {}) {
 	const scenesEl = document.querySelectorAll(selector);
 	const siteEl = document.querySelector(`#site-container`);
 	const sceneController = new ScrollMagic.Controller({
@@ -24,13 +25,13 @@ function scrollAnimater(selector) {
 
 	scenesEl.forEach(element => {
 		const sceneChild = element.children,
-			triggerHook = element.dataset.sceneHook || 0.8,
-			triggerOffset = element.dataset.sceneOffset || 0,
-			stagger = element.dataset.sceneStagger || 0,
-			staggerDuration = element.dataset.sceneStaggerDuration || (stagger * element.children.length),
-			parallax = element.dataset.sceneParallax || 0,
-			parallaxSpeed = element.dataset.sceneParallaxSpeed || 1,
-			parallaxType = element.dataset.sceneParallaxType || `transform`,
+			triggerHook = element.dataset.sceneHook || options.triggerHook || 0.8,
+			triggerOffset = element.dataset.sceneOffset || options.triggerOffset || 0,
+			stagger = element.dataset.sceneStagger || options.stagger || 0,
+			staggerDuration = element.dataset.sceneStaggerDuration || options.staggerDuration || (stagger * element.children.length),
+			parallax = element.dataset.sceneParallax || options.parallax || 0,
+			parallaxSpeed = element.dataset.sceneParallaxSpeed || options.parallaxSpeed || 1,
+			parallaxType = element.dataset.sceneParallaxType || options.parallaxType || `transform`,
 			parallaxDuration = parallax ? element.offsetHeight / parallaxSpeed : 0,
 			reverse = stagger ? false : true;
 
