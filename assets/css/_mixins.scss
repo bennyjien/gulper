@@ -284,89 +284,61 @@
 }
 
 // LAYOUT
-@mixin wrapper-x($width: $width-max, $padding: 1) {
-	margin-left: auto;
-	margin-right: auto;
+@mixin wrapper-xy($width: $width-max, $padding: 1) {
+	$length: length($padding);
+	$multiplier-top: $padding;
+	$multiplier-right: $padding;
+	$multiplier-bottom: $padding;
+	$multiplier-left: $padding;
+
+	@if $length == 2 {
+		$multiplier-top: nth($padding, 1);
+		$multiplier-right: nth($padding, 2);
+		$multiplier-bottom: nth($padding, 1);
+		$multiplier-left: nth($padding, 2);
+	}
+	@else if $length == 3 {
+		$multiplier-top: nth($padding, 1);
+		$multiplier-right: nth($padding, 2);
+		$multiplier-bottom: nth($padding, 3);
+		$multiplier-left: nth($padding, 2);
+	}
+	@else if $length == 4 {
+		$multiplier-top: nth($padding, 1);
+		$multiplier-right: nth($padding, 2);
+		$multiplier-bottom: nth($padding, 3);
+		$multiplier-left: nth($padding, 4);
+	}
+
+	@if $width != 100% and $width != none {
+		margin-left: auto;
+		margin-right: auto;
+	}
+
 	max-width: $width;
 
-	@if $padding == 1 {
-		padding-left: $padding-origin;
-		padding-right: $padding-origin;
-
-		@include breakpoint(creeper) {
-			padding-left: $padding-creeper;
-			padding-right: $padding-creeper;
-		}
-
-		@include breakpoint(crawler) {
-			padding-left: $padding-crawler;
-			padding-right: $padding-crawler;
-		}
-
-		@include breakpoint(walker) {
-			padding-left: $padding-walker;
-			padding-right: $padding-walker;
-		}
-
-		@include breakpoint(flyer) {
-			padding-left: $padding-flyer;
-			padding-right: $padding-flyer;
-		}
-	}
-}
-
-@mixin wrapper-y($top: 1.5, $bottom: 1.5) {
-	@if $bottom != 0 { padding-bottom: $padding-origin * $bottom; }
-	@if $top != 0 { padding-top: $padding-origin * $top; }
+	padding: #{$multiplier-top * $padding-origin} #{$multiplier-right * $padding-origin} #{$multiplier-bottom * $padding-origin} #{$multiplier-left * $padding-origin};
 
 	@include breakpoint(creeper) {
-		@if $bottom != 0 { padding-bottom: $padding-creeper * $bottom; }
-		@if $top != 0 { padding-top: $padding-creeper * $top; }
+		padding: #{$multiplier-top * $padding-creeper} #{$multiplier-right * $padding-creeper} #{$multiplier-bottom * $padding-creeper} #{$multiplier-left * $padding-creeper};
 	}
 
 	@include breakpoint(crawler) {
-		@if $bottom != 0 { padding-bottom: $padding-crawler * $bottom; }
-		@if $top != 0 { padding-top: $padding-crawler * $top; }
+		padding: #{$multiplier-top * $padding-crawler} #{$multiplier-right * $padding-crawler} #{$multiplier-bottom * $padding-crawler} #{$multiplier-left * $padding-crawler};
 	}
 
 	@include breakpoint(walker) {
-		@if $bottom != 0 { padding-bottom: $padding-walker * $bottom; }
-		@if $top != 0 { padding-top: $padding-walker * $top; }
+		padding: #{$multiplier-top * $padding-walker} #{$multiplier-right * $padding-walker} #{$multiplier-bottom * $padding-walker} #{$multiplier-left * $padding-walker};
 	}
 
 	@include breakpoint(flyer) {
-		@if $bottom != 0 { padding-bottom: $padding-flyer * $bottom; }
-		@if $top != 0 { padding-top: $padding-flyer * $top; }
-	}
-}
-
-@mixin wrapper-xy($multiplier: 2) {
-	padding: $padding-origin * $multiplier;
-
-	@include breakpoint(creeper) {
-		padding: $padding-creeper * $multiplier;
-	}
-
-	@include breakpoint(crawler) {
-		padding: $padding-crawler * $multiplier;
-	}
-
-	@include breakpoint(walker) {
-		padding: $padding-walker * $multiplier;
-	}
-
-	@include breakpoint(flyer) {
-		padding: $padding-flyer * $multiplier;
+		padding: #{$multiplier-top * $padding-flyer} #{$multiplier-right * $padding-flyer} #{$multiplier-bottom * $padding-flyer} #{$multiplier-left * $padding-flyer};
 	}
 }
 
 @mixin gridder-x($width: $width-max, $padding: 1) {
 	display: grid;
 	grid-auto-rows: min-content;
-
-	> * {
-		grid-column: wrap;
-	}
 
 	@if $padding == 0 {
 		grid-template-columns: [full-start] minmax(0, 1fr) [wrap-start] minmax(0, $width-max) [wrap-end] minmax(0, 1fr) [full-end];
@@ -390,6 +362,14 @@
 			grid-template-columns: [full-start] minmax($padding-flyer, 1fr) [wrap-start] minmax(0, #{$width-max - ($padding-flyer * 2)}) [wrap-end] minmax($padding-flyer, 1fr) [full-end];
 		}
 	}
+}
+
+@mixin gridder-x-wrap {
+	grid-column: wrap;
+}
+
+@mixin gridder-x-full {
+	grid-column: full;
 }
 
 @mixin clearfix {

@@ -257,5 +257,5 @@
 }
 
 .wrapper {
-	@include wrapper-x;
+	@include wrapper-xy($width-max, 1);
 }

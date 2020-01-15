@@ -1,29 +1,15 @@
-.page-single {
-	@include gridder-x;
+.page-wrapper {
 	height: 100%;
-
-	&-header {
-		margin-bottom: 64px;
-	}
 
 	&-content {
 		@include gridder-x;
-		grid-column: full;
 
 		.section {
-			grid-column: wrap;
+			@include gridder-x-wrap;
 
 			&.section-full {
-				grid-column: full;
-			}
-
-			+ .section {
-				margin-top: 48px;
+				@include gridder-x-full;
 			}
 		}
-	}
-
-	&-footer {
-		margin-top: 64px;
 	}
 }

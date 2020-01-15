@@ -27,7 +27,7 @@
 	}
 
 	&-wrapper {
-		@include wrapper-xy(1.5);
+		@include wrapper-xy(none, 1.5);
 		background-color: $white;
 		margin: 32px auto;
 		max-width: $width-walker;

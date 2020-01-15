@@ -5,7 +5,7 @@
 }
 
 .main-sidebar {
-	@include wrapper-xy(0.5);
+	@include wrapper-xy(none, 0.5);
 	background-color: $color-100;
 	grid-area: side;
 
