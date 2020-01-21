@@ -1,14 +1,22 @@
 .page-wrapper {
+	// for &-header and &-footer
+	@include wrapper-grid;
 	height: 100%;
 
+	> * {
+		// for &-header and &-footer
+		grid-column: wrapper;
+	}
+
 	&-content {
-		@include gridder-x;
+		@include wrapper-grid;
+		grid-column: full;
 
 		.section {
-			@include gridder-x-wrap;
+			grid-column: wrapper;
 
 			&.section-full {
-				@include gridder-x-full;
+				grid-column: full;
 			}
 		}
 	}

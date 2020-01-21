@@ -1,15 +1,15 @@
 .main-content {
-	@include wrapper-y;
+	@include wrapper-xy(none, 1 0, left);
 	height: 100%;
-	grid-area: main;
+	grid-column: full;
 }
 
 .main-sidebar {
-	@include wrapper-xy(none, 0.5);
+	@include wrapper-xy(none, 0.5, left);
 	background-color: $color-100;
-	grid-area: side;
+	grid-column: wrapper;
 
 	@include breakpoint(runner) {
-		width: 256px;
+		grid-column: side;
 	}
 }

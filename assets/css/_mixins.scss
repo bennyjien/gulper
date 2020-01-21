@@ -284,7 +284,7 @@
 }
 
 // LAYOUT
-@mixin wrapper-xy($width: $width-max, $padding: 1) {
+@mixin wrapper-xy($width: $width-max, $padding: 1, $align: center) {
 	$length: length($padding);
 	$multiplier-top: $padding;
 	$multiplier-right: $padding;
@@ -310,9 +310,13 @@
 		$multiplier-left: nth($padding, 4);
 	}
 
-	@if $width != 100% and $width != none {
+	@if $align == center {
 		margin-left: auto;
 		margin-right: auto;
+	}
+
+	@if $align == right {
+		margin-left: auto;
 	}
 
 	max-width: $width;
@@ -336,40 +340,46 @@
 	}
 }
 
-@mixin gridder-x($width: $width-max, $padding: 1) {
+// on child, use `grid-column: wrapper || full`
+@mixin wrapper-grid($width: $width-max, $padding: 0 1) {
+	$length: length($padding);
+	$multiplier-y: $padding;
+	$multiplier-x: $padding;
+
+	@if $length == 2 {
+		$multiplier-y: nth($padding, 1);
+		$multiplier-x: nth($padding, 2);
+	}
+
 	display: grid;
 	grid-auto-rows: min-content;
+	grid-template-columns: [full-start] minmax(#{$padding-origin * $multiplier-x}, 1fr) [wrapper-start] 0 [main-start] minmax(#{$padding-origin * $multiplier-x}, #{$width-max - $width-side - ($padding-origin * $multiplier-x * 3)}) [main-end] #{$padding-origin * $multiplier-x} [side-start] minmax(#{$padding-origin * $multiplier-x}, $width-side) [side-end] 0 [wrapper-end] minmax(#{$padding-origin * $multiplier-x}, 1fr) [full-end];
+	padding-bottom: $padding-origin * $multiplier-y;
+	padding-top: $padding-origin * $multiplier-y;
 
-	@if $padding == 0 {
-		grid-template-columns: [full-start] minmax(0, 1fr) [wrap-start] minmax(0, $width-max) [wrap-end] minmax(0, 1fr) [full-end];
+	@include breakpoint(creeper) {
+		grid-template-columns: [full-start] minmax(#{$padding-creeper * $multiplier-x}, 1fr) [wrapper-start] 0 [main-start] minmax(#{$padding-creeper * $multiplier-x}, #{$width-max - $width-side - ($padding-creeper * $multiplier-x * 3)}) [main-end] #{$padding-creeper * $multiplier-x} [side-start] minmax(#{$padding-creeper * $multiplier-x}, $width-side) [side-end] 0 [wrapper-end] minmax(#{$padding-creeper * $multiplier-x}, 1fr) [full-end];
+		padding-bottom: $padding-creeper * $multiplier-y;
+		padding-top: $padding-creeper * $multiplier-y;
 	}
-	@if $padding == 1 {
-		grid-template-columns: [full-start] minmax($padding-origin, 1fr) [wrap-start] minmax(0, #{$width-max - ($padding-origin * 2)}) [wrap-end] minmax($padding-origin, 1fr) [full-end];
 
-		@include breakpoint(creeper) {
-			grid-template-columns: [full-start] minmax($padding-creeper, 1fr) [wrap-start] minmax(0, #{$width-max - ($padding-creeper * 2)}) [wrap-end] minmax($padding-creeper, 1fr) [full-end];
-		}
-
-		@include breakpoint(crawler) {
-			grid-template-columns: [full-start] minmax($padding-crawler, 1fr) [wrap-start] minmax(0, #{$width-max - ($padding-crawler * 2)}) [wrap-end] minmax($padding-crawler, 1fr) [full-end];
-		}
-
-		@include breakpoint(walker) {
-			grid-template-columns: [full-start] minmax($padding-walker, 1fr) [wrap-start] minmax(0, #{$width-max - ($padding-walker * 2)}) [wrap-end] minmax($padding-walker, 1fr) [full-end];
-		}
-
-		@include breakpoint(flyer) {
-			grid-template-columns: [full-start] minmax($padding-flyer, 1fr) [wrap-start] minmax(0, #{$width-max - ($padding-flyer * 2)}) [wrap-end] minmax($padding-flyer, 1fr) [full-end];
-		}
+	@include breakpoint(crawler) {
+		grid-template-columns: [full-start] minmax(#{$padding-crawler * $multiplier-x}, 1fr) [wrapper-start] 0 [main-start] minmax(#{$padding-crawler * $multiplier-x}, #{$width-max - $width-side - ($padding-crawler * $multiplier-x * 3)}) [main-end] #{$padding-crawler * $multiplier-x} [side-start] minmax(#{$padding-crawler * $multiplier-x}, $width-side) [side-end] 0 [wrapper-end] minmax(#{$padding-crawler * $multiplier-x}, 1fr) [full-end];
+		padding-bottom: $padding-crawler * $multiplier-y;
+		padding-top: $padding-crawler * $multiplier-y;
 	}
-}
 
-@mixin gridder-x-wrap {
-	grid-column: wrap;
-}
+	@include breakpoint(walker) {
+		grid-template-columns: [full-start] minmax(#{$padding-walker * $multiplier-x}, 1fr) [wrapper-start] 0 [main-start] minmax(#{$padding-walker * $multiplier-x}, #{$width-max - $width-side - ($padding-walker * $multiplier-x * 3)}) [main-end] #{$padding-walker * $multiplier-x} [side-start] minmax(#{$padding-walker * $multiplier-x}, $width-side) [side-end] 0 [wrapper-end] minmax(#{$padding-walker * $multiplier-x}, 1fr) [full-end];
+		padding-bottom: $padding-walker * $multiplier-y;
+		padding-top: $padding-walker * $multiplier-y;
+	}
 
-@mixin gridder-x-full {
-	grid-column: full;
+	@include breakpoint(flyer) {
+		grid-template-columns: [full-start] minmax(#{$padding-flyer * $multiplier-x}, 1fr) [wrapper-start] 0 [main-start] minmax(#{$padding-flyer * $multiplier-x}, #{$width-max - $width-side - ($padding-flyer * $multiplier-x * 3)}) [main-end] #{$padding-flyer * $multiplier-x} [side-start] minmax(#{$padding-flyer * $multiplier-x}, $width-side) [side-end] 0 [wrapper-end] minmax(#{$padding-flyer * $multiplier-x}, 1fr) [full-end];
+		padding-bottom: $padding-flyer * $multiplier-y;
+		padding-top: $padding-flyer * $multiplier-y;
+	}
 }
 
 @mixin clearfix {

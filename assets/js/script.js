@@ -31,6 +31,6 @@ popper(`.js-popup-modal`, {
 	area: `#site-container`,
 });
 popper(`.js-toggle`);
-scrollAnimater(`.js-scene`);
+// scrollAnimater(`.js-scene`); TODO: gsap3 update
 scrollViewer(`.js-scroll`);
 tabber(`.js-tab`);

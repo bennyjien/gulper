@@ -36,6 +36,10 @@ Have fun! :)
 + Documentation refresh
 
 ## CHANGELOG
+2.3.2 (Jan 21, 2020)
++ mixins.scss: update wrapper mixins
++ lot of fixes
+
 2.3.0 (Jan 9, 2020)
 + Restructure JS scripts
 + Remove jQuery
