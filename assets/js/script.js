@@ -1,5 +1,5 @@
 /* This file contains main script for website */
-/* global imagesLoaded fluidvids elementMover equalHeighter formFiler formSetter popper scrollAnimater scrollViewer tabber toggler */
+/* global imagesLoaded fluidvids elementMover equalHeighter formFiler formSetter mouser popper scrollAnimater scrollViewer tabber toggler */
 
 'use strict';
 
@@ -18,6 +18,7 @@ fluidvids.init({
 elementMover(`.js-mover`);
 formFiler(`.js-form-file`);
 formSetter(`.js-form-input`);
+mouser(`.js-mouser`);
 popper(`.js-popup-inline`, {
 	duration: 0.2,
 	bodyClass: `popup-inline`,

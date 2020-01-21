@@ -1,4 +1,5 @@
 // popper.js: pop element from button/link
+// TODO: if manual animation, detect css transition duration instead of manual input
 // TODO: when event is running, there should be a way of stopping if clicked
 /* OPTIONS
 	data-popper-trigger="click|hover" -> how will popper be triggered
