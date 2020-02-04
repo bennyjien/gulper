@@ -95,11 +95,13 @@ function popper(selector, options = {}) {
 			} else {
 				open(event, element, params);
 			}
+			return;
 		}
 
 		// detect click outside target area
 		if (!event.target.closest(params.area)) {
-			if (element.classList.contains(`is-popped`) || params.targetEl.classList.contains(`is-popped`)) {
+			// if this element is the trigger, close
+			if (element.classList.contains(`is-popped`) && params.targetEl.classList.contains(`is-popped`)) {
 				close(element, params);
 			}
 		}
