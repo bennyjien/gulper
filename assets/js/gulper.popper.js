@@ -91,17 +91,17 @@ function popper(selector, options = {}) {
 		if (event.target === element || hasChild(element, event.target)) {
 			event.preventDefault();
 			if (element.classList.contains(`is-popped`) || params.targetEl.classList.contains(`is-popped`)) {
+				// console.log(`closing`);
 				close(element, params);
 			} else {
+				// console.log(`opening`);
 				open(event, element, params);
 			}
-			return;
-		}
-
-		// detect click outside target area
-		if (!event.target.closest(params.area)) {
+		} else if (!event.target.closest(params.area)) {
+			const evTarget = event.target.dataset.popperTarget || event.target.hash;
 			// if this element is the trigger, close
-			if (element.classList.contains(`is-popped`) && params.targetEl.classList.contains(`is-popped`)) {
+			if (element.classList.contains(`is-popped`) && params.targetEl.classList.contains(`is-popped`) && evTarget !== params.target) {
+				// console.log(`outside-closing`);
 				close(element, params);
 			}
 		}
