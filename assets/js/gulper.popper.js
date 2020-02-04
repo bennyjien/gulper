@@ -88,19 +88,25 @@ function popper(selector, options = {}) {
 	}
 
 	function handleClick(event, element, params) {
-		if (event.target === element || !event.target.closest(params.area) || hasChild(element, event.target)) {
+		if (event.target === element || hasChild(element, event.target)) {
 			event.preventDefault();
 			if (element.classList.contains(`is-popped`) || params.targetEl.classList.contains(`is-popped`)) {
 				close(element, params);
 			} else {
-				if (event.target === element) {
-					open(event, element, params);
-				}
+				open(event, element, params);
+			}
+		}
+
+		// detect click outside target area
+		if (!event.target.closest(params.area)) {
+			if (element.classList.contains(`is-popped`) || params.targetEl.classList.contains(`is-popped`)) {
+				close(element, params);
 			}
 		}
 	}
 
 	function handleHover(event, element, params) {
+		// counter mobile browser touch behaviour
 		element.classList.add(`is-unselectable`);
 		if (event.type === `mouseover` || event.type === `touchstart`) {
 			open(event, element, params);
@@ -120,7 +126,7 @@ function popper(selector, options = {}) {
 		const targetChild = `${target} > *`;
 		const targetEl = document.querySelector(target);
 		const targetClass = target.substring(1);
-		const bodyClass = options.bodyClass;
+		const bodyClass = options.bodyClass || targetClass;
 		const area = element.dataset.popperArea === `child` ? targetChild : element.dataset.popperArea || options.area === `child` ? targetChild : options.area || target;
 		const animation = element.dataset.popperAnimation || options.animation || `manual`;
 		const duration = element.dataset.popperDuration || options.duration || 0;
@@ -178,4 +184,4 @@ function popper(selector, options = {}) {
 	});
 }
 
-popper.version = `1.0.0`;
+popper.version = `1.0.1`;

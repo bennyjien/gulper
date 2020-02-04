@@ -2,8 +2,8 @@
 /* OPTIONS
 	data-scene-hook="[0-1]" -> where the trigger hook is located on y axis (0 = top, 1 = bottom)
 	data-scene-offset="[px]" -> offset from top of scene element
-	data-scene-stagger="[second]" -> staggering children delay duration
-	data-scene-stagger-duration="[second]" -> staggering children animation duration
+	data-scene-stagger="[second]" -> element children stagger duration
+	data-scene-duration="[second]" -> element children animation duration
 	data-scene-parallax="[percent]" -> how much does the element will be shifted
 	data-scene-parallax-speed="[number]" -> how fast does the element will be shifted
 	data-scene-parallax-type="[transform|background]" -> what to shift
@@ -27,8 +27,8 @@ function scrollAnimater(selector, options = {}) {
 		const sceneChild = element.children,
 			triggerHook = element.dataset.sceneHook || options.triggerHook || 0.8,
 			triggerOffset = element.dataset.sceneOffset || options.triggerOffset || 0,
-			stagger = element.dataset.sceneStagger || options.stagger || 0,
-			staggerDuration = element.dataset.sceneStaggerDuration || options.staggerDuration || (stagger * element.children.length),
+			stagger = parseFloat(element.dataset.sceneStagger) * sceneChild.length || options.stagger * sceneChild.length || 0,
+			duration = parseFloat(element.dataset.sceneDuration) || options.Duration || 0.4,
 			parallax = element.dataset.sceneParallax || options.parallax || 0,
 			parallaxSpeed = element.dataset.sceneParallaxSpeed || options.parallaxSpeed || 1,
 			parallaxType = element.dataset.sceneParallaxType || options.parallaxType || `transform`,
@@ -64,10 +64,11 @@ function scrollAnimater(selector, options = {}) {
 				element.magic.setTween(tween);
 			}
 
+			console.log(stagger);
 			if (stagger) {
 				element.magic.on(`start`, () => {
 					gsap.to(sceneChild, {
-						duration: staggerDuration,
+						duration: duration,
 						stagger: {
 							amount: stagger,
 							onStart: function() {

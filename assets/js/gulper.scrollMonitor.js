@@ -1,16 +1,16 @@
-// scrollViewer.js: scroll and monitor if the element in viewport
+// scrollMonitor.js: scroll and monitor if the element in viewport
 /* OPTIONS
 	data-scroll-target="[selector]" -> scroll to target
 	data-scroll-offset="[selector]" -> offset of selector height
 	data-scroll-duration="[second]" -> how long is scrolling animation
 */
 /* EXAMPLE
-  scrollViewer(`.js-scroll`);
+  scrollMonitor(`.js-scroll`);
 */
 
 /* global ScrollMagic imagesLoaded smoothScroll */
 
-function scrollViewer(selector) {
+function scrollMonitor(selector) {
 	const scrollsEl = document.querySelectorAll(selector);
 	const sceneController = new ScrollMagic.Controller();
 
@@ -45,4 +45,4 @@ function scrollViewer(selector) {
 	});
 }
 
-scrollViewer.version = `1.0.0`;
+scrollMonitor.version = `1.0.0`;
