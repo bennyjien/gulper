@@ -36,23 +36,23 @@
 		transform: translateY(80px) scale(0.8);
 		transition: all 0.2s ease-out 0.05s;
 
-		.popup-inline-is-popped & {
-			opacity: 1;
-			transform: translateY(0) scale(1);
-		}
-
-		.popup-inline-is-unpopping & {
-			opacity: 0;
-			transition: all 0.15s ease-out 0s;
-			transform: translateY(80px) scale(0.8);
-		}
-
 		&-large {
 			max-width: $width-runner;
 		}
 
 		&-small {
 			max-width: $width-crawler;
+		}
+
+		.popup-inline.is-popped & {
+			opacity: 1;
+			transform: translateY(0) scale(1);
+		}
+
+		.popup-inline.is-unpopping & {
+			opacity: 0;
+			transition: all 0.15s ease-out 0s;
+			transform: translateY(80px) scale(0.8);
 		}
 	}
 

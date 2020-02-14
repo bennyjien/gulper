@@ -315,24 +315,134 @@
 	}
 
 	&-field {
-		padding-left: 20px;
+		align-items: center;
+		display: flex;
 		position: relative;
 
 		.input {
-			left: 0;
-			position: absolute;
-			top: 3px;
+			flex: 0 0 auto;
+			margin-right: 6px;
+			position: relative;
 
-			&:disabled {
-
-				+ .label {
-					color: $color-text-light;
-				}
+			+ .label {
+				flex: 0 1 auto;
 			}
 		}
 
-		.label {
-			display: inline-block;
+		@supports(-webkit-appearance: none) or (-moz-appearance: none) {
+			.input {
+				appearance: none;
+				background-color: $color-100;
+				border: 1px solid $color-border;
+				display: inline-block;
+				height: 20px;
+				outline: none;
+				position: relative;
+				transition: all 0.2s ease-out;
+				vertical-align: top;
+				width: 20px;
+
+				&[type="checkbox"] {
+					border-radius: 6px;
+
+					&:after {
+						border: 2px solid $white;
+						border-top: 0;
+						border-left: 0;
+						height: 10px;
+						left: 6px;
+						top: 3px;
+						transform: rotate(45deg);
+						width: 6px;
+					}
+				}
+
+				&[type="radio"] {
+					border-radius: 50%;
+
+					&:after {
+						background-color: $white;
+						border-radius: 50%;
+						height: 10px;
+						left: 4px;
+						top: 4px;
+						width: 10px;
+					}
+				}
+
+				&.input-switch {
+					border-radius: 10px;
+					width: 34px;
+
+					&:after {
+						background-color: $color-border;
+						border: none;
+						border-radius: 50%;
+						height: 14px;
+						left: 2px;
+						top: 2px;
+						transform: none;
+						width: 14px;
+					}
+
+					&:checked {
+
+						&:after {
+							background-color: $white;
+							transform: translateX(100%);
+						}
+					}
+				}
+
+				&:after {
+					content: "";
+					display: block;
+					left: 0;
+					top: 0;
+					position: absolute;
+					transition: all 0.2s ease-out;
+				}
+
+				&:checked {
+					border-color: $color-one-600;
+					background-color: $color-one-500;
+				}
+
+				&:disabled {
+					cursor: not-allowed;
+					opacity: 0.8;
+
+					&:checked {
+						border-color: $color-200;
+						background-color: $color-200;
+					}
+
+					& + .label {
+						color: $color-text-lighter;
+						cursor: not-allowed;
+					}
+				}
+
+				&:hover {
+
+					&:not(:checked) {
+
+						&:not(:disabled) {
+							border-color: $color-one-400;
+						}
+					}
+				}
+
+				&:focus {
+					box-sizing: 0 0 0 $color-one-500;
+				}
+
+				+ .label {
+					cursor: pointer;
+					display: inline-block;
+					vertical-align: top;
+				}
+			}
 		}
 	}
 

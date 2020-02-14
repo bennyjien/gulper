@@ -1,11 +1,9 @@
 // popper.js: pop element from button/link
-// TODO: if manual animation, detect css transition duration instead of manual input
-// TODO: when event is running, there should be a way of stopping if clicked
 /* OPTIONS
 	data-popper-trigger="click|hover" -> how will popper be triggered
 	data-popper-target="[selector]" -> popper target
 	data-popper-area="[selector]" -> popper will end outside this area
-	data-popper-animation="manual|slide|fade" -> how popper is handled
+	data-popper-animation="css|slide|fade" -> how popper is handled
 	data-popper-duration="[second]" -> how long is popper animation
 	data-popper-focus="[selector]" -> popper will focus on targeted form
 	data-popper-pop -> popper popped on page load
@@ -19,7 +17,7 @@
 		trigger: `click`,
 		target: `#popup-inline`,
 		area: `#popup-inline`,
-		animation: `manual`,
+		animation: `css`,
 		duration: 0.5,
 		focus: `input[type="text"]`,
 		pop: true,
@@ -41,21 +39,34 @@ function popper(selector, options = {}) {
 		}
 	}
 
+	function removePopper(element, params) {
+		element.classList.remove(`is-unpopping`);
+		params.targetEl.classList.remove(`is-unpopping`);
+		body.classList.remove(`${params.bodyClass}-is-unpopping`, `${params.targetClass}-is-unpopping`);
+	}
+
 	function open(event, element, params) {
+		if (element.timeout) {
+			clearTimeout(element.timeout);
+			removePopper(element, params);
+		}
+
 		element.classList.add(`${params.targetClass}-toggler`);
 		element.classList.add(`is-popping`);
 		params.targetEl.classList.add(`is-popping`);
 		body.classList.add(`${params.bodyClass}-is-popping`, `${params.targetClass}-is-popping`);
+
 		if (params.animation === `slide`) animate.slideDown(params.targetEl, params.duration);
 		if (params.animation === `fade`) animate.fadeIn(params.targetEl, params.duration);
+
 		setTimeout(function() {
+			element.classList.remove(`is-popping`);
 			element.classList.add(`is-popped`);
+			params.targetEl.classList.remove(`is-popping`);
 			params.targetEl.classList.add(`is-popped`);
 			body.classList.add(`${params.bodyClass}-is-popped`, `${params.targetClass}-is-popped`);
-			element.classList.remove(`is-popping`);
-			params.targetEl.classList.remove(`is-popping`);
 			body.classList.remove(`${params.bodyClass}-is-popping`, `${params.targetClass}-is-popping`);
-		}, params.duration*1000);
+		}, 1);
 
 		if (params.onOpen) params.onOpen();
 
@@ -80,11 +91,21 @@ function popper(selector, options = {}) {
 		prevPopperEl.classList.remove(`is-popped`, `${params.targetClass}-toggler`);
 		if (params.animation === `slide`) animate.slideUp(params.targetEl, params.duration);
 		if (params.animation === `fade`) animate.fadeOut(params.targetEl, params.duration);
-		setTimeout(function() {
-			element.classList.remove(`is-unpopping`);
-			params.targetEl.classList.remove(`is-unpopping`);
-			body.classList.remove(`${params.bodyClass}-is-unpopping`, `${params.targetClass}-is-unpopping`);
-		}, params.duration*1000);
+
+		function ending(ev) {
+			if (ev.target === params.targetEl) {
+				removePopper(element, params);
+				params.targetEl.removeEventListener(`transitionend`, ending);
+			}
+		}
+
+		if (params.animation === `css`) {
+			params.targetEl.addEventListener(`transitionend`, ending);
+		} else {
+			element.timeout = setTimeout(function() {
+				removePopper(element, params);
+			}, params.duration*1000);
+		}
 	}
 
 	function handleClick(event, element, params) {
@@ -130,7 +151,7 @@ function popper(selector, options = {}) {
 		const targetClass = target.substring(1);
 		const bodyClass = options.bodyClass || targetClass;
 		const area = element.dataset.popperArea === `child` ? targetChild : element.dataset.popperArea || options.area === `child` ? targetChild : options.area || target;
-		const animation = element.dataset.popperAnimation || options.animation || `manual`;
+		const animation = element.dataset.popperAnimation || options.animation || `css`;
 		const duration = element.dataset.popperDuration || options.duration || 0;
 		const trigger = element.dataset.popperTrigger || options.trigger || `click`;
 		const escape = element.hasAttribute(`data-popper-escape`) || options.escape;
@@ -186,4 +207,4 @@ function popper(selector, options = {}) {
 	});
 }
 
-popper.version = `1.0.1`;
+popper.version = `1.1.0`;

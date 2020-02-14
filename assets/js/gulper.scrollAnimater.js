@@ -27,7 +27,7 @@ function scrollAnimater(selector, options = {}) {
 		const sceneChild = element.children,
 			triggerHook = element.dataset.sceneHook || options.triggerHook || 0.8,
 			triggerOffset = element.dataset.sceneOffset || options.triggerOffset || 0,
-			stagger = parseFloat(element.dataset.sceneStagger) * sceneChild.length || options.stagger * sceneChild.length || 0,
+			stagger = parseFloat(element.dataset.sceneStagger) || options.stagger || 0,
 			duration = parseFloat(element.dataset.sceneDuration) || options.Duration || 0.4,
 			parallax = element.dataset.sceneParallax || options.parallax || 0,
 			parallaxSpeed = element.dataset.sceneParallaxSpeed || options.parallaxSpeed || 1,
@@ -44,7 +44,7 @@ function scrollAnimater(selector, options = {}) {
 				reverse: reverse
 			})
 				.setClassToggle(element, `in-viewport`)
-				// .addIndicators()
+				.addIndicators()
 				.addTo(sceneController);
 
 			let tween;
@@ -64,13 +64,12 @@ function scrollAnimater(selector, options = {}) {
 				element.magic.setTween(tween);
 			}
 
-			console.log(stagger);
 			if (stagger) {
 				element.magic.on(`start`, () => {
 					gsap.to(sceneChild, {
 						duration: duration,
 						stagger: {
-							amount: stagger,
+							each: stagger,
 							onStart: function() {
 								this._targets[0].classList.add(`in-viewport`);
 							}
