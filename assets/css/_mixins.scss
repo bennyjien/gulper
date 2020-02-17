@@ -284,6 +284,51 @@
 }
 
 // LAYOUT
+@mixin spacer($multiplier: 1) {
+	$length: length($multiplier);
+	$multiplier-top: $multiplier;
+	$multiplier-right: $multiplier;
+	$multiplier-bottom: $multiplier;
+	$multiplier-left: $multiplier;
+
+	@if $length == 2 {
+		$multiplier-top: nth($multiplier, 1);
+		$multiplier-right: nth($multiplier, 2);
+		$multiplier-bottom: nth($multiplier, 1);
+		$multiplier-left: nth($multiplier, 2);
+	}
+	@else if $length == 3 {
+		$multiplier-top: nth($multiplier, 1);
+		$multiplier-right: nth($multiplier, 2);
+		$multiplier-bottom: nth($multiplier, 3);
+		$multiplier-left: nth($multiplier, 2);
+	}
+	@else if $length == 4 {
+		$multiplier-top: nth($multiplier, 1);
+		$multiplier-right: nth($multiplier, 2);
+		$multiplier-bottom: nth($multiplier, 3);
+		$multiplier-left: nth($multiplier, 4);
+	}
+
+	margin: #{$multiplier-top * $padding-origin} #{$multiplier-right * $padding-origin} #{$multiplier-bottom * $padding-origin} #{$multiplier-left * $padding-origin};
+
+	@include breakpoint(creeper) {
+		margin: #{$multiplier-top * $padding-creeper} #{$multiplier-right * $padding-creeper} #{$multiplier-bottom * $padding-creeper} #{$multiplier-left * $padding-creeper};
+	}
+
+	@include breakpoint(crawler) {
+		margin: #{$multiplier-top * $padding-crawler} #{$multiplier-right * $padding-crawler} #{$multiplier-bottom * $padding-crawler} #{$multiplier-left * $padding-crawler};
+	}
+
+	@include breakpoint(walker) {
+		margin: #{$multiplier-top * $padding-walker} #{$multiplier-right * $padding-walker} #{$multiplier-bottom * $padding-walker} #{$multiplier-left * $padding-walker};
+	}
+
+	@include breakpoint(flyer) {
+		margin: #{$multiplier-top * $padding-flyer} #{$multiplier-right * $padding-flyer} #{$multiplier-bottom * $padding-flyer} #{$multiplier-left * $padding-flyer};
+	}
+}
+
 @mixin wrapper-xy($width: $width-max, $padding: 1, $align: center) {
 	$length: length($padding);
 	$multiplier-top: $padding;

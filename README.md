@@ -36,6 +36,10 @@ Have fun! :)
 + Documentation refresh
 
 ## CHANGELOG
+2.4.0 (Feb 17, 2020)
++ HTML markup update
++ bug fixes
+
 2.3.2 (Jan 21, 2020)
 + mixins.scss: update wrapper mixins
 + lot of fixes
