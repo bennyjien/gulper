@@ -12,12 +12,12 @@
 html {
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 	box-sizing: border-box;
-	font-size: $font-size-500;
+	font-size: $font-style-500;
 	height: 100%;
 }
 
 body {
-	@include font-size-500;
+	@include font-style-body;
 	@include hyphenate;
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-font-smoothing: antialiased;
@@ -96,27 +96,27 @@ h6 {
 }
 
 h1 {
-	@include font-size-h1;
+	@include font-style-h1;
 }
 
 h2 {
-	@include font-size-h2;
+	@include font-style-h2;
 }
 
 h3 {
-	@include font-size-h3;
+	@include font-style-h3;
 }
 
 h4 {
-	@include font-size-h4;
+	@include font-style-h4;
 }
 
 h5 {
-	@include font-size-h5;
+	@include font-style-h5;
 }
 
 h6 {
-	@include font-size-h6;
+	@include font-style-h6;
 }
 
 a {
@@ -222,7 +222,7 @@ pre {
 }
 
 small {
-	@include font-size-400;
+	@include font-style-caption;
 }
 
 hr {

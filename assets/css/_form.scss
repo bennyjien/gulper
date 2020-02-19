@@ -11,7 +11,7 @@
 	}
 
 	&-legend {
-		@include font-size-h6;
+		@include font-style-h6;
 		color: $color-text-light;
 		float: left;
 		font-weight: 400;
@@ -704,7 +704,7 @@
 		margin-bottom: 24px;
 
 		.heading {
-			@include font-size-h4;
+			@include font-style-h4;
 			margin-bottom: 0;
 		}
 	}
