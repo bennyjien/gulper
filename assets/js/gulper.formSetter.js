@@ -59,12 +59,22 @@ function formSetter(selector) {
 
 				if (inputDateEl) {
 					const fieldInputEl = inputDateEl.querySelector(`.input`);
+					const yearStart = element.dataset.datepickerYearStart;
+					const yearEnd = element.dataset.datepickerYearEnd;
+					let yearRange;
 					let dateFormat = fieldInputEl.dataset.dateFormat ? fieldInputEl.dataset.dateFormat : `DD-MM-YYYY`;
+
+					if (yearStart && yearEnd) {
+						yearRange = [yearStart, yearEnd];
+					} else {
+						yearRange = `10`;
+					}
 
 					new Pikaday({
 						field: fieldInputEl,
 						format: dateFormat,
-						minDate: new Date()
+						minDate: new Date(),
+						yearRange: yearRange
 					});
 				}
 			}
