@@ -29,7 +29,6 @@
 		.form-fieldset.form-fieldset-inline & {
 			@include flex-flow(0px, 192px, 8px);
 		}
-
 	}
 
 	&-row {
@@ -329,7 +328,8 @@
 			}
 		}
 
-		@supports(-webkit-appearance: none) or (-moz-appearance: none) {
+		@supports (-webkit-appearance: none) or (-moz-appearance: none) {
+
 			.input {
 				appearance: none;
 				background-color: $color-100;
@@ -447,13 +447,12 @@
 	}
 
 	&-buttons {
-		@include column-items(8px);
+		@include spacers(16px, 2);
 		display: flex;
 		flex-wrap: wrap;
 	}
 
 	&-button {
-		@include column-item(8px, 2);
 
 		.input {
 			display: none;

@@ -57,8 +57,14 @@ img {
 	vertical-align: middle;
 }
 
-ol, ul, dl,
-p, address, blockquote, figure, pre {
+ol,
+ul,
+dl,
+p,
+address,
+blockquote,
+figure,
+pre {
 	margin: 0 0 24px;
 
 	&:last-child {
@@ -316,7 +322,7 @@ textarea {
 
 select {
 	background-color: $white;
-	background-image: url(../images/symbols/icon-chevron-down.svg);
+	background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath d='M10 13L15 8H5L10 13Z' fill='%23cccccc'/%3E %3C/svg%3E ");
 	background-position: 100% center;
 	background-position: calc(100% - 4px) center;
 	background-repeat: no-repeat;

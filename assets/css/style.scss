@@ -47,5 +47,4 @@ Tags: responsive-layout, mobile-first
 @import "home";
 
 // media
-@import "mobile";
 @media print { @import "print"; }
