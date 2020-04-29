@@ -218,11 +218,6 @@ function ProduceHTMLJS(done) {
 		}))
 		.pipe(prettify({indent_char: `\t`, indent_size: 1, preserve_newlines: true, unformatted: [`a`, `span`, `img`, `code`, `pre`, `sub`, `sup`, `em`, `strong`, `b`, `i`, `u`, `strike`, `big`, `small`, `pre`, `h1`, `h2`, `h3`, `h4`, `h5`, `h6`, `svg`,`br`, `label`, `input`, `script`, `time`], wrap_line_length: 0}))
 		.pipe(useref({ searchPath: `./` }))
-		// .pipe(gulpIf(`assets/js/script.js`, babel({
-		// 	presets: [`@babel/preset-env`],
-		// 	// plugins: [`@babel/plugin-transform-runtime`]
-		// })))
-		// .pipe(gulpIf(`assets/js/*.js`, uglify()))
 		.pipe(gulp.dest(`dist/`))
 		.on(`end`, function() {
 			done();
