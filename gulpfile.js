@@ -33,7 +33,7 @@ function BrowserSync(done) {
 		server: {
 			baseDir: `dev/`,
 		},
-		// browser: `google chrome`,
+		browser: `google chrome`,
 		notify: {
 			styles: {
 				borderRadius: `8px 0 0`,
@@ -67,8 +67,10 @@ function Sass(done) {
 		.pipe(postcss([autoprefixer({ cascade: false })]))
 		.pipe(rename({suffix: `.min`}))
 		.pipe(gulp.dest(`dev/`))
-		.pipe(browserSync.stream());
-	done();
+		.on(`end`, function() {
+			browserSync.stream();
+			done();
+		});
 }
 
 function ProduceSass(done) {
@@ -91,8 +93,10 @@ function Js(done) {
 function Root(done) {
 	gulp.src([`root/**/*`, `root/**/.*`])
 		.pipe(gulp.dest(`dev/`))
-		.pipe(browserSync.stream());
-	done();
+		.on(`end`, function() {
+			browserSync.stream();
+			done();
+		});
 }
 
 function ProduceRoot(done) {
@@ -106,8 +110,8 @@ function Assets(done) {
 		.pipe(gulp.dest(`dev/assets/`))
 		.on(`end`, function() {
 			browserSync.stream();
+			done();
 		});
-	done();
 }
 
 function ProduceAssets(done) {
@@ -126,8 +130,10 @@ function Svg(done) {
 			}]
 		}))
 		.pipe(gulp.dest(`dev/assets/images/`))
-		.pipe(browserSync.stream());
-	done();
+		.on(`end`, function() {
+			browserSync.stream();
+			done();
+		});
 }
 
 function ProduceSvg(done) {
@@ -156,8 +162,10 @@ function SvgSprite(done) {
 		}))
 		.pipe(svgSymbols())
 		.pipe(gulp.dest(`dev/assets/images/`))
-		.pipe(browserSync.stream());
-	done();
+		.on(`end`, function() {
+			browserSync.stream();
+			done();
+		});
 }
 
 function ProduceSvgSprite(done) {
@@ -179,8 +187,10 @@ function ProduceSvgSprite(done) {
 function Uploads(done) {
 	gulp.src(`uploads/**/*`)
 		.pipe(gulp.dest(`dev/uploads/`))
-		.pipe(browserSync.stream());
-	done();
+		.on(`end`, function() {
+			browserSync.stream();
+			done();
+		});
 }
 
 function ProduceUploads(done) {
