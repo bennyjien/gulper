@@ -65,13 +65,19 @@ function Sass(done) {
 	gulp.src([`**/*.scss`, `!node_modules/**/*.scss`])
 		.pipe(sass({ outputStyle: `expanded` }).on(`error`, HandleErrors))
 		.pipe(postcss([autoprefixer({ cascade: false })]))
+		.pipe(rename({suffix: `.min`}))
 		.pipe(gulp.dest(`dev/`))
-		.pipe(gulpIf(prod, gulp.dest(`dist/`)))
+		.pipe(browserSync.stream());
+	done();
+}
+
+function ProduceSass(done) {
+	gulp.src([`**/*.scss`, `!node_modules/**/*.scss`])
+		.pipe(sass({ outputStyle: `expanded` }).on(`error`, HandleErrors))
+		.pipe(postcss([autoprefixer({ cascade: false })]))
 		.pipe(rename({suffix: `.min`}))
 		.pipe(postcss([cssnano()]))
-		.pipe(gulp.dest(`dev/`))
-		.pipe(gulpIf(prod, gulp.dest(`dist/`)))
-		.pipe(browserSync.stream());
+		.pipe(gulp.dest(`dist/`));
 	done();
 }
 
@@ -85,16 +91,28 @@ function Js(done) {
 function Root(done) {
 	gulp.src([`root/**/*`, `root/**/.*`])
 		.pipe(gulp.dest(`dev/`))
-		.pipe(gulpIf(prod, gulp.dest(`dist/`)))
 		.pipe(browserSync.stream());
+	done();
+}
+
+function ProduceRoot(done) {
+	gulp.src([`root/**/*`, `root/**/.*`])
+		.pipe(gulp.dest(`dist/`));
 	done();
 }
 
 function Assets(done) {
 	gulp.src([`assets/**/*`, `!assets/images/**/*.svg`, `!assets/js/**/*`, `!assets/{css,css/**}`])
 		.pipe(gulp.dest(`dev/assets/`))
-		.pipe(gulpIf(prod, gulp.dest(`dist/assets/`)))
-		.pipe(browserSync.stream());
+		.on(`end`, function() {
+			browserSync.stream();
+		});
+	done();
+}
+
+function ProduceAssets(done) {
+	gulp.src([`assets/**/*`, `!assets/images/**/*.svg`, `!assets/js/**/*`, `!assets/{css,css/**}`])
+		.pipe(gulp.dest(`dist/assets/`));
 	done();
 }
 
@@ -108,8 +126,20 @@ function Svg(done) {
 			}]
 		}))
 		.pipe(gulp.dest(`dev/assets/images/`))
-		.pipe(gulpIf(prod, gulp.dest(`dist/assets/images/`)))
 		.pipe(browserSync.stream());
+	done();
+}
+
+function ProduceSvg(done) {
+	gulp.src(`assets/images/**/*.svg`)
+		.pipe(svgmin({
+			plugins: [{
+				cleanupIDs: false
+			}, {
+				removeViewBox: false
+			}]
+		}))
+		.pipe(gulp.dest(`dist/assets/images/`));
 	done();
 }
 
@@ -126,18 +156,40 @@ function SvgSprite(done) {
 		}))
 		.pipe(svgSymbols())
 		.pipe(gulp.dest(`dev/assets/images/`))
-		.pipe(gulpIf(prod, gulp.dest(`dist/assets/images`)))
 		.pipe(browserSync.stream());
+	done();
+}
+
+function ProduceSvgSprite(done) {
+	gulp.src(`assets/images/symbols/**/*.svg`)
+		.pipe(svgmin({
+			plugins: [{
+				removeViewBox: false
+			}, {
+				removeAttrs: {
+					attrs: `*:(stroke|fill):((?!^none$).)*`
+				}
+			}]
+		}))
+		.pipe(svgSymbols())
+		.pipe(gulp.dest(`dist/assets/images/`));
 	done();
 }
 
 function Uploads(done) {
 	gulp.src(`uploads/**/*`)
 		.pipe(gulp.dest(`dev/uploads/`))
-		.pipe(gulpIf(prod, gulp.dest(`dist/uploads/`)))
 		.pipe(browserSync.stream());
 	done();
 }
+
+function ProduceUploads(done) {
+	gulp.src(`uploads/**/*`)
+		.pipe(gulp.dest(`dist/uploads/`));
+	done();
+}
+
+// Watching
 
 function Watch(done) {
 	gulp.watch(`*.html`, gulp.series(FileInclude, BrowserReload));
@@ -157,8 +209,8 @@ function Clean(done) {
 }
 
 // Compiling stuffs
-function Compile(done) {
-	gulp.src([`[^_]*.html`, `_doc/[^_]*.html`])
+function ProduceHTMLJS(done) {
+	gulp.src(`[^_]*.html`)
 		.pipe(fileInclude({
 			prefix: `<!-- @`,
 			suffix: ` -->`,
@@ -166,17 +218,30 @@ function Compile(done) {
 		}))
 		.pipe(prettify({indent_char: `\t`, indent_size: 1, preserve_newlines: true, unformatted: [`a`, `span`, `img`, `code`, `pre`, `sub`, `sup`, `em`, `strong`, `b`, `i`, `u`, `strike`, `big`, `small`, `pre`, `h1`, `h2`, `h3`, `h4`, `h5`, `h6`, `svg`,`br`, `label`, `input`, `script`, `time`], wrap_line_length: 0}))
 		.pipe(useref({ searchPath: `./` }))
-		.pipe(gulpIf(`assets/js/script.js`, babel({
+		// .pipe(gulpIf(`assets/js/script.js`, babel({
+		// 	presets: [`@babel/preset-env`],
+		// 	// plugins: [`@babel/plugin-transform-runtime`]
+		// })))
+		// .pipe(gulpIf(`assets/js/*.js`, uglify()))
+		.pipe(gulp.dest(`dist/`))
+		.on(`end`, function() {
+			done();
+		});
+}
+
+function minifyJS(done) {
+	gulp.src(`dist/assets/js/*.js`)
+		.pipe(gulpIf(`script.js`, babel({
 			presets: [`@babel/preset-env`],
 			// plugins: [`@babel/plugin-transform-runtime`]
 		})))
-		.pipe(gulpIf(`assets/js/*.js`, uglify()))
-		.pipe(gulp.dest(`dist/`));
+		.pipe(uglify())
+		.pipe(gulp.dest(`dist/assets/js/`));
 	done();
 }
 
 const dev = gulp.series(Clean, FileInclude, Sass, Js, Root, Assets, Svg, SvgSprite, Uploads, BrowserSync, Watch);
-const build = gulp.series(Clean, Compile, gulp.parallel(Sass, Root, Assets, Svg, SvgSprite, Uploads));
+const build = gulp.series(Clean, ProduceHTMLJS, minifyJS, gulp.parallel(ProduceSass, ProduceRoot, ProduceAssets, ProduceSvg, ProduceSvgSprite, ProduceUploads));
 
 exports.build = build;
 exports.default = dev;
