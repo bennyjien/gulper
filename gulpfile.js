@@ -33,7 +33,7 @@ function BrowserSync(done) {
 		server: {
 			baseDir: `dev/`,
 		},
-		browser: `google chrome`,
+		// browser: `google chrome`,
 		notify: {
 			styles: {
 				borderRadius: `8px 0 0`,
@@ -68,9 +68,9 @@ function Sass(done) {
 		.pipe(rename({suffix: `.min`}))
 		.pipe(gulp.dest(`dev/`))
 		.on(`end`, function() {
-			browserSync.stream();
 			done();
-		});
+		})
+		.pipe(browserSync.stream());
 }
 
 function ProduceSass(done) {
@@ -94,7 +94,6 @@ function Root(done) {
 	gulp.src([`root/**/*`, `root/**/.*`])
 		.pipe(gulp.dest(`dev/`))
 		.on(`end`, function() {
-			browserSync.stream();
 			done();
 		});
 }
@@ -109,7 +108,6 @@ function Assets(done) {
 	gulp.src([`assets/**/*`, `!assets/images/**/*.svg`, `!assets/js/**/*`, `!assets/{css,css/**}`])
 		.pipe(gulp.dest(`dev/assets/`))
 		.on(`end`, function() {
-			browserSync.stream();
 			done();
 		});
 }
@@ -131,7 +129,6 @@ function Svg(done) {
 		}))
 		.pipe(gulp.dest(`dev/assets/images/`))
 		.on(`end`, function() {
-			browserSync.stream();
 			done();
 		});
 }
@@ -163,7 +160,6 @@ function SvgSprite(done) {
 		.pipe(svgSymbols())
 		.pipe(gulp.dest(`dev/assets/images/`))
 		.on(`end`, function() {
-			browserSync.stream();
 			done();
 		});
 }
@@ -188,7 +184,6 @@ function Uploads(done) {
 	gulp.src(`uploads/**/*`)
 		.pipe(gulp.dest(`dev/uploads/`))
 		.on(`end`, function() {
-			browserSync.stream();
 			done();
 		});
 }
@@ -205,10 +200,10 @@ function Watch(done) {
 	gulp.watch(`*.html`, gulp.series(FileInclude, BrowserReload));
 	gulp.watch([`**/*.scss`, `!node_modules/**/*.scss`], Sass);
 	gulp.watch(`assets/js/**/*.js`, gulp.series(Js, BrowserReload));
-	gulp.watch(`root/**/*`, Root);
-	gulp.watch([`assets/**/*`, `!assets/images/**/*.svg`, `!assets/{js,js/**}`, `!assets/{css,css/**}`], Assets);
-	gulp.watch(`assets/images/**/*.svg`, gulp.series(Svg, SvgSprite));
-	gulp.watch(`uploads/**/*`, Uploads);
+	gulp.watch(`root/**/*`, gulp.series(Root, BrowserReload));
+	gulp.watch([`assets/**/*`, `!assets/images/**/*.svg`, `!assets/{js,js/**}`, `!assets/{css,css/**}`], gulp.series(Assets, BrowserReload));
+	gulp.watch(`assets/images/**/*.svg`, gulp.series(Svg, SvgSprite, BrowserReload));
+	gulp.watch(`uploads/**/*`, gulp.series(Uploads, BrowserReload));
 	done();
 }
 
