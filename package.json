@@ -1,10 +1,11 @@
 {
   "name": "gulper",
-  "version": "1.0.0",
+  "version": "2.4.0",
   "description": "Gulpy HTML starter web template",
   "main": "gulpfile.js",
   "scripts": {
-    "start": "gulp",
+		"start": "gulp",
+		"build": "gulp build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Benny Jien",
