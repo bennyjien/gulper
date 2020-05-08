@@ -1,5 +1,5 @@
 {
-  "name": "@bennyjien/gulper",
+  "name": "gulper-template-icubic",
   "version": "2.4.0",
   "description": "Gulpy HTML starter web template",
   "main": "gulpfile.js",
