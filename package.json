@@ -1,15 +1,28 @@
 {
-  "name": "gulper",
+  "name": "@bennyjien/gulper",
   "version": "2.4.0",
   "description": "Gulpy HTML starter web template",
   "main": "gulpfile.js",
   "scripts": {
-		"start": "gulp",
-		"build": "gulp build",
+    "start": "gulp",
+    "build": "gulp build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Benny Jien",
-  "license": "ISC",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bennyjien/gulper.git"
+  },
+  "keywords": [
+    "html",
+    "css",
+    "starter"
+  ],
+  "bugs": {
+    "url": "https://github.com/bennyjien/gulper/issues"
+  },
+  "homepage": "https://github.com/bennyjien/gulper#readme",
   "browserslist": [
     "defaults"
   ],
@@ -36,5 +49,6 @@
     "gulp-useref": "^3.1.5",
     "jshint": "^2.10.3",
     "node-sass": "^4.13.0"
-  }
+  },
+  "dependencies": {}
 }
