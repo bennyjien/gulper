@@ -10,7 +10,7 @@ imagesLoaded(`#site-container`, function() {
 
 // vendor: responsive video
 fluidvids.init({
-	selector: [`.js-video`],
+	selector: [`.js-video`, `iframe`],
 	players: [`www.youtube.com`]
 });
 
