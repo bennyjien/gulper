@@ -1,6 +1,8 @@
+@use "sass:math";
+
 // HELPERS
 @function strip-unit($value) {
-	@return $value / ($value * 0 + 1);
+	@return math.div($value, $value * 0 + 1);
 }
 
 // BREAKPOINTS
@@ -323,7 +325,7 @@
 	&:before {
 		content: '';
 		display: inline-block;
-		padding-bottom: 100% / $wph;
+		padding-bottom: math.div(100%, $wph);
 	}
 }
 
@@ -504,8 +506,8 @@
 
 @mixin spacers($margin, $item: 0) {
 	$length: length($margin);
-	$vertical: nth($margin, 1) / 2;
-	$horizontal: $vertical / 2;
+	$vertical: math.div(nth($margin, 1), 2);
+	$horizontal: math.div($vertical, 2);
 
 	margin: -1%;
 
@@ -529,7 +531,7 @@
 			}
 
 			@if $item != 0 {
-				width: #{(100% - (2% * $item)) / $item};
+				width: #{math.div(100% - (2% * $item), $item)};
 				width: calc((100% - #{2 * $item * $vertical}) / #{$item});
 			}
 		}
@@ -543,7 +545,7 @@
 			}
 
 			@if $item != 0 {
-				width: #{(100% - (2% * $item)) / $item};
+				width: #{math.div(100% - (2% * $item), $item)};
 				width: calc((100% - #{2 * $item * $horizontal}) / #{$item});
 			}
 		}
