@@ -1,22 +1,122 @@
 // GLOBALS
 
 .button {
+	@include font-style-button;
+	background-color: $color-500;
+	border: 1px solid transparent;
+	border-radius: 0;
+	color: $white;
+	display: inline-block;
+	padding: 10px 24px;
+	text-align: center;
+	transition: all 0.2s ease-out;
+	vertical-align: middle;
+	white-space: nowrap;
 
-	&.button-primary {
-		@include button;
-	}
-
-	&.button-line {
-		@include button(line);
-	}
-
-	&.button-small {
-		@include button;
-		@include font-size-400;
+	&:hover,
+	&:focus {
+		background-color: $color-600;
+		color: $white;
+		outline: 0;
+		text-decoration: none;
 	}
 
 	&.button-disabled {
-		@include button(disabled);
+		pointer-events: none;
+	}
+
+	&.button-primary {
+		background-color: $color-one-500;
+		color: $white;
+
+		&:visited {
+			color: $white;
+		}
+
+		&:hover,
+		&:focus {
+			background-color: $color-one-400;
+			color: $white;
+		}
+
+		&.button-disabled {
+			background-color: $color-500;
+
+			&:visited {
+				color: $white;
+			}
+		}
+	}
+
+	&.button-ghost {
+		background-color: transparent;
+		border-color: $color-one-500;
+		color: $color-one-500;
+
+		&:visited {
+			color: $color-one-500;
+		}
+
+		&:hover,
+		&:focus {
+			background-color: $color-one-400;
+			border-color: $color-one-400;
+			color: $white;
+		}
+
+		&.button-ghost-black {
+			border-color: $color-900;
+			color: $color-900;
+
+			&:visited {
+				color: $color-900;
+			}
+
+			&:hover,
+			&:focus {
+				background-color: $color-800;
+				border-color: $color-800;
+				color: $white;
+			}
+		}
+
+		&.button-disabled {
+			border-color: $color-500;
+			color: $color-500;
+
+			&:visited {
+				color: $color-500;
+			}
+		}
+	}
+
+	&.button-text {
+		background-color: transparent;
+		color: $color-text;
+		padding: 0;
+
+		&:hover,
+		&:focus {
+			color: $color-800;
+		}
+
+		&.button-text-primary {
+			color: $color-one-500;
+
+			&:hover,
+			&:focus {
+				color: $color-one-400;
+			}
+		}
+	}
+
+	.icon {
+		height: 16px;
+		margin-left: -2px;
+		margin-right: 2px;
+		position: relative;
+		top: -1px;
+		width: 16px;
 	}
 }
 
