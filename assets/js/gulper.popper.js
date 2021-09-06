@@ -100,7 +100,11 @@ function popper(selector, options = {}) {
 		}
 
 		if (params.animation === `css`) {
-			params.targetEl.addEventListener(`transitionend`, ending);
+			if (params.duration) {
+				params.targetEl.addEventListener(`transitionend`, ending);
+			} else {
+				removePopper(element, params);
+			}
 		} else {
 			element.timeout = setTimeout(function() {
 				removePopper(element, params);
@@ -152,7 +156,7 @@ function popper(selector, options = {}) {
 		const bodyClass = options.bodyClass || targetClass;
 		const area = element.dataset.popperArea === `child` ? targetChild : element.dataset.popperArea || options.area === `child` ? targetChild : options.area || target;
 		const animation = element.dataset.popperAnimation || options.animation || `css`;
-		const duration = element.dataset.popperDuration || options.duration || 0;
+		const duration = element.dataset.popperDuration || options.duration || 0.2;
 		const trigger = element.dataset.popperTrigger || options.trigger || `click`;
 		const escape = element.hasAttribute(`data-popper-escape`) || options.escape;
 		const focus = element.dataset.popperFocus || options.focus;
@@ -207,4 +211,4 @@ function popper(selector, options = {}) {
 	});
 }
 
-popper.version = `1.1.0`;
+popper.version = `1.1.1`;
