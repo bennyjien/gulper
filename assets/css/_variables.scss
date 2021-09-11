@@ -1,6 +1,6 @@
 // LAYOUT
 $width-max: 					1280px;
-$width-side: 					256px;
+$width-sidebar: 			256px;
 $width-origin: 				320px;
 $width-creeper: 			414px;
 $width-crawler: 			640px;
@@ -11,16 +11,14 @@ $width-flyer: 				1280px;
 $width-teleporter: 		1440px;
 $width-demigod: 			1600px;
 $width-god: 					1920px;
-$padding-origin: 			16px;
-$padding-creeper: 		24px;
-$padding-crawler: 		32px;
-$padding-walker: 			48px;
-$padding-runner: 			48px;
-$padding-jumper: 			48px;
-$padding-flyer: 			64px;
-$padding-teleporter: 	64px;
-$padding-demigod: 		64px;
-$padding-god: 				64px;
+
+$paddings: (
+	origin: 16px,
+	creeper: 24px,
+	crawler: 32px,
+	walker: 48px,
+	flyer: 64px
+);
 
 // COLOR
 $white: 							#FFFFFF;

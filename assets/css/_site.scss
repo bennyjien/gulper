@@ -51,7 +51,7 @@
 			grid-column: wrapper;
 
 			@include breakpoint(runner) {
-				grid-column: side;
+				grid-column: sidebar;
 			}
 		}
 	}
@@ -60,10 +60,10 @@
 .site-aside {
 	@include wrapper-xy(none, 0.5, left);
 	background-color: $color-200;
-	grid-area: side;
+	grid-area: sidebar;
 
 	@include breakpoint(runner) {
-		width: $width-side;
+		width: $width-sidebar;
 	}
 }
 
