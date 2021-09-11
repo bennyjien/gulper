@@ -1,6 +1,7 @@
 // LAYOUT
 $width-max: 				1280px;
 $width-sidebar: 		256px;
+
 $width-origin: 			320px;
 $width-creeper: 		414px;
 $width-crawler: 		640px;
@@ -13,11 +14,11 @@ $width-demigod: 		1600px;
 $width-god: 				1920px;
 
 $paddings: (
-	origin: 					16px,
-	creeper: 					24px,
-	crawler: 					32px,
-	walker: 					48px,
-	flyer:						 64px
+	origin:	 16px,
+	creeper: 24px,
+	crawler: 32px,
+	walker:	 48px,
+	flyer:		64px
 );
 
 // COLOR
@@ -110,42 +111,6 @@ $text-shadow-800: 		0 0 12px rgba($color-800, 0.04), 0 12px 24px 0 rgba($color-8
 $sans-serif: 					"IBM Plex Sans", sans-serif;
 $serif: 							Georgia, serif;
 $monospace: 					"IBM Plex Mono", monospace;
-
-$font-size-100: 			11px;
-$line-height-100: 		1.27273;
-
-$font-size-200: 			12px;
-$line-height-200: 		1.33334;
-
-$font-size-300: 			13px;
-$line-height-300: 		1.38462;
-
-$font-size-400: 			14px;
-$line-height-400: 		1.28572;
-
-$font-size-500: 			16px;
-$line-height-500: 		1.375;
-
-$font-size-600: 			20px;
-$line-height-600: 		1.4;
-
-$font-size-700:	 			24px;
-$line-height-700: 		1.33334;
-
-$font-size-800: 			32px;
-$line-height-800: 		1.25;
-
-$font-size-900: 			40px;
-$line-height-900: 		1.2;
-
-$font-size-1000: 			48px;
-$line-height-1000: 		1.16667;
-
-$font-size-1100: 			72px;
-$line-height-1100: 		1.11111;
-
-$font-size-1200: 			96px;
-$line-height-1200: 		1.16667;
 
 // TRANSITION
 $ease-in-quad: 				cubic-bezier(0.550, 0.085, 0.680, 0.530);

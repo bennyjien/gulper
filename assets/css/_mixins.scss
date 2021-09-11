@@ -65,133 +65,131 @@ $breakpoints: creeper, crawler, walker, runner, jumper, flyer, teleporter, demig
 	}
 }
 
+@mixin font-size-0 {
+	font-size: 0;
+	line-height: 1;
+}
+
+@mixin font-size-50 {
+	font-size: 10px;
+	line-height: 1.2;
+}
+
 @mixin font-size-100 {
-	font-size: $font-size-100;
-	line-height: $line-height-100;
+	font-size: 11px;
+	line-height: 1.27273;
 }
 
 @mixin font-size-200 {
-	font-size: $font-size-200;
-	line-height: $line-height-200;
+	font-size: 12px;
+	line-height: 1.33334;
 }
 
 @mixin font-size-300 {
-	font-size: $font-size-300;
-	line-height: $line-height-300;
+	font-size: 13px;
+	line-height: 1.38462;
 }
 
 @mixin font-size-400 {
-	font-size: $font-size-400;
-	line-height: $line-height-400;
+	font-size: 14px;
+	line-height: 1.28572;
 }
 
 @mixin font-size-500 {
-	font-size: $font-size-500;
-	line-height: $line-height-500;
+	font-size: 16px;
+	line-height: 1.375;
 }
 
 @mixin font-size-600 {
-	font-size: $font-size-600;
-	line-height: $line-height-600;
+	font-size: 20px;
+	line-height: 1.4;
 }
 
 @mixin font-size-700 {
-	font-size: $font-size-700;
-	line-height: $line-height-700;
+	font-size: 24px;
+	line-height: 1.33334;
 }
 
 @mixin font-size-800 {
-	font-size: $font-size-800;
-	line-height: $line-height-800;
+	font-size: 32px;
+	line-height: 1.25;
 }
 
 @mixin font-size-900 {
-	font-size: $font-size-900;
-	line-height: $line-height-900;
+	font-size: 40px;
+	line-height: 1.2;
 }
 
 @mixin font-size-1000 {
-	font-size: $font-size-1000;
-	line-height: $line-height-1000;
+	font-size: 48px;
+	line-height: 1.16667;
 }
 
 @mixin font-size-1100 {
-	font-size: $font-size-1100;
-	line-height: $line-height-1100;
+	font-size: 72px;
+	line-height: 1.11111;
 }
 
 @mixin font-size-1200 {
-	font-size: $font-size-1200;
-	line-height: $line-height-1200;
+	font-size: 96px;
+	line-height: 1.16667;
 }
 
 @mixin font-style-h1 {
-	font-size: $font-size-900;
+	@include font-size-900;
 	font-weight: 700;
 	letter-spacing: 0.04em;
-	line-height: $line-height-900;
 }
 
 @mixin font-style-h2 {
-	font-size: $font-size-800;
+	@include font-size-800;
 	font-weight: 700;
-	line-height: $line-height-800;
 }
 
 @mixin font-style-h3 {
-	font-size: $font-size-700;
+	@include font-size-700;
 	font-weight: 700;
-	line-height: $line-height-700;
 }
 
 @mixin font-style-h4 {
-	font-size: $font-size-600;
+	@include font-size-600;
 	font-weight: 700;
-	line-height: $line-height-600;
 }
 
 @mixin font-style-h5 {
-	font-size: $font-size-500;
+	@include font-size-500;
 	font-weight: 700;
-	line-height: $line-height-500;
 }
 
 @mixin font-style-h6 {
-	font-size: $font-size-400;
+	@include font-size-400;
 	font-weight: 700;
 	letter-spacing: -0.02em;
-	line-height: $line-height-400;
 	text-transform: uppercase;
 }
 
 @mixin font-style-body {
-	font-size: $font-size-500;
-	line-height: $line-height-500;
+	@include font-size-500;
 }
 
 @mixin font-style-callout {
-	font-size: $font-size-400;
-	line-height: $line-height-400;
+	@include font-size-400;
 }
 
 @mixin font-style-footnote {
-	font-size: $font-size-300;
-	line-height: $line-height-300;
+	@include font-size-300;
 }
 
 @mixin font-style-caption {
-	font-size: $font-size-200;
-	line-height: $line-height-200;
+	@include font-size-200;
 }
 
 @mixin font-style-ant {
-	font-size: $font-size-100;
-	line-height: $line-height-100;
+	@include font-size-100;
 }
 
 @mixin font-style-button {
-	font-size: $font-size-500;
-	line-height: $line-height-500;
+	@include font-size-500;
 }
 
 @mixin ellipsis {
@@ -514,38 +512,6 @@ $breakpoints: creeper, crawler, walker, runner, jumper, flyer, teleporter, demig
 	}
 }
 
-@mixin clearfix {
-
-	&:before,
-	&:after {
-		content: "";
-		display: table;
-	}
-
-	&:after {
-		clear: both;
-	}
-}
-
-@mixin hidden {
-	border: 0;
-	clip: rect(0, 0, 0, 0);
-	height: 1px;
-	margin: -1px;
-	overflow: hidden;
-	padding: 0;
-	position: absolute;
-	width: 1px;
-}
-
-@mixin visible {
-	display: block !important;
-	height: auto !important;
-	opacity: 1 !important;
-	overflow: visible !important;
-	visibility: visible !important;
-}
-
 @mixin spacers($margin, $item: 0) {
 	$length: length($margin);
 	$vertical: math.div(nth($margin, 1), 2);
@@ -605,4 +571,36 @@ $breakpoints: creeper, crawler, walker, runner, jumper, flyer, teleporter, demig
 		max-width: 100%;
 		min-width: calc(#{$width} - (#{$margin} * 2));
 	}
+}
+
+@mixin clearfix {
+
+	&:before,
+	&:after {
+		content: "";
+		display: table;
+	}
+
+	&:after {
+		clear: both;
+	}
+}
+
+@mixin hidden {
+	border: 0;
+	clip: rect(0, 0, 0, 0);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+}
+
+@mixin visible {
+	display: block !important;
+	height: auto !important;
+	opacity: 1 !important;
+	overflow: visible !important;
+	visibility: visible !important;
 }
