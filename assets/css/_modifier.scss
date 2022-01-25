@@ -38,9 +38,9 @@
 
 	&:before {
 		content: "";
-		display: block;
 		background-color: $white;
 		bottom: 0;
+		display: block;
 		left: 0;
 		opacity: 0.6;
 		position: absolute;
@@ -52,11 +52,11 @@
 	&:after {
 		content: "";
 		animation: spin 1.5s infinite linear;
-		border-left: 4px solid rgba($color-800, 0.2);
 		border-bottom: 4px solid rgba($color-800, 0.2);
+		border-left: 4px solid rgba($color-800, 0.2);
+		border-radius: 100%;
 		border-right: 4px solid rgba($color-800, 0.2);
 		border-top: 4px solid $color-one-500;
-		border-radius: 100%;
 		display: block;
 		height: 32px;
 		left: 50%;

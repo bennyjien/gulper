@@ -1,10 +1,17 @@
 .home-single {
 
-	&-header {}
-
-	&-content {
-		.section {}
+	&-header {
+		// header style
 	}
 
-	&-footer {}
+	&-content {
+
+		.section {
+			// section style
+		}
+	}
+
+	&-footer {
+		// footer style
+	}
 }

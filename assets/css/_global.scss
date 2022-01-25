@@ -141,7 +141,7 @@
 		margin: 0 -8px -8px 0;
 
 		.item {
-			@include font-size-500;
+			@include font-style-body;
 			display: inline-block;
 			margin: 0 8px 8px 0;
 		}
@@ -158,8 +158,8 @@
 				content: "\2022";
 				display: inline-block;
 				min-width: 24px;
-				text-indent: 2px;
 				padding-right: 4px;
+				text-indent: 2px;
 			}
 		}
 	}
@@ -190,8 +190,8 @@
 
 	caption {
 		color: $color-text-light;
-		padding-top: 4px;
 		padding-bottom: 4px;
+		padding-top: 4px;
 		text-align: left;
 
 		strong {
@@ -201,10 +201,10 @@
 
 	th,
 	td {
-		@include font-size-400;
+		@include font-style-callout;
 
 		@include breakpoint(walker) {
-			@include font-size-500;
+			@include font-style-body;
 		}
 	}
 
@@ -218,10 +218,10 @@
 				border-bottom: 1px solid $color-border;
 				border-top: 0;
 				color: $color-text-light;
-				padding: 6px 8px;
 				font-weight: 400;
-				vertical-align: top;
+				padding: 6px 8px;
 				text-align: left;
+				vertical-align: top;
 			}
 		}
 	}
@@ -293,7 +293,7 @@
 
 	&:after {
 		@include ellipsis;
-		@include font-size-200;
+		@include font-style-caption;
 		content: attr(data-tooltip);
 		background-color: $color-800;
 		border-radius: 3px;
@@ -306,8 +306,8 @@
 		padding: 2px 5px;
 		pointer-events: none;
 		position: absolute;
-		top: 100%;
 		text-align: center;
+		top: 100%;
 		transform: translateY(-8px);
 		transition: all 0.2s ease-out;
 		white-space: nowrap;

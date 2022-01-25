@@ -45,8 +45,8 @@
 
 		.popup-inline.is-unpopping & {
 			opacity: 0;
-			transition: all 0.15s ease-out 0s;
 			transform: translateY(80px) scale(0.8);
+			transition: all 0.15s ease-out 0s;
 		}
 	}
 }
@@ -73,8 +73,8 @@
 
 		.close {
 			position: absolute;
-			top: -32px;
 			right: -32px;
+			top: -32px;
 
 			.icon {
 				height: 24px;

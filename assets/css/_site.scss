@@ -2,21 +2,21 @@
 	background-color: $white;
 	display: grid;
 	grid-auto-rows: auto;
+	grid-template-areas:
+		"head head"
+		"main main"
+		"side side"
+		"foot foot";
 	grid-template-columns: min-content 1fr;
 	grid-template-rows: auto 1fr auto;
 	min-height: 100vh;
 	position: relative;
-	grid-template-areas:
-		'head head'
-		'main main'
-		'side side'
-		'foot foot';
 
 	@include breakpoint(runner) {
 		grid-template-areas:
-			'side head'
-			'side main'
-			'side foot';
+			"side head"
+			"side main"
+			"side foot";
 	}
 }
 
@@ -41,8 +41,8 @@
 
 		.main {
 			@include wrapper-xy(none, 1 0, left);
-			height: 100%;
 			grid-column: full;
+			height: 100%;
 		}
 
 		.aside {

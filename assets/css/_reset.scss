@@ -10,20 +10,20 @@
 }
 
 html {
-	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 	box-sizing: border-box;
 	font-size: 16px;
 	height: 100%;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 body {
 	@include font-style-body;
 	@include hyphenate;
-	-moz-osx-font-smoothing: grayscale;
-	-webkit-font-smoothing: antialiased;
 	background-color: $color-bg;
 	color: $color-text;
 	font-family: $sans-serif;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
 	height: 100%;
 }
 
@@ -90,7 +90,7 @@ h5,
 h6 {
 	font-weight: 700;
 	margin: 0 0 24px;
-	text-rendering: optimizelegibility;
+	text-rendering: optimizeLegibility;
 
 	&:last-child {
 		margin-bottom: 0;
@@ -150,7 +150,7 @@ dd {
 }
 
 blockquote {
-	@include font-size-600;
+	@include font-style-lead;
 	border-left: 4px solid rgba($black, 0.1);
 	margin-left: 0;
 	padding: 12px 24px;
@@ -161,7 +161,7 @@ blockquote {
 
 	footer,
 	small {
-		@include font-size-400;
+		@include font-style-callout;
 		color: $color-text-light;
 		display: block;
 
@@ -188,27 +188,27 @@ samp {
 }
 
 code {
-	@include font-size-400;
+	@include font-style-callout;
 	background-color: rgba($black, 0.1);
 	padding: 2px 4px;
 }
 
 kbd {
-	@include font-size-400;
+	@include font-style-callout;
 	background-color: $color-500;
 	border-radius: 3px;
 	color: $white;
 	padding: 2px 4px;
 
 	kbd {
-		@include font-size-500;
+		@include font-style-body;
 		font-weight: 700;
 		padding: 0;
 	}
 }
 
 pre {
-	@include font-size-400;
+	@include font-style-callout;
 	background-color: rgba($black, 0.1);
 	border: 1px solid rgba($black, 0.1);
 	border-radius: 3px;
@@ -248,7 +248,7 @@ fieldset {
 	border: 0;
 	margin: 0;
 	min-width: 0;
-	padding: 0.01em 0 0 0;
+	padding: 0.01em 0 0;
 
 	&:not(:last-child) {
 		margin-bottom: 24px;

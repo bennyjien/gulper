@@ -41,6 +41,12 @@ function tabber(selector, options = {}) {
 
 		unselectTab(params);
 
+		// check if there is aria-selected tab
+		if (params.selectedButtonEl) {
+			selectedButtonEl = params.selectedButtonEl;
+			selectedPanelEl = element.querySelector(`[aria-labelledby=${params.selectedButtonEl.id}]`);
+		}
+
 		// if querystring, then select the corresponding button and panel
 		if (params.tabDeeplink && params.queryString) {
 			selectedButtonEl = element.querySelector(`#${params.queryString}`);
@@ -87,12 +93,14 @@ function tabber(selector, options = {}) {
 	tabsEl.forEach(element => {
 		const tabButtonsEl = element.querySelectorAll(`[role="tab"]`);
 		const tabPanelsEl = element.querySelectorAll(`[role="tabpanel"]`);
+		const selectedButtonEl = element.querySelector(`[aria-selected="true"]`);
 		const tabDeeplink = element.hasAttribute(`data-tab-deeplink`) || options.deeplink;
 		const queryString = getParameterByName(`tab`);
 
 		const params = {
 			tabButtonsEl,
 			tabPanelsEl,
+			selectedButtonEl,
 			tabDeeplink,
 			queryString
 		};
@@ -107,4 +115,4 @@ function tabber(selector, options = {}) {
 	});
 }
 
-tabber.version = `2.0.0`;
+tabber.version = `2.1.0`;

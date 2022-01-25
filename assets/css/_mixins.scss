@@ -1,3 +1,5 @@
+@use "sass:list";
+@use "sass:map";
 @use "sass:math";
 
 // HELPERS
@@ -46,8 +48,7 @@ $breakpoints: creeper, crawler, walker, runner, jumper, flyer, teleporter, demig
 		@media screen and (min-width: $width-walker) and (max-width: #{$width-runner - 1}) { @content; }
 	}
 	@else if $zombie == watcher {
-		@media screen and (-o-min-device-pixel-ratio: 1.5),
-			screen and (-webkit-min-device-pixel-ratio: 1.5),
+		@media screen and (min-device-pixel-ratio: 1.5),
 			screen and (min-resolution: 144dpi) { @content; }
 	}
 }
@@ -70,126 +71,99 @@ $breakpoints: creeper, crawler, walker, runner, jumper, flyer, teleporter, demig
 	line-height: 1;
 }
 
-@mixin font-size-50 {
-	font-size: 10px;
-	line-height: 1.2;
+@mixin font-style-d1 {
+	font-size: 64px;
+	font-weight: 900;
+	letter-spacing: -0.01em;
+	line-height: 1.0625;
 }
 
-@mixin font-size-100 {
-	font-size: 11px;
-	line-height: 1.27273;
+@mixin font-style-d2 {
+	font-size: 56px;
+	font-weight: 900;
+	line-height: 1.1429;
 }
 
-@mixin font-size-200 {
-	font-size: 12px;
-	line-height: 1.33334;
+@mixin font-style-h1 {
+	font-size: 40px;
+	font-weight: 900;
+	line-height: 1;
 }
 
-@mixin font-size-300 {
-	font-size: 13px;
-	line-height: 1.38462;
+@mixin font-style-h2 {
+	font-size: 28px;
+	font-weight: 900;
+	line-height: 1.2143;
 }
 
-@mixin font-size-400 {
-	font-size: 14px;
-	line-height: 1.28572;
+@mixin font-style-h3 {
+	font-size: 24px;
+	font-weight: 700;
+	letter-spacing: -0.02em;
+	line-height: 1.1667;
 }
 
-@mixin font-size-500 {
-	font-size: 16px;
-	line-height: 1.375;
+@mixin font-style-h4 {
+	font-size: 20px;
+	font-weight: 700;
+	line-height: 1.3;
 }
 
-@mixin font-size-600 {
+@mixin font-style-h5 {
+	font-size: 18px;
+	font-weight: 700;
+	line-height: 1.3334;
+}
+
+@mixin font-style-h6 {
+	font-size: 15px;
+	font-weight: 700;
+	line-height: 1.3334;
+}
+
+@mixin font-style-lead {
 	font-size: 20px;
 	line-height: 1.4;
 }
 
-@mixin font-size-700 {
-	font-size: 24px;
-	line-height: 1.33334;
-}
-
-@mixin font-size-800 {
-	font-size: 32px;
-	line-height: 1.25;
-}
-
-@mixin font-size-900 {
-	font-size: 40px;
-	line-height: 1.2;
-}
-
-@mixin font-size-1000 {
-	font-size: 48px;
-	line-height: 1.16667;
-}
-
-@mixin font-size-1100 {
-	font-size: 72px;
-	line-height: 1.11111;
-}
-
-@mixin font-size-1200 {
-	font-size: 96px;
-	line-height: 1.16667;
-}
-
-@mixin font-style-h1 {
-	@include font-size-900;
-	font-weight: 700;
-	letter-spacing: 0.04em;
-}
-
-@mixin font-style-h2 {
-	@include font-size-800;
-	font-weight: 700;
-}
-
-@mixin font-style-h3 {
-	@include font-size-700;
-	font-weight: 700;
-}
-
-@mixin font-style-h4 {
-	@include font-size-600;
-	font-weight: 700;
-}
-
-@mixin font-style-h5 {
-	@include font-size-500;
-	font-weight: 700;
-}
-
-@mixin font-style-h6 {
-	@include font-size-400;
-	font-weight: 700;
-	letter-spacing: -0.02em;
-	text-transform: uppercase;
-}
-
 @mixin font-style-body {
-	@include font-size-500;
+	font-size: 16px;
+	line-height: 1.5;
 }
 
 @mixin font-style-callout {
-	@include font-size-400;
+	font-size: 15px;
+	line-height: 1.3334;
 }
 
 @mixin font-style-footnote {
-	@include font-size-300;
+	font-size: 14px;
+	line-height: 1.4286;
 }
 
 @mixin font-style-caption {
-	@include font-size-200;
+	font-size: 13px;
+	line-height: 1.3847;
+}
+
+@mixin font-style-small {
+	font-size: 12px;
+	line-height: 1.3334;
 }
 
 @mixin font-style-ant {
-	@include font-size-100;
+	font-size: 11px;
+	line-height: 1.2728;
+}
+
+@mixin font-style-micro {
+	font-size: 10px;
+	line-height: 1.2;
 }
 
 @mixin font-style-button {
-	@include font-size-500;
+	@include font-style-body;
+	font-weight: 700;
 }
 
 @mixin ellipsis {
@@ -201,7 +175,7 @@ $breakpoints: creeper, crawler, walker, runner, jumper, flyer, teleporter, demig
 @mixin hyphenate {
 	overflow-wrap: break-word;
 	word-wrap: break-word;
-	//hyphens: auto;
+	// hyphens: auto;
 }
 
 @mixin flatlist {
@@ -218,8 +192,8 @@ $breakpoints: creeper, crawler, walker, runner, jumper, flyer, teleporter, demig
 				content: "\2022";
 				display: inline-block;
 				min-width: 24px;
-				text-indent: 0;
 				padding-right: 4px;
+				text-indent: 0;
 			}
 		}
 	}
@@ -238,26 +212,26 @@ $breakpoints: creeper, crawler, walker, runner, jumper, flyer, teleporter, demig
 }
 
 // LAYOUT
-@mixin ratio($wph: 1/1) {
+@mixin ratio($wph: 1 / 1) {
 
 	&:before {
-		content: '';
+		content: "";
 		display: inline-block;
 		padding-bottom: math.div(100%, $wph);
 	}
 }
 
 @mixin whitespace($margin: 1) {
-	$length: length($margin);
+	$length: list.length($margin);
 
 	@if $length == 1 {
 		@if unitless($margin) {
-			margin: $margin * map-get($paddings, origin);
+			margin: $margin * map.get($gutters, origin);
 
 			@each $breakpoint in $breakpoints {
-				@if (map-get($paddings, $breakpoint)) {
+				@if map.get($gutters, $breakpoint) {
 					@include breakpoint(#{$breakpoint}) {
-						margin: $margin * map-get($paddings, $breakpoint);
+						margin: $margin * map.get($gutters, $breakpoint);
 					}
 				}
 			}
@@ -273,31 +247,31 @@ $breakpoints: creeper, crawler, walker, runner, jumper, flyer, teleporter, demig
 		$margin-left: $margin;
 
 		@if $length == 2 {
-			$margin-top: nth($margin, 1);
-			$margin-right: nth($margin, 2);
-			$margin-bottom: nth($margin, 1);
-			$margin-left: nth($margin, 2);
+			$margin-top: list.nth($margin, 1);
+			$margin-right: list.nth($margin, 2);
+			$margin-bottom: list.nth($margin, 1);
+			$margin-left: list.nth($margin, 2);
 		}
 		@else if $length == 3 {
-			$margin-top: nth($margin, 1);
-			$margin-right: nth($margin, 2);
-			$margin-bottom: nth($margin, 3);
-			$margin-left: nth($margin, 2);
+			$margin-top: list.nth($margin, 1);
+			$margin-right: list.nth($margin, 2);
+			$margin-bottom: list.nth($margin, 3);
+			$margin-left: list.nth($margin, 2);
 		}
 		@else if $length == 4 {
-			$margin-top: nth($margin, 1);
-			$margin-right: nth($margin, 2);
-			$margin-bottom: nth($margin, 3);
-			$margin-left: nth($margin, 4);
+			$margin-top: list.nth($margin, 1);
+			$margin-right: list.nth($margin, 2);
+			$margin-bottom: list.nth($margin, 3);
+			$margin-left: list.nth($margin, 4);
 		}
 
 		@if unitless($margin-top) {
-			margin-top: $margin-top * map-get($paddings, origin);
+			margin-top: $margin-top * map.get($gutters, origin);
 
 			@each $breakpoint in $breakpoints {
-				@if (map-get($paddings, $breakpoint)) {
+				@if map.get($gutters, $breakpoint) {
 					@include breakpoint(#{$breakpoint}) {
-						margin-top: $margin-top * map-get($paddings, $breakpoint);
+						margin-top: $margin-top * map.get($gutters, $breakpoint);
 					}
 				}
 			}
@@ -307,12 +281,12 @@ $breakpoints: creeper, crawler, walker, runner, jumper, flyer, teleporter, demig
 		}
 
 		@if unitless($margin-right) {
-			margin-right: $margin-right * map-get($paddings, origin);
+			margin-right: $margin-right * map.get($gutters, origin);
 
 			@each $breakpoint in $breakpoints {
-				@if (map-get($paddings, $breakpoint)) {
+				@if map.get($gutters, $breakpoint) {
 					@include breakpoint(#{$breakpoint}) {
-						margin-right: $margin-right * map-get($paddings, $breakpoint);
+						margin-right: $margin-right * map.get($gutters, $breakpoint);
 					}
 				}
 			}
@@ -322,12 +296,12 @@ $breakpoints: creeper, crawler, walker, runner, jumper, flyer, teleporter, demig
 		}
 
 		@if unitless($margin-bottom) {
-			margin-bottom: $margin-bottom * map-get($paddings, origin);
+			margin-bottom: $margin-bottom * map.get($gutters, origin);
 
 			@each $breakpoint in $breakpoints {
-				@if (map-get($paddings, $breakpoint)) {
+				@if map.get($gutters, $breakpoint) {
 					@include breakpoint(#{$breakpoint}) {
-						margin-bottom: $margin-bottom * map-get($paddings, $breakpoint);
+						margin-bottom: $margin-bottom * map.get($gutters, $breakpoint);
 					}
 				}
 			}
@@ -337,12 +311,12 @@ $breakpoints: creeper, crawler, walker, runner, jumper, flyer, teleporter, demig
 		}
 
 		@if unitless($margin-left) {
-			margin-left: $margin-left * map-get($paddings, origin);
+			margin-left: $margin-left * map.get($gutters, origin);
 
 			@each $breakpoint in $breakpoints {
-				@if (map-get($paddings, $breakpoint)) {
+				@if map.get($gutters, $breakpoint) {
 					@include breakpoint(#{$breakpoint}) {
-						margin-left: $margin-left * map-get($paddings, $breakpoint);
+						margin-left: $margin-left * map.get($gutters, $breakpoint);
 					}
 				}
 			}
@@ -354,18 +328,18 @@ $breakpoints: creeper, crawler, walker, runner, jumper, flyer, teleporter, demig
 }
 
 @mixin wrapper-xy($max-width: $width-max, $padding: 1, $align: center) {
-	$length: length($padding);
+	$length: list.length($padding);
 
 	max-width: $max-width;
 
 	@if $length == 1 {
 		@if unitless($padding) {
-			padding: $padding * map-get($paddings, origin);
+			padding: $padding * map.get($margins, origin);
 
 			@each $breakpoint in $breakpoints {
-				@if (map-get($paddings, $breakpoint)) {
+				@if map.get($margins, $breakpoint) {
 					@include breakpoint(#{$breakpoint}) {
-						padding: $padding * map-get($paddings, $breakpoint);
+						padding: $padding * map.get($margins, $breakpoint);
 					}
 				}
 			}
@@ -381,31 +355,31 @@ $breakpoints: creeper, crawler, walker, runner, jumper, flyer, teleporter, demig
 		$padding-left: $padding;
 
 		@if $length == 2 {
-			$padding-top: nth($padding, 1);
-			$padding-right: nth($padding, 2);
-			$padding-bottom: nth($padding, 1);
-			$padding-left: nth($padding, 2);
+			$padding-top: list.nth($padding, 1);
+			$padding-right: list.nth($padding, 2);
+			$padding-bottom: list.nth($padding, 1);
+			$padding-left: list.nth($padding, 2);
 		}
 		@else if $length == 3 {
-			$padding-top: nth($padding, 1);
-			$padding-right: nth($padding, 2);
-			$padding-bottom: nth($padding, 3);
-			$padding-left: nth($padding, 2);
+			$padding-top: list.nth($padding, 1);
+			$padding-right: list.nth($padding, 2);
+			$padding-bottom: list.nth($padding, 3);
+			$padding-left: list.nth($padding, 2);
 		}
 		@else if $length == 4 {
-			$padding-top: nth($padding, 1);
-			$padding-right: nth($padding, 2);
-			$padding-bottom: nth($padding, 3);
-			$padding-left: nth($padding, 4);
+			$padding-top: list.nth($padding, 1);
+			$padding-right: list.nth($padding, 2);
+			$padding-bottom: list.nth($padding, 3);
+			$padding-left: list.nth($padding, 4);
 		}
 
 		@if unitless($padding-top) {
-			padding-top: $padding-top * map-get($paddings, origin);
+			padding-top: $padding-top * map.get($margins, origin);
 
 			@each $breakpoint in $breakpoints {
-				@if (map-get($paddings, $breakpoint)) {
+				@if map.get($margins, $breakpoint) {
 					@include breakpoint(#{$breakpoint}) {
-						padding-top: $padding-top * map-get($paddings, $breakpoint);
+						padding-top: $padding-top * map.get($margins, $breakpoint);
 					}
 				}
 			}
@@ -415,12 +389,12 @@ $breakpoints: creeper, crawler, walker, runner, jumper, flyer, teleporter, demig
 		}
 
 		@if unitless($padding-right) {
-			padding-right: $padding-right * map-get($paddings, origin);
+			padding-right: $padding-right * map.get($margins, origin);
 
 			@each $breakpoint in $breakpoints {
-				@if (map-get($paddings, $breakpoint)) {
+				@if map.get($margins, $breakpoint) {
 					@include breakpoint(#{$breakpoint}) {
-						padding-right: $padding-right * map-get($paddings, $breakpoint);
+						padding-right: $padding-right * map.get($margins, $breakpoint);
 					}
 				}
 			}
@@ -430,12 +404,12 @@ $breakpoints: creeper, crawler, walker, runner, jumper, flyer, teleporter, demig
 		}
 
 		@if unitless($padding-bottom) {
-			padding-bottom: $padding-bottom * map-get($paddings, origin);
+			padding-bottom: $padding-bottom * map.get($margins, origin);
 
 			@each $breakpoint in $breakpoints {
-				@if (map-get($paddings, $breakpoint)) {
+				@if map.get($margins, $breakpoint) {
 					@include breakpoint(#{$breakpoint}) {
-						padding-bottom: $padding-bottom * map-get($paddings, $breakpoint);
+						padding-bottom: $padding-bottom * map.get($margins, $breakpoint);
 					}
 				}
 			}
@@ -445,12 +419,12 @@ $breakpoints: creeper, crawler, walker, runner, jumper, flyer, teleporter, demig
 		}
 
 		@if unitless($padding-left) {
-			padding-left: $padding-left * map-get($paddings, origin);
+			padding-left: $padding-left * map.get($margins, origin);
 
 			@each $breakpoint in $breakpoints {
-				@if (map-get($paddings, $breakpoint)) {
+				@if map.get($margins, $breakpoint) {
 					@include breakpoint(#{$breakpoint}) {
-						padding-left: $padding-left * map-get($paddings, $breakpoint);
+						padding-left: $padding-left * map.get($margins, $breakpoint);
 					}
 				}
 			}
@@ -472,36 +446,36 @@ $breakpoints: creeper, crawler, walker, runner, jumper, flyer, teleporter, demig
 
 // on child, use `grid-column: full || wrapper || main || sidebar`
 @mixin wrapper-grid($padding: 0 1) {
-	$length: length($padding);
+	$length: list.length($padding);
 	$padding-x: $padding;
 	$padding-y: $padding;
 
 	@if $length == 2 {
-		$padding-x: nth($padding, 2);
-		$padding-y: nth($padding, 1);
+		$padding-x: list.nth($padding, 2);
+		$padding-y: list.nth($padding, 1);
 	}
 
 	display: grid;
 	grid-auto-rows: min-content;
-	grid-template-columns: [full-start] minmax(#{map-get($paddings, origin) * $padding-x}, 1fr) [wrapper-start] 0 [main-start] minmax(#{map-get($paddings, origin) * $padding-x}, #{$width-max - $width-sidebar - (map-get($paddings, origin) * $padding-x * 3)}) [main-end] #{map-get($paddings, origin) * $padding-x} [sidebar-start] minmax(#{map-get($paddings, origin) * $padding-x}, $width-sidebar) [sidebar-end] 0 [wrapper-end] minmax(#{map-get($paddings, origin) * $padding-x}, 1fr) [full-end];
+	grid-template-columns: [full-start] minmax(#{map.get($margins, origin) * $padding-x}, 1fr) [wrapper-start] 0 [sidebar-start] minmax(#{map.get($gutters, origin) * $padding-x}, $width-sidebar) [sidebar-end] #{map.get($gutters, origin) * $padding-x}  [main-start] minmax(#{map.get($gutters, origin) * $padding-x}, #{$width-max - $width-sidebar - (map.get($gutters, origin) * $padding-x * 3)}) [main-end] 0 [wrapper-end] minmax(#{map.get($margins, origin) * $padding-x}, 1fr) [full-end];
 
 	@each $breakpoint in $breakpoints {
-		@if (map-get($paddings, $breakpoint)) {
+		@if map.get($gutters, $breakpoint) {
 			@include breakpoint(#{$breakpoint}) {
-				grid-template-columns: [full-start] minmax(#{map-get($paddings, $breakpoint) * $padding-x}, 1fr) [wrapper-start] 0 [main-start] minmax(#{map-get($paddings, $breakpoint) * $padding-x}, #{$width-max - $width-sidebar - (map-get($paddings, $breakpoint) * $padding-x * 3)}) [main-end] #{map-get($paddings, $breakpoint) * $padding-x} [sidebar-start] minmax(#{map-get($paddings, $breakpoint) * $padding-x}, $width-sidebar) [sidebar-end] 0 [wrapper-end] minmax(#{map-get($paddings, $breakpoint) * $padding-x}, 1fr) [full-end];
+				grid-template-columns: [full-start] minmax(#{map.get($margins, $breakpoint) * $padding-x}, 1fr) [wrapper-start] 0 [sidebar-start] minmax(#{map.get($gutters, $breakpoint) * $padding-x}, $width-sidebar) [sidebar-end] #{map.get($gutters, $breakpoint) * $padding-x} [main-start] minmax(#{map.get($gutters, $breakpoint) * $padding-x}, #{$width-max - $width-sidebar - (map.get($gutters, $breakpoint) * $padding-x * 3)}) [main-end] 0 [wrapper-end] minmax(#{map.get($margins, $breakpoint) * $padding-x}, 1fr) [full-end];
 			}
 		}
 	}
 
 	@if unitless($padding-y) {
-		padding-bottom: $padding-y * map-get($paddings, origin);
-		padding-top: $padding-y * map-get($paddings, origin);
+		padding-bottom: $padding-y * map.get($gutters, origin);
+		padding-top: $padding-y * map.get($gutters, origin);
 
 		@each $breakpoint in $breakpoints {
-			@if (map-get($paddings, $breakpoint)) {
+			@if map.get($gutters, $breakpoint) {
 				@include breakpoint(#{$breakpoint}) {
-					padding-bottom: $padding-y * map-get($paddings, $breakpoint);
-					padding-top: $padding-y * map-get($paddings, $breakpoint);
+					padding-bottom: $padding-y * map.get($gutters, $breakpoint);
+					padding-top: $padding-y * map.get($gutters, $breakpoint);
 				}
 			}
 		}
@@ -512,26 +486,66 @@ $breakpoints: creeper, crawler, walker, runner, jumper, flyer, teleporter, demig
 	}
 }
 
+// add space between item based on breakpoint margin if unitless
 @mixin spacers($margin, $item: 0) {
-	$length: length($margin);
-	$vertical: math.div(nth($margin, 1), 2);
+	$length: list.length($margin);
+	$vertical: math.div(list.nth($margin, 1), 2);
 
 	margin: -1%;
 
 	@if $length == 1 {
-		margin: calc(#{$vertical} * -1);
-	}
+		@if unitless($vertical) {
+			margin: calc(#{$vertical * map.get($gutters, origin)} * -1);
 
+			@each $breakpoint in $breakpoints {
+				@if map.get($gutters, $breakpoint) {
+					@include breakpoint(#{$breakpoint}) {
+						margin: calc(#{$vertical * map.get($gutters, #{$breakpoint})} * -1);
+					}
+				}
+			}
+		}
+		@else {
+			margin: calc(#{$vertical} * -1);
+		}
+	}
 	@else if $length == 2 {
-		$horizontal: math.div(nth($margin, 2), 2);
-		margin: calc(#{$vertical} * -1) calc(#{$horizontal} * -1);
+		$horizontal: math.div(list.nth($margin, 2), 2);
+
+		@if unitless($horizontal) {
+			margin: calc(#{$vertical * map.get($gutters, origin)} * -1) calc(#{$horizontal * map.get($gutters, origin)} * -1);
+
+			@each $breakpoint in $breakpoints {
+				@if map.get($gutters, $breakpoint) {
+					@include breakpoint(#{$breakpoint}) {
+						margin: calc(#{$vertical * map.get($gutters, #{$breakpoint})} * -1) calc(#{$horizontal * map.get($gutters, #{$breakpoint})} * -1);
+					}
+				}
+			}
+		}
+		@else {
+			margin: calc(#{$vertical} * -1) calc(#{$horizontal} * -1);
+		}
 	}
 
 	> * {
 		margin: 1%;
 
 		@if $length == 1 {
-			margin: calc(#{$vertical});
+			@if unitless($vertical) {
+				margin: calc(#{$vertical * map.get($gutters, origin)});
+
+				@each $breakpoint in $breakpoints {
+					@if map.get($gutters, $breakpoint) {
+						@include breakpoint(#{$breakpoint}) {
+							margin: calc(#{$vertical * map.get($gutters, #{$breakpoint})});
+						}
+					}
+				}
+			}
+			@else {
+				margin: calc(#{$vertical});
+			}
 
 			@if $item == 0 {
 				width: auto;
@@ -539,13 +553,40 @@ $breakpoints: creeper, crawler, walker, runner, jumper, flyer, teleporter, demig
 
 			@if $item != 0 {
 				width: #{math.div(100% - (2% * $item), $item)};
-				width: calc((100% - #{2 * $item * $vertical}) / #{$item});
+
+				@if unitless($vertical) {
+					width: calc((100% - #{2 * $item * $vertical * map.get($gutters, origin)}) / #{$item});
+
+					@each $breakpoint in $breakpoints {
+						@if map.get($gutters, $breakpoint) {
+							@include breakpoint(#{$breakpoint}) {
+								width: calc((100% - #{2 * $item * $vertical * map.get($gutters, #{$breakpoint})}) / #{$item});
+							}
+						}
+					}
+				}
+				@else {
+					width: calc((100% - #{2 * $item * $vertical}) / #{$item});
+				}
 			}
 		}
-
 		@else if $length == 2 {
-			$horizontal: math.div(nth($margin, 2), 2);
-			margin: calc(#{$vertical}) calc(#{$horizontal});
+			$horizontal: math.div(list.nth($margin, 2), 2);
+
+			@if unitless($horizontal) {
+				margin: calc(#{$vertical} * map.get($gutters, origin)) calc(#{$horizontal} * map.get($gutters, origin));
+
+				@each $breakpoint in $breakpoints {
+					@if map.get($gutters, $breakpoint) {
+						@include breakpoint(#{$breakpoint}) {
+							margin: calc(#{$vertical * map.get($gutters, #{$breakpoint})}) calc(#{$horizontal * map.get($gutters, #{$breakpoint})});
+						}
+					}
+				}
+			}
+			@else {
+				margin: calc(#{$vertical}) calc(#{$horizontal});
+			}
 
 			@if $item == 0 {
 				width: auto;
@@ -553,7 +594,21 @@ $breakpoints: creeper, crawler, walker, runner, jumper, flyer, teleporter, demig
 
 			@if $item != 0 {
 				width: #{math.div(100% - (2% * $item), $item)};
-				width: calc((100% - #{2 * $item * $horizontal}) / #{$item});
+
+				@if unitless($horizontal) {
+					width: calc((100% - #{2 * $item * $horizontal * map.get($gutters, origin)}) / #{$item});
+
+					@each $breakpoint in $breakpoints {
+						@if map.get($gutters, $breakpoint) {
+							@include breakpoint(#{$breakpoint}) {
+								width: calc((100% - #{2 * $item * $horizontal * map.get($gutters, $breakpoint)}) / #{$item});
+							}
+						}
+					}
+				}
+				@else {
+					width: calc((100% - #{2 * $item * $horizontal}) / #{$item});
+				}
 			}
 		}
 	}
