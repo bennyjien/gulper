@@ -1,4 +1,7 @@
 {
+	"ignoreFiles": [
+		"*.html"
+	],
 	"plugins": [
 		"stylelint-order"
 	],
