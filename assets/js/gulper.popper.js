@@ -158,7 +158,7 @@ function popper(selector, options = {}) {
 		const targetEl = document.querySelector(target);
 		const targetClass = target.substring(1);
 		const bodyClass = options.bodyClass || targetClass;
-		const area = element.dataset.popperArea === `child` ? targetChild : element.dataset.popperArea || options.area === `child` ? targetChild : options.area || target;
+		const area = (element.dataset.popperArea === `child` ? targetChild : element.dataset.popperArea) || (options.area === `child` ? targetChild : options.area) || target;
 		const animation = element.dataset.popperAnimation || options.animation || `css`;
 		const duration = element.dataset.popperDuration || options.duration || 0.2;
 		const trigger = element.dataset.popperTrigger || options.trigger || `click`;
