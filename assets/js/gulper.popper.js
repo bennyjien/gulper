@@ -56,8 +56,8 @@ function popper(selector, options = {}) {
 		params.targetEl.classList.add(`is-popping`);
 		body.classList.add(`${params.bodyClass}-is-popping`, `${params.targetClass}-is-popping`);
 
-		if (params.animation === `slide`) animate.slideDown(params.targetEl, params.duration);
-		if (params.animation === `fade`) animate.fadeIn(params.targetEl, params.duration);
+		if (params.animation === `slide`) animate.slideDown(params.targetEl, params.duration * 1000);
+		if (params.animation === `fade`) animate.fadeIn(params.targetEl, params.duration * 1000);
 
 		setTimeout(function() {
 			element.classList.remove(`is-popping`);
@@ -89,8 +89,8 @@ function popper(selector, options = {}) {
 		params.targetEl.classList.remove(`is-popped`);
 		body.classList.remove(`${params.bodyClass}-is-popped`, `${params.targetClass}-is-popped`);
 		prevPopperEl.classList.remove(`is-popped`, `${params.targetClass}-toggler`);
-		if (params.animation === `slide`) animate.slideUp(params.targetEl, params.duration);
-		if (params.animation === `fade`) animate.fadeOut(params.targetEl, params.duration);
+		if (params.animation === `slide`) animate.slideUp(params.targetEl, params.duration * 1000);
+		if (params.animation === `fade`) animate.fadeOut(params.targetEl, params.duration * 1000);
 
 		function ending(ev) {
 			if (ev.target === params.targetEl) {
