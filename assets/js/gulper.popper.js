@@ -101,14 +101,18 @@ function popper(selector, options = {}) {
 
 		if (params.animation === `css`) {
 			if (params.duration) {
-				params.targetEl.addEventListener(`transitionend`, ending);
+				if (params.targetEl.style.transition || getComputedStyle(params.targetEl).transitionDuration !== `0s`) {
+					params.targetEl.addEventListener(`transitionend`, ending);
+				} else {
+					removePopper(element, params);
+				}
 			} else {
 				removePopper(element, params);
 			}
 		} else {
 			element.timeout = setTimeout(function() {
 				removePopper(element, params);
-			}, params.duration*1000);
+			}, params.duration * 1000);
 		}
 	}
 

@@ -173,9 +173,9 @@ $breakpoints: creeper, crawler, walker, runner, jumper, flyer, teleporter, demig
 }
 
 @mixin hyphenate {
+	// hyphens: auto;
 	overflow-wrap: break-word;
 	word-wrap: break-word;
-	// hyphens: auto;
 }
 
 @mixin flatlist {
