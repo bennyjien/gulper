@@ -460,9 +460,9 @@ $breakpoints: creeper, crawler, walker, runner, jumper, flyer, teleporter, demig
 	grid-template-columns: [full-start] minmax(#{map.get($margins, origin) * $padding-x}, 1fr) [wrapper-start] 0 [sidebar-start] minmax(#{map.get($gutters, origin) * $padding-x}, $width-sidebar) [sidebar-end] #{map.get($gutters, origin) * $padding-x}  [main-start] minmax(#{map.get($gutters, origin) * $padding-x}, #{$width-max - $width-sidebar - (map.get($gutters, origin) * $padding-x * 3)}) [main-end] 0 [wrapper-end] minmax(#{map.get($margins, origin) * $padding-x}, 1fr) [full-end];
 
 	@each $breakpoint in $breakpoints {
-		@if map.get($gutters, $breakpoint) {
+		@if map.get($margins, $breakpoint) {
 			@include breakpoint(#{$breakpoint}) {
-				grid-template-columns: [full-start] minmax(#{map.get($margins, $breakpoint) * $padding-x}, 1fr) [wrapper-start] 0 [sidebar-start] minmax(#{map.get($gutters, $breakpoint) * $padding-x}, $width-sidebar) [sidebar-end] #{map.get($gutters, $breakpoint) * $padding-x} [main-start] minmax(#{map.get($gutters, $breakpoint) * $padding-x}, #{$width-max - $width-sidebar - (map.get($gutters, $breakpoint) * $padding-x * 3)}) [main-end] 0 [wrapper-end] minmax(#{map.get($margins, $breakpoint) * $padding-x}, 1fr) [full-end];
+				grid-template-columns: [full-start] minmax(#{map.get($margins, $breakpoint) * $padding-x}, 1fr) [wrapper-start] 0 [sidebar-start] minmax(#{map.get($gutters, $breakpoint) * $padding-x}, $width-sidebar) [sidebar-end] #{map.get($gutters, $breakpoint) * $padding-x} [main-start] minmax(#{map.get($gutters, $breakpoint) * $padding-x}, #{$width-max - $width-sidebar - (map.get($margins, $breakpoint) * $padding-x * 2) - (map.get($gutters, $breakpoint) * $padding-x)}) [main-end] 0 [wrapper-end] minmax(#{map.get($margins, $breakpoint) * $padding-x}, 1fr) [full-end];
 			}
 		}
 	}
