@@ -226,12 +226,12 @@ $breakpoints: creeper, crawler, walker, runner, jumper, flyer, teleporter, demig
 
 	@if $length == 1 {
 		@if unitless($margin) {
-			margin: $margin * map.get($gutters, origin);
+			margin: $margin * map.get($margins, origin);
 
 			@each $breakpoint in $breakpoints {
-				@if map.get($gutters, $breakpoint) {
+				@if map.get($margins, $breakpoint) {
 					@include breakpoint(#{$breakpoint}) {
-						margin: $margin * map.get($gutters, $breakpoint);
+						margin: $margin * map.get($margins, $breakpoint);
 					}
 				}
 			}
@@ -266,12 +266,12 @@ $breakpoints: creeper, crawler, walker, runner, jumper, flyer, teleporter, demig
 		}
 
 		@if unitless($margin-top) {
-			margin-top: $margin-top * map.get($gutters, origin);
+			margin-top: $margin-top * map.get($margins, origin);
 
 			@each $breakpoint in $breakpoints {
-				@if map.get($gutters, $breakpoint) {
+				@if map.get($margins, $breakpoint) {
 					@include breakpoint(#{$breakpoint}) {
-						margin-top: $margin-top * map.get($gutters, $breakpoint);
+						margin-top: $margin-top * map.get($margins, $breakpoint);
 					}
 				}
 			}
@@ -281,12 +281,12 @@ $breakpoints: creeper, crawler, walker, runner, jumper, flyer, teleporter, demig
 		}
 
 		@if unitless($margin-right) {
-			margin-right: $margin-right * map.get($gutters, origin);
+			margin-right: $margin-right * map.get($margins, origin);
 
 			@each $breakpoint in $breakpoints {
-				@if map.get($gutters, $breakpoint) {
+				@if map.get($margins, $breakpoint) {
 					@include breakpoint(#{$breakpoint}) {
-						margin-right: $margin-right * map.get($gutters, $breakpoint);
+						margin-right: $margin-right * map.get($margins, $breakpoint);
 					}
 				}
 			}
@@ -296,12 +296,12 @@ $breakpoints: creeper, crawler, walker, runner, jumper, flyer, teleporter, demig
 		}
 
 		@if unitless($margin-bottom) {
-			margin-bottom: $margin-bottom * map.get($gutters, origin);
+			margin-bottom: $margin-bottom * map.get($margins, origin);
 
 			@each $breakpoint in $breakpoints {
-				@if map.get($gutters, $breakpoint) {
+				@if map.get($margins, $breakpoint) {
 					@include breakpoint(#{$breakpoint}) {
-						margin-bottom: $margin-bottom * map.get($gutters, $breakpoint);
+						margin-bottom: $margin-bottom * map.get($margins, $breakpoint);
 					}
 				}
 			}
@@ -311,12 +311,12 @@ $breakpoints: creeper, crawler, walker, runner, jumper, flyer, teleporter, demig
 		}
 
 		@if unitless($margin-left) {
-			margin-left: $margin-left * map.get($gutters, origin);
+			margin-left: $margin-left * map.get($margins, origin);
 
 			@each $breakpoint in $breakpoints {
-				@if map.get($gutters, $breakpoint) {
+				@if map.get($margins, $breakpoint) {
 					@include breakpoint(#{$breakpoint}) {
-						margin-left: $margin-left * map.get($gutters, $breakpoint);
+						margin-left: $margin-left * map.get($margins, $breakpoint);
 					}
 				}
 			}
