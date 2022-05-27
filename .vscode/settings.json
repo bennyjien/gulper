@@ -1,10 +1,27 @@
 {
 	"liveServer.settings.port": 5501,
+	"javascript.preferences.quoteStyle": "double",
+	"typescript.preferences.quoteStyle": "double",
+	"[javascript]": {
+		"editor.formatOnPaste": false
+	},
+	"[typescript]": {
+		"editor.formatOnPaste": false
+	},
+	"[javascriptreact]": {
+		"editor.formatOnPaste": false
+	},
+	"[typescriptreact]": {
+		"editor.formatOnPaste": false
+	},
+	"editor.codeActionsOnSave": {
+		"source.fixAll": true
+	},
 	"css.validate": false,
 	"less.validate": false,
 	"scss.validate": false,
-	"stylelint.validate": ["css", "scss"],
-	"editor.codeActionsOnSave": {
-		"source.fixAll": true
-	}
+	"stylelint.validate": [
+		"css",
+		"scss"
+	],
 }
